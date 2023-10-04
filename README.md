@@ -12,8 +12,7 @@ Here is how to add my badges to your profile:
 <!-- my-badges start -->
 <!-- my-badges end -->
 ```
-- Add the following workflow [`.github/workflows/my-badges.yml`](.github/workflows/my-badges.yml)
-  to your repository.
+- Add the following workflow `.github/workflows/my-badges.yml` to your repository.
 ```yaml
 name: my-badges
 
