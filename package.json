@@ -1,0 +1,34 @@
+{
+  "name": "update-my-badges",
+  "version": "1.0.0",
+  "description": "Generate badges for your GitHub projects",
+  "type": "module",
+  "bin": "./dist/main.js",
+  "scripts": {
+    "start": "tsc --watch",
+    "tsc": "tsc",
+    "build": "npm run copy-files && npm run tsc",
+    "copy-files": "copyfiles -u 1 src/**/*.graphql dist/",
+    "check-images": "node dist/check-images.js",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@octokit/plugin-retry": "^6.0.1",
+    "@octokit/plugin-throttling": "^8.0.0",
+    "minimist": "^1.2.8",
+    "octokit": "^3.1.1"
+  },
+  "devDependencies": {
+    "@octokit/graphql-schema": "^14.33.0",
+    "@types/minimist": "^1.2.3",
+    "@types/node": "^20.8.0",
+    "copyfiles": "^2.4.1",
+    "typescript": "^5.2.2"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": "my-badges/my-badges",
+  "author": "Anton Medvedev <anton@medv.io>",
+  "license": "MIT"
+}

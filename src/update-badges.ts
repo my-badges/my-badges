@@ -1,0 +1,66 @@
+import {Octokit, RequestError} from 'octokit'
+import {Badge} from './badges.js'
+import {quoteAttr} from './utils.js'
+
+export async function updateBadges(octokit: Octokit, owner: string, repo: string, badges: Badge[], oldJson: string | undefined, jsonSha: string | undefined) {
+  const myBadgesPath = 'my-badges/my-badges.json'
+
+  const newJson = JSON.stringify(badges, null, 2)
+  if (newJson == oldJson) {
+    console.log('No change in my-badges.json')
+  } else {
+    console.log('Updating my-badges.json')
+    await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
+      owner, repo,
+      path: myBadgesPath,
+      message: 'Update my-badges',
+      committer: {
+        name: 'My Badges',
+        email: 'my-badges@github.com',
+      },
+      content: Buffer.from(newJson, 'utf8').toString('base64'),
+      sha: jsonSha,
+    })
+  }
+
+  for (const badge of badges) {
+    const badgePath = `my-badges/${badge.id}.md`
+
+    let sha: string | undefined
+    let oldContent: string | undefined
+
+    try {
+      console.log(`Loading ${badgePath}`)
+      const resp = await octokit.request<'readme'>('GET /repos/{owner}/{repo}/contents/{path}', {owner, repo, path: badgePath})
+      sha = resp.data.sha
+      oldContent = Buffer.from(resp.data.content, 'base64').toString('utf8')
+    } catch (err) {
+      if (err instanceof RequestError && err.response?.status != 404) {
+        throw err
+      }
+    }
+
+    const desc = quoteAttr(badge.desc)
+    const content = `<img src="${badge.image}" alt="${desc}" title="${desc}" width="128">\n` +
+      `<strong>${desc}</strong>\n` +
+      `<br><br>\n\n` +
+      badge.body
+    if (content === oldContent) {
+      console.log(`No change in ${badgePath}`)
+      continue
+    }
+
+    console.log(`Uploading ${badgePath}`)
+    await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
+      owner, repo,
+      path: badgePath,
+      message:  sha ? `Update ${badge.id}.md` : `Add ${badge.id}.md`,
+      committer: {
+        name: 'My Badges',
+        email: 'my-badges@github.com',
+      },
+      content: Buffer.from(content, 'utf8').toString('base64'),
+      sha: sha,
+    })
+  }
+}

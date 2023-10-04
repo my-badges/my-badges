@@ -1,0 +1,8 @@
+schema: .github/schema.graphql
+extensions:
+  endpoints:
+    GitHub:
+      url: https://api.github.com/graphql
+      headers:
+        Authorization: bearer ${GITHUB_TOKEN}
+
