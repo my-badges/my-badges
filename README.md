@@ -1,5 +1,7 @@
 # My Badges
 
+<p align="center"><img src=".github/my-badges.png" alt="My Badges" width="330"></p>
+
 Generate badges for your profile.
 
 ## Usage
