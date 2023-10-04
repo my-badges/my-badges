@@ -10,7 +10,8 @@
     "build": "npm run copy-files && npm run tsc",
     "copy-files": "copyfiles -u 1 src/**/*.graphql dist/",
     "check-images": "node dist/check-images.js",
-    "test": "node test.js"
+    "test": "node test.js",
+    "release": "release-it"
   },
   "dependencies": {
     "@octokit/plugin-retry": "^6.0.1",
@@ -23,11 +24,20 @@
     "@types/minimist": "^1.2.3",
     "@types/node": "^20.8.0",
     "copyfiles": "^2.4.1",
+    "release-it": "^16.2.1",
     "typescript": "^5.2.2"
   },
   "files": [
     "dist"
   ],
+  "release-it": {
+    "git": {
+      "tag": false
+    },
+    "github": {
+      "release": false
+    }
+  },
   "repository": "my-badges/my-badges",
   "author": "Anton Medvedev <anton@medv.io>",
   "license": "MIT"
