@@ -30,7 +30,7 @@ export function badgeCollection(badges: Badge[], baseUrl: URL) {
       id,
       desc,
       body: '',
-      image: `https://github.com/my-badges/my-badges/blob/main/src/all-badges/${baseDir}/${id}.png?raw=true`,
+      image: `https://github.com/my-badges/my-badges/blob/master/src/all-badges/${baseDir}/${id}.png?raw=true`,
     }
 
     if (!indexes.has(id)) {
