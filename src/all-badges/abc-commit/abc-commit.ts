@@ -20,16 +20,24 @@ export default new class implements BadgePresenter {
       ['ab', 'ab-commit'],
       ['a', 'a-commit'],
     ]
+    const order: (Function | undefined)[] = Array.from(Array(10))
+
     for (const repo of data.repos) {
       for (const commit of repo.commits) {
         for (const [prefix, badge] of types) {
           const re = new RegExp(`^(${prefix})`)
           if (re.test(commit.sha)) {
-            grant(badge, `One of my commit sha starts with "${prefix}".`)
+            order[prefix.length] = () => grant(badge, `One of my commit sha starts with "${prefix}".`)
               .evidence(link(re, repo, commit))
             break
           }
         }
+      }
+    }
+
+    for (const fn of order) {
+      if (fn) {
+        fn()
       }
     }
   }
