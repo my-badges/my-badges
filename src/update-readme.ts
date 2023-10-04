@@ -21,7 +21,7 @@ export async function updateReadme(octokit: Octokit, owner: string, repo: string
 
     content = content.slice(0, start) +
       '<!-- my-badges start -->\n' +
-      '<h4><a href="https://github.com/my-badges">My Badges</a></h4>\n\n' +
+      '<h4><a href="https://github.com/my-badges/my-badges">My Badges</a></h4>\n\n' +
       badgesHtml +
       '\n<!-- my-badges end -->\n' +
       content.slice(start)

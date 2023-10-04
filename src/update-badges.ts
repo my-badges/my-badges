@@ -44,7 +44,10 @@ export async function updateBadges(octokit: Octokit, owner: string, repo: string
     const content = `<img src="${badge.image}" alt="${desc}" title="${desc}" width="128">\n` +
       `<strong>${desc}</strong>\n` +
       `<br><br>\n\n` +
-      badge.body
+      badge.body +
+      `\n\n\n` +
+      `Created by <a href="https://github.com/my-badges/my-badges">My Badges</a>`
+
     if (content === oldContent) {
       console.log(`No change in ${badgePath}`)
       continue
