@@ -2,7 +2,7 @@
 
 Generate badges for your profile.
 
-## How to add my-badges to your profile
+## Usage
 
 Here is how to add my badges to your profile:
 - Star this repository.
