@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import fs from 'node:fs'
 import minimist from 'minimist'
 import {Octokit, RequestError} from 'octokit'
