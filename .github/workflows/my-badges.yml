@@ -12,13 +12,7 @@ jobs:
   my-badges:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Build
-        run: |
-          npm ci
-          npm run build
       - name: Update My Badges
-        run: |
-          node dist/main.js {{github.repository_owner}} --repo=${{ github.repository }}
+        run: npx update-my-badges {{github.repository_owner}} --repo=${{ github.repository }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
