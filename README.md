@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Update My Badges
-        run: npx update-my-badges {{github.repository_owner}} --repo=${{ github.repository }}
+        run: npx update-my-badges ${{github.repository_owner}} --repo=${{ github.repository }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
