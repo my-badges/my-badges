@@ -10,16 +10,18 @@ void async function main() {
   for (const {default: b} of allBadges) {
     const dirname = path.basename(path.dirname(fileURLToPath(b.url)))
     for (const id of b.badges) {
-      const image = path.join(root, 'src/all-badges', dirname, `${id}.png`)
-      if (!fs.existsSync(image)) {
-        console.error(`Missing image for badge "${id}" at ${image}`)
+      const imagePath = path.join('src/all-badges', dirname, `${id}.png`)
+      const rootPath = path.join(root, imagePath)
+      if (!fs.existsSync(rootPath)) {
+        console.error(`Missing image for badge "${id}" at ${rootPath}`)
         foundMissing = true
       } else {
-        console.log(`<img src="${image}" alt="${id}" width="100" height="100">`)
+        console.log(`<img src="${imagePath}" alt="${id}" width="60">`)
       }
     }
   }
   if (foundMissing) {
     process.exit(1)
+    return
   }
 }()
