@@ -4,7 +4,7 @@
   "description": "Generate badges for your GitHub projects",
   "type": "module",
   "bin": {
-    "update-my-badges": "dist/index.js"
+    "update-my-badges": "dist/main.js"
   },
   "scripts": {
     "start": "tsc --watch",
