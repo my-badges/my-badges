@@ -23,9 +23,7 @@ jobs:
       - run: npm install
       - run: npm run build
       - name: Release
-        run: |
-          npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
-          npm run release -- patch
+        run: npm run release -- patch
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
