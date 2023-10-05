@@ -24,6 +24,14 @@ Here is all currently available badges:
 <img src="src/all-badges/mass-delete-commit/mass-delete-commit.png" alt="mass-delete-commit" width="60">
 <img src="src/all-badges/mass-delete-commit/mass-delete-commit-10k.png" alt="mass-delete-commit-10k" width="60">
 <img src="src/all-badges/revert-revert-commit/revert-revert-commit.png" alt="revert-revert-commit" width="60">
+<img src="src/all-badges/stars/stars-100.png" alt="stars-100" width="60">
+<img src="src/all-badges/stars/stars-500.png" alt="stars-500" width="60">
+<img src="src/all-badges/stars/stars-1000.png" alt="stars-1000" width="60">
+<img src="src/all-badges/stars/stars-2000.png" alt="stars-2000" width="60">
+<img src="src/all-badges/stars/stars-5000.png" alt="stars-5000" width="60">
+<img src="src/all-badges/stars/stars-10000.png" alt="stars-10000" width="60">
+<img src="src/all-badges/stars/stars-20000.png" alt="stars-20000" width="60">
+
 </p>
 
 But we are planning on adding much more. **Add your own badges too**!
