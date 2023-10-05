@@ -26,7 +26,7 @@ Here is all currently available badges:
 <img src="src/all-badges/revert-revert-commit/revert-revert-commit.png" alt="revert-revert-commit" width="60">
 </p>
 
-But we are planning on adding much more. You can even add your own badges too!
+But we are planning on adding much more. **Add your own badges too**!
 
 ## Usage
 
