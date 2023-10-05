@@ -34,7 +34,7 @@
   ],
   "release-it": {
     "git": {
-      "push": true,
+      "requireCleanWorkingDir": false,
       "tag": false
     },
     "github": {
