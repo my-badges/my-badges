@@ -1,6 +1,6 @@
-# My Badges
+<img src=".github/my-badges.png" alt="My Badges" width="170" align="right">
 
-<p align="center"><img src=".github/my-badges.png" alt="My Badges" width="330"></p>
+# My Badges
 
 Generate badges for your profile.
 
