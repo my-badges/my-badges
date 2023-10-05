@@ -4,6 +4,28 @@
 
 Generate badges for your profile.
 
+## Example
+
+Here is an example of how my badges look like in [my profile](https://github.com/antonmedv):
+
+<p align="center"><img src=".github/screenshot.png" alt="Example" width="600"></p>
+
+Here is all currently available badges:
+
+<img src="src/all-badges/abc-commit/a-commit.png" alt="a-commit" width="60">
+<img src="src/all-badges/abc-commit/ab-commit.png" alt="ab-commit" width="60">
+<img src="src/all-badges/abc-commit/abc-commit.png" alt="abc-commit" width="60">
+<img src="src/all-badges/abc-commit/abcd-commit.png" alt="abcd-commit" width="60">
+<img src="src/all-badges/abc-commit/abcde-commit.png" alt="abcde-commit" width="60">
+<img src="src/all-badges/abc-commit/abcdef-commit.png" alt="abcdef-commit" width="60">
+<img src="src/all-badges/dead-commit/dead-commit.png" alt="dead-commit" width="60">
+<img src="src/all-badges/fuck-commit/fuck-commit.png" alt="fuck-commit" width="60">
+<img src="src/all-badges/mass-delete-commit/mass-delete-commit.png" alt="mass-delete-commit" width="60">
+<img src="src/all-badges/mass-delete-commit/mass-delete-commit-10k.png" alt="mass-delete-commit-10k" width="60">
+<img src="src/all-badges/revert-revert-commit/revert-revert-commit.png" alt="revert-revert-commit" width="60">
+
+But we are planning on adding much more. You can even add your own badges too!
+
 ## Usage
 
 Here is how to add my badges to your profile:

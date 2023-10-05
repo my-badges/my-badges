@@ -19,4 +19,10 @@ export type CommitsQuery = {
       }
     }
   }
+  rateLimit: {
+    limit: number
+    cost: number
+    remaining: number
+    resetAt: string
+  }
 }

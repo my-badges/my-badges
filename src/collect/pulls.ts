@@ -22,4 +22,10 @@ export type PullsQuery = {
       endCursor: string
     }
   }
+  rateLimit: {
+    limit: number
+    cost: number
+    remaining: number
+    resetAt: string
+  }
 }

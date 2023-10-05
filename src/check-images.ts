@@ -14,6 +14,8 @@ void async function main() {
       if (!fs.existsSync(image)) {
         console.error(`Missing image for badge "${id}" at ${image}`)
         foundMissing = true
+      } else {
+        console.log(`<img src="${image}" alt="${id}" width="100" height="100">`)
       }
     }
   }
