@@ -39,14 +39,18 @@ But we are planning on adding much more. **Add your own badges too**!
 ## Usage
 
 Here is how to add my badges to your profile:
+
 - Star this repository.
 - Create `your-username/your-username` repository.
 - In `README.md` add the following code:
+
 ```html
 <!-- my-badges start -->
 <!-- my-badges end -->
 ```
+
 - Add the following workflow `.github/workflows/my-badges.yml` to your repository.
+
 ```yaml
 name: my-badges
 
@@ -67,14 +71,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
-- Start `my-badges` workflow, or wait for it to run automatically.
+
+- Start **my-badges** workflow, or wait for it to run automatically.
 
 ## Contributing badges
 
 If you want to contribute a badge:
+
 - Add your badge to the [all-badges](./src/all-badges) folder.
 - Add your badge to the [index.ts](./src/all-badges/index.ts) file.
 - Any badge images are welcome (png, 256x256px).
+
+Here is an [example of a pull request](https://github.com/my-badges/my-badges/pull/1) adding a new badge.
 
 ### How to test locally?
 
@@ -90,7 +98,7 @@ Run main.js with next command:
 node dist/main.js your-username
 ```
 
-This command will collect your data and save it to `data/your-username.json` file. 
+This command will collect your data and save it to `data/your-username.json` file.
 You can skip recollecting the data with `--data` flag.
 
 ```sh
