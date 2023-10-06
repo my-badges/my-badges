@@ -153,7 +153,6 @@ Feel free to grab any of these ideas and implement them:
 - **pr-champion** - For those who have a high number of pull requests merged.
 - **community-builder** - For users with a high number of followers or those who contribute to popular community-driven projects.
 - **fork-fanatic** - For those who have forked a large number of repositories.
-- **star-gazer** - Users who have starred a vast number of repositories.
 - **watcher** - For users who watch a high number of repositories, staying updated with many projects.
 - **social-butterfly** - For those with a high number of interactions (comments, reactions) across GitHub.
 

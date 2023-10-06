@@ -35,6 +35,9 @@ export type UserQuery = {
     sponsors: {
       totalCount: number
     }
+    starredRepositories: {
+      totalCount: number
+    }
   }
   rateLimit: {
     limit: number

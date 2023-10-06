@@ -42,6 +42,9 @@ query UserQuery(
     sponsors {
       totalCount
     }
+    starredRepositories {
+      totalCount
+    }
   }
   rateLimit {
     limit
