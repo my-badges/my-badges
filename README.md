@@ -108,6 +108,16 @@ You can skip recollecting the data with `--data` flag.
 node dist/main.js your-username --data data/your-username.json
 ```
 
+### How to create a badge image?
+
+Most of the badges are generated with AI. An example of a prompt for the AI:
+
+```
+A sticker of a panda, white background.
+```
+
+Use your favorite tool to remove the background and resize the image to 256x256px.
+
 ### Ideas for badges
 
 Feel free to grab any of these ideas and implement them:
