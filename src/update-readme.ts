@@ -16,7 +16,7 @@ export async function updateReadme(octokit: Octokit, owner: string, repo: string
 
     const badgesHtml = badges.map(badge => {
       const desc = quoteAttr(badge.desc)
-      return `<a href="my-badges/${badge.id}.md"><img src="${badge.image}" alt="${desc}" title="${desc}" width="60"></a>`
+      return `<a href="my-badges/${badge.id}.md"><img src="${badge.image}" alt="${desc}" title="${desc}" width="64"></a>`
     }).join('\n')
 
     content = content.slice(0, start) +
