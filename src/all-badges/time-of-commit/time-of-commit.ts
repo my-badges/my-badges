@@ -9,9 +9,9 @@ export default new class implements BadgePresenter {
     'evening-commits',
   ] as const
   present: Present = (data, grant) => {
-    const midnightCommits: Commit[] = []
     const morningCommits: Commit[] = []
     const eveningCommits: Commit[] = []
+    const midnightCommits: Commit[] = []
 
     const timezoneOffset = guessTimezone(data.user)
 
@@ -21,22 +21,18 @@ export default new class implements BadgePresenter {
 
         date.setHours(date.getUTCHours() + timezoneOffset)
 
-        if (date.getUTCHours() == 0 && date.getUTCMinutes() < 5) {
-          midnightCommits.push(commit)
-        }
         if (date.getUTCHours() >= 4 && date.getUTCHours() < 6) {
           morningCommits.push(commit)
         }
         if (date.getUTCHours() >= 21) {
           eveningCommits.push(commit)
         }
+        if (date.getUTCHours() == 0 && date.getUTCMinutes() < 5) {
+          midnightCommits.push(commit)
+        }
       }
     }
 
-    if (midnightCommits.length > 0) {
-      grant('midnight-commits', 'I commit at midnight.')
-        .evidenceCommits(...midnightCommits.sort(latest).slice(0, 6))
-    }
     if (morningCommits.length > 0) {
       grant('morning-commits', 'I commit in the morning.')
         .evidenceCommits(...morningCommits.sort(latest).slice(0, 6))
@@ -44,6 +40,10 @@ export default new class implements BadgePresenter {
     if (eveningCommits.length > 0) {
       grant('evening-commits', 'I commit in the evening.')
         .evidenceCommits(...eveningCommits.sort(latest).slice(0, 6))
+    }
+    if (midnightCommits.length > 0) {
+      grant('midnight-commits', 'I commit at midnight.')
+        .evidenceCommits(...midnightCommits.sort(latest).slice(0, 6))
     }
   }
 }
