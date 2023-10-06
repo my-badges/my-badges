@@ -14,7 +14,7 @@ export default new class implements BadgePresenter {
           (commit.deletions ?? 0) / (commit.additions ?? 0) > 100
         ) {
           grant('mass-delete-commit', 'When I delete code, I delete a lot.')
-            .evidenceCommits([{repo, commit}])
+            .evidenceCommits(commit)
         }
 
         if (
@@ -22,7 +22,7 @@ export default new class implements BadgePresenter {
           (commit.deletions ?? 0) / (commit.additions ?? 0) > 100
         ) {
           grant('mass-delete-commit-10k', 'When I delete code, I delete a lot.')
-            .evidenceCommits([{repo, commit}])
+            .evidenceCommits(commit)
         }
       }
     }

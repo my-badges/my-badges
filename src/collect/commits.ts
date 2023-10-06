@@ -10,6 +10,12 @@ export type CommitsQuery = {
             messageBody: string
             additions: number
             deletions: number
+            repository: {
+              owner: {
+                login: string
+              }
+              name: string
+            }
           }>
           pageInfo: {
             hasNextPage: boolean

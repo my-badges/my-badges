@@ -44,7 +44,7 @@ export function badgeCollection(badges: Badge[], baseUrl: URL) {
       evidence(text: string) {
         badge.body = text
       },
-      evidenceCommits(commits: { repo: Repo, commit: Commit }[]) {
+      evidenceCommits(...commits: Commit[]) {
         this.evidence('Commits:\n\n' + commits.map(linkCommit).map(x => '- ' + x).join('\n'))
       },
     }

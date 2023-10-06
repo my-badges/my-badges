@@ -17,6 +17,12 @@ query CommitsQuery(
               messageBody
               additions
               deletions
+              repository {
+                owner {
+                  login
+                }
+                name
+              }
             }
             pageInfo {
               hasNextPage

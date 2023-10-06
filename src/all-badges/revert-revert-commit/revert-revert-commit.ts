@@ -1,4 +1,4 @@
-import {Commit, Repo} from '../../collect/collect.js'
+import {Commit} from '../../collect/collect.js'
 import {BadgePresenter, Present} from '../../badges.js'
 
 export default new class implements BadgePresenter {
@@ -7,19 +7,19 @@ export default new class implements BadgePresenter {
     'revert-revert-commit',
   ] as const
   present: Present = (data, grant) => {
-    const commits: { repo: Repo, commit: Commit }[] = []
+    const commits: Commit[] = []
 
     for (const repo of data.repos) {
       for (const commit of repo.commits) {
         if (/Revert.+Revert/.test(commit.message)) {
-          commits.push({repo, commit})
+          commits.push(commit)
         }
       }
     }
 
     if (commits.length > 0) {
       grant('revert-revert-commit', 'I reverted a revert commit.')
-        .evidenceCommits(commits)
+        .evidenceCommits(...commits)
     }
   }
 }
