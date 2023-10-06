@@ -13,6 +13,7 @@ query CommitsQuery(
             totalCount
             nodes {
               sha: oid
+              committedDate
               message
               messageBody
               additions

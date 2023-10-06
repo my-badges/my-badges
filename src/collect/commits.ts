@@ -6,6 +6,7 @@ export type CommitsQuery = {
           totalCount: number
           nodes: Array<{
             sha: string
+            committedDate: string
             message: string
             messageBody: string
             additions: number

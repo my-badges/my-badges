@@ -5,6 +5,7 @@ import {CommitsQuery} from './commits.js'
 import fs from 'node:fs'
 import {fileURLToPath} from 'url'
 import {IssuesQuery} from './issues.js'
+import {UserQuery} from './user.js'
 
 export type Data = {
   user: User
@@ -12,7 +13,7 @@ export type Data = {
   pulls: Pull[]
   issues: Issues[]
 }
-export type User = Endpoints['GET /users/{username}']['response']['data']
+export type User = UserQuery['user']
 export type Repo = Endpoints['GET /users/{username}/repos']['response']['data'][0] & {
   commits: Commit[]
 }
@@ -21,7 +22,7 @@ export type Pull = PullsQuery['user']['pullRequests']['nodes'][0]
 export type Issues = IssuesQuery['user']['issues']['nodes'][0]
 
 export async function collect(username: string, octokit: Octokit): Promise<Data> {
-  const user = (await octokit.request('GET /users/{username}', {username})).data
+  const {user} = await octokit.graphql<UserQuery>(loadGraphql('./user.graphql'), {login: username})
 
   const data: Data = {
     user: user,
@@ -54,7 +55,7 @@ export async function collect(username: string, octokit: Octokit): Promise<Data>
       const commits = octokit.graphql.paginate.iterator<CommitsQuery>(loadGraphql('./commits.graphql'), {
         owner: repo.owner.login,
         name: repo.name,
-        author: user.node_id,
+        author: user.id,
       })
 
       for await (const resp of commits) {
