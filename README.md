@@ -8,9 +8,7 @@ Generate badges for your profile.
 
 Here is an example of how my badges look like in [my profile](https://github.com/antonmedv):
 
-<p align="center"><img src=".github/screenshot.png" alt="Example" width="450"></p>
-
-Here is all currently available badges:
+Available badges:
 
 <p>
 <img src="src/all-badges/abc-commit/a-commit.png" alt="a-commit" width="64">
