@@ -1,6 +1,6 @@
-import {Octokit} from 'octokit'
-import {Badge} from './badges.js'
-import {quoteAttr} from './utils.js'
+import { Octokit } from 'octokit'
+import { Badge } from './badges.js'
+import { quoteAttr } from './utils.js'
 
 export async function updateReadme(octokit: Octokit, owner: string, repo: string, badges: Badge[]) {
   console.log('Loading README.md')
@@ -8,11 +8,17 @@ export async function updateReadme(octokit: Octokit, owner: string, repo: string
     owner, repo,
   })
 
+  const startString = '<!-- my-badges start -->'
+  const endString = '<!-- my-badges end -->'
+
   let content = Buffer.from(readme.data.content, 'base64').toString('utf8')
-  const start = content.indexOf('<!-- my-badges start -->')
-  const end = content.indexOf('<!-- my-badges end -->')
+
+  const start = content.indexOf(startString)
+  const end = content.indexOf(endString)
+  const needToAddNewLine = content[end + endString.length + 1] !== '\n'
+
   if (start !== -1 && end !== -1) {
-    content = content.slice(0, start) + content.slice(end + 25)
+    content = content.slice(0, start) + content.slice(end + endString.length)
 
     const badgesHtml = badges.map(badge => {
       const desc = quoteAttr(badge.desc)
@@ -20,10 +26,11 @@ export async function updateReadme(octokit: Octokit, owner: string, repo: string
     }).join('\n')
 
     content = content.slice(0, start) +
-      '<!-- my-badges start -->\n' +
+      `${startString}\n` +
       '<h4><a href="https://github.com/my-badges/my-badges">My Badges</a></h4>\n\n' +
       badgesHtml +
-      '\n<!-- my-badges end -->\n' +
+      `\n${endString}` +
+      (needToAddNewLine ? '\n' : '') +
       content.slice(start)
   }
 
