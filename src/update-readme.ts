@@ -12,7 +12,7 @@ export async function updateReadme(octokit: Octokit, owner: string, repo: string
   const start = content.indexOf('<!-- my-badges start -->')
   const end = content.indexOf('<!-- my-badges end -->')
   if (start !== -1 && end !== -1) {
-    content = content.slice(0, start) + content.slice(end + 25)
+    content = content.slice(0, start) + content.slice(end + 23)
 
     const badgesHtml = badges.map(badge => {
       const desc = quoteAttr(badge.desc)
