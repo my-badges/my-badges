@@ -15,6 +15,7 @@ export async function updateReadme(octokit: Octokit, owner: string, repo: string
 
   const start = content.indexOf(startString)
   const end = content.indexOf(endString)
+  const needToAddNewLine = content[end + endString.length + 1] !== '\n'
 
   if (start !== -1 && end !== -1) {
     content = content.slice(0, start) + content.slice(end + endString.length)
@@ -28,7 +29,8 @@ export async function updateReadme(octokit: Octokit, owner: string, repo: string
       `${startString}\n` +
       '<h4><a href="https://github.com/my-badges/my-badges">My Badges</a></h4>\n\n' +
       badgesHtml +
-      `\n${endString}\n` +
+      `\n${endString}` +
+      (needToAddNewLine ? '\n' : '') +
       content.slice(start)
   }
 
