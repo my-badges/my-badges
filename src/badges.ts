@@ -1,7 +1,7 @@
-import {allBadges} from './all-badges/index.js'
-import {Data, Repo, Commit} from './collect/collect.js'
-import {linkCommit} from './utils.js'
-import {fileURLToPath} from 'url'
+import { allBadges } from './all-badges/index.js'
+import { Data, Commit, Pull } from './collect/collect.js'
+import { linkCommit, linkPull } from './utils.js'
+import { fileURLToPath } from 'url'
 import * as path from 'path'
 
 export type ID = (typeof allBadges)[number]['default']['badges'][number]
@@ -47,6 +47,9 @@ export function badgeCollection(badges: Badge[], baseUrl: URL) {
       evidenceCommits(...commits: Commit[]) {
         this.evidence('Commits:\n\n' + commits.map(linkCommit).map(x => '- ' + x).join('\n'))
       },
+      evidencePRs(...pulls: Pull[]) {
+        this.evidence('Pull requests:\n\n' + pulls.map(linkPull).map(x => '- ' + x).join('\n'))
+      }
     }
   }
 }
