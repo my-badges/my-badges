@@ -7,7 +7,7 @@ Integrate my-badges into your profile via an automatically updating action: badg
 as oyu unlock new badges or new badges were added by the community. Here is an example of how my badges look like
 in [my profile](https://github.com/antonmedv).
 
-## List badges
+## List of badges
 
 <p>
 <img src="src/all-badges/abc-commit/a-commit.png" alt="a-commit" width="64">
