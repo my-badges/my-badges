@@ -1,8 +1,15 @@
-import {Octokit, RequestError} from 'octokit'
-import {Badge} from './badges.js'
-import {quoteAttr} from './utils.js'
+import { Octokit, RequestError } from 'octokit'
+import { Badge } from './badges.js'
+import { quoteAttr } from './utils.js'
 
-export async function updateBadges(octokit: Octokit, owner: string, repo: string, badges: Badge[], oldJson: string | undefined, jsonSha: string | undefined) {
+export async function updateBadges(
+  octokit: Octokit,
+  owner: string,
+  repo: string,
+  badges: Badge[],
+  oldJson: string | undefined,
+  jsonSha: string | undefined,
+) {
   const myBadgesPath = 'my-badges/my-badges.json'
 
   const newJson = JSON.stringify(badges, null, 2)
@@ -11,7 +18,8 @@ export async function updateBadges(octokit: Octokit, owner: string, repo: string
   } else {
     console.log('Updating my-badges.json')
     await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
-      owner, repo,
+      owner,
+      repo,
       path: myBadgesPath,
       message: 'Update my-badges',
       committer: {
@@ -31,7 +39,10 @@ export async function updateBadges(octokit: Octokit, owner: string, repo: string
 
     try {
       console.log(`Loading ${badgePath}`)
-      const resp = await octokit.request<'readme'>('GET /repos/{owner}/{repo}/contents/{path}', {owner, repo, path: badgePath})
+      const resp = await octokit.request<'readme'>(
+        'GET /repos/{owner}/{repo}/contents/{path}',
+        { owner, repo, path: badgePath },
+      )
       sha = resp.data.sha
       oldContent = Buffer.from(resp.data.content, 'base64').toString('utf8')
     } catch (err) {
@@ -41,7 +52,8 @@ export async function updateBadges(octokit: Octokit, owner: string, repo: string
     }
 
     const desc = quoteAttr(badge.desc)
-    const content = `<img src="${badge.image}" alt="${desc}" title="${desc}" width="128">\n` +
+    const content =
+      `<img src="${badge.image}" alt="${desc}" title="${desc}" width="128">\n` +
       `<strong>${desc}</strong>\n` +
       `<br><br>\n\n` +
       badge.body +
@@ -55,9 +67,10 @@ export async function updateBadges(octokit: Octokit, owner: string, repo: string
 
     console.log(`Uploading ${badgePath}`)
     await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
-      owner, repo,
+      owner,
+      repo,
       path: badgePath,
-      message:  sha ? `Update ${badge.id}.md` : `Add ${badge.id}.md`,
+      message: sha ? `Update ${badge.id}.md` : `Add ${badge.id}.md`,
       committer: {
         name: 'My Badges',
         email: 'my-badges@github.com',

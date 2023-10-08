@@ -7,6 +7,8 @@
     "update-my-badges": "dist/main.js"
   },
   "scripts": {
+    "fmt": "prettier --write .",
+    "fmt:check": "prettier --check .",
     "start": "tsc --watch",
     "tsc": "tsc",
     "build": "npm run copy-files && npm run tsc",
@@ -26,6 +28,7 @@
     "@types/minimist": "^1.2.3",
     "@types/node": "^20.8.0",
     "copyfiles": "^2.4.1",
+    "prettier": "^3.0.3",
     "release-it": "^16.2.1",
     "typescript": "^5.2.2"
   },
@@ -40,6 +43,11 @@
     "github": {
       "release": false
     }
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "endOfLine": "lf"
   },
   "repository": "my-badges/my-badges",
   "author": "Anton Medvedev <anton@medv.io>",

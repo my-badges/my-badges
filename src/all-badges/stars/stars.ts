@@ -1,6 +1,6 @@
-import {BadgePresenter, Present} from '../../badges.js'
+import { BadgePresenter, Present } from '../../badges.js'
 
-export default new class implements BadgePresenter {
+export default new (class implements BadgePresenter {
   url = new URL(import.meta.url)
   badges = [
     'stars-100',
@@ -38,4 +38,4 @@ export default new class implements BadgePresenter {
       grant('stars-20000', 'I collected 20000 stars.')
     }
   }
-}
+})()

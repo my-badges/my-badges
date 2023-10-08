@@ -2,24 +2,23 @@
 
 import fs from 'node:fs'
 import minimist from 'minimist'
-import {Octokit, RequestError} from 'octokit'
-import {retry} from '@octokit/plugin-retry'
-import {throttling} from '@octokit/plugin-throttling'
-import {collect, Data} from './collect/collect.js'
-import {allBadges} from './all-badges/index.js'
-import {Badge, badgeCollection} from './badges.js'
-import {updateReadme} from './update-readme.js'
-import {updateBadges} from './update-badges.js'
+import { Octokit, RequestError } from 'octokit'
+import { retry } from '@octokit/plugin-retry'
+import { throttling } from '@octokit/plugin-throttling'
+import { collect, Data } from './collect/collect.js'
+import { allBadges } from './all-badges/index.js'
+import { Badge, badgeCollection } from './badges.js'
+import { updateReadme } from './update-readme.js'
+import { updateBadges } from './update-badges.js'
 
-void async function main() {
+void (async function main() {
   const argv = minimist(process.argv.slice(2), {
-    string: [
-      'data',
-      'repo',
-    ],
+    string: ['data', 'repo'],
   })
   const [username] = argv._
-  const [owner, repo]: [string | undefined, string | undefined] = argv.repo ? argv.repo.split('/', 2) : [undefined, undefined]
+  const [owner, repo]: [string | undefined, string | undefined] = argv.repo
+    ? argv.repo.split('/', 2)
+    : [undefined, undefined]
   const dataPath: string = argv.data ?? ''
 
   const MyOctokit = Octokit.plugin(retry, throttling)
@@ -28,17 +27,21 @@ void async function main() {
     log: console,
     throttle: {
       onRateLimit: (retryAfter, options: any, octokit, retryCount) => {
-        octokit.log.warn(`Request quota exhausted for request ${options.method} ${options.url}`)
+        octokit.log.warn(
+          `Request quota exhausted for request ${options.method} ${options.url}`,
+        )
         if (retryCount <= 3) {
           octokit.log.info(`Retrying after ${retryAfter} seconds!`)
           return true
         }
       },
       onSecondaryRateLimit: (retryAfter, options: any, octokit) => {
-        octokit.log.warn(`SecondaryRateLimit detected for request ${options.method} ${options.url}`)
+        octokit.log.warn(
+          `SecondaryRateLimit detected for request ${options.method} ${options.url}`,
+        )
       },
     },
-    retry: {doNotRetry: ['429']},
+    retry: { doNotRetry: ['429'] },
   })
 
   let data: Data
@@ -66,11 +69,17 @@ void async function main() {
   if (owner && repo) {
     console.log('Loading my-badges.json')
     try {
-      const myBadgesResp = await octokit.request<'content-file'>('GET /repos/{owner}/{repo}/contents/{path}', {
-        owner, repo,
-        path: 'my-badges/my-badges.json',
-      })
-      oldJson = Buffer.from(myBadgesResp.data.content, 'base64').toString('utf8')
+      const myBadgesResp = await octokit.request<'content-file'>(
+        'GET /repos/{owner}/{repo}/contents/{path}',
+        {
+          owner,
+          repo,
+          path: 'my-badges/my-badges.json',
+        },
+      )
+      oldJson = Buffer.from(myBadgesResp.data.content, 'base64').toString(
+        'utf8',
+      )
       jsonSha = myBadgesResp.data.sha
       badges = JSON.parse(oldJson)
     } catch (err) {
@@ -80,8 +89,7 @@ void async function main() {
     }
   }
 
-
-  for (const {default: presenter} of allBadges) {
+  for (const { default: presenter } of allBadges) {
     const grant = badgeCollection(badges, presenter.url)
     presenter.present(data, grant)
   }
@@ -91,4 +99,4 @@ void async function main() {
     await updateBadges(octokit, owner, repo, badges, oldJson, jsonSha)
     await updateReadme(octokit, owner, repo, badges)
   }
-}()
+})()

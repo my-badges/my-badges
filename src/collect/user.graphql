@@ -1,6 +1,4 @@
-query UserQuery(
-  $login: String!,
-) {
+query UserQuery($login: String!) {
   user(login: $login) {
     id
     login

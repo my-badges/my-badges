@@ -12,7 +12,10 @@ export interface BadgePresenter {
   present: Present
 }
 
-export type Present = (data: Data, grant: ReturnType<typeof badgeCollection>) => void
+export type Present = (
+  data: Data,
+  grant: ReturnType<typeof badgeCollection>,
+) => void
 
 export type Badge = {
   id: ID
@@ -45,11 +48,23 @@ export function badgeCollection(badges: Badge[], baseUrl: URL) {
         badge.body = text
       },
       evidenceCommits(...commits: Commit[]) {
-        this.evidence('Commits:\n\n' + commits.map(linkCommit).map(x => '- ' + x).join('\n'))
+        this.evidence(
+          'Commits:\n\n' +
+            commits
+              .map(linkCommit)
+              .map((x) => '- ' + x)
+              .join('\n'),
+        )
       },
       evidencePRs(...pulls: Pull[]) {
-        this.evidence('Pull requests:\n\n' + pulls.map(linkPull).map(x => '- ' + x).join('\n'))
-      }
+        this.evidence(
+          'Pull requests:\n\n' +
+            pulls
+              .map(linkPull)
+              .map((x) => '- ' + x)
+              .join('\n'),
+        )
+      },
     }
   }
 }

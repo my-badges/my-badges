@@ -1,12 +1,10 @@
-import {Commit, Repo} from '../../collect/collect.js'
-import {Present, BadgePresenter} from '../../badges.js'
-import {linkCommit} from '../../utils.js'
+import { Commit, Repo } from '../../collect/collect.js'
+import { Present, BadgePresenter } from '../../badges.js'
+import { linkCommit } from '../../utils.js'
 
-export default new class implements BadgePresenter {
+export default new (class implements BadgePresenter {
   url = new URL(import.meta.url)
-  badges = [
-    'fuck-commit',
-  ] as const
+  badges = ['fuck-commit'] as const
   present: Present = (data, grant) => {
     const commits: Commit[] = []
 
@@ -19,8 +17,10 @@ export default new class implements BadgePresenter {
     }
 
     if (commits.length > 0) {
-      grant('fuck-commit', 'I used a word "fuck" in my commit message.')
-        .evidenceCommits(...commits)
+      grant(
+        'fuck-commit',
+        'I used a word "fuck" in my commit message.',
+      ).evidenceCommits(...commits)
     }
   }
-}
+})()

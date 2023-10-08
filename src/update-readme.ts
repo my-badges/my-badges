@@ -2,11 +2,20 @@ import { Octokit } from 'octokit'
 import { Badge } from './badges.js'
 import { quoteAttr } from './utils.js'
 
-export async function updateReadme(octokit: Octokit, owner: string, repo: string, badges: Badge[]) {
+export async function updateReadme(
+  octokit: Octokit,
+  owner: string,
+  repo: string,
+  badges: Badge[],
+) {
   console.log('Loading README.md')
-  const readme = await octokit.request<'readme'>('GET /repos/{owner}/{repo}/readme', {
-    owner, repo,
-  })
+  const readme = await octokit.request<'readme'>(
+    'GET /repos/{owner}/{repo}/readme',
+    {
+      owner,
+      repo,
+    },
+  )
 
   const startString = '<!-- my-badges start -->'
   const endString = '<!-- my-badges end -->'
@@ -20,12 +29,15 @@ export async function updateReadme(octokit: Octokit, owner: string, repo: string
   if (start !== -1 && end !== -1) {
     content = content.slice(0, start) + content.slice(end + endString.length)
 
-    const badgesHtml = badges.map(badge => {
-      const desc = quoteAttr(badge.desc)
-      return `<a href="my-badges/${badge.id}.md"><img src="${badge.image}" alt="${desc}" title="${desc}" width="64"></a>`
-    }).join('\n')
+    const badgesHtml = badges
+      .map((badge) => {
+        const desc = quoteAttr(badge.desc)
+        return `<a href="my-badges/${badge.id}.md"><img src="${badge.image}" alt="${desc}" title="${desc}" width="64"></a>`
+      })
+      .join('\n')
 
-    content = content.slice(0, start) +
+    content =
+      content.slice(0, start) +
       `${startString}\n` +
       '<h4><a href="https://github.com/my-badges/my-badges">My Badges</a></h4>\n\n' +
       badgesHtml +
@@ -36,7 +48,8 @@ export async function updateReadme(octokit: Octokit, owner: string, repo: string
 
   console.log('Updating README.md')
   await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
-    owner, repo,
+    owner,
+    repo,
     path: readme.data.path,
     message: 'Update my-badges',
     committer: {

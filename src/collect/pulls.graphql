@@ -1,8 +1,4 @@
-query PullsQuery(
-  $username: String!,
-  $num: Int = 100,
-  $cursor: String
-) {
+query PullsQuery($username: String!, $num: Int = 100, $cursor: String) {
   user(login: $username) {
     pullRequests(first: $num, after: $cursor) {
       totalCount

@@ -1,9 +1,9 @@
-name: release
+name: Release
 
 on:
   workflow_run:
-    workflows: [ "test" ]
-    branches: [ "master" ]
+    workflows: ['test']
+    branches: ['master']
     types:
       - completed
 

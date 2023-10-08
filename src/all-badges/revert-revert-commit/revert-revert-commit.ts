@@ -1,11 +1,9 @@
-import {Commit} from '../../collect/collect.js'
-import {BadgePresenter, Present} from '../../badges.js'
+import { Commit } from '../../collect/collect.js'
+import { BadgePresenter, Present } from '../../badges.js'
 
-export default new class implements BadgePresenter {
+export default new (class implements BadgePresenter {
   url = new URL(import.meta.url)
-  badges = [
-    'revert-revert-commit',
-  ] as const
+  badges = ['revert-revert-commit'] as const
   present: Present = (data, grant) => {
     const commits: Commit[] = []
 
@@ -18,8 +16,10 @@ export default new class implements BadgePresenter {
     }
 
     if (commits.length > 0) {
-      grant('revert-revert-commit', 'I reverted a revert commit.')
-        .evidenceCommits(...commits)
+      grant(
+        'revert-revert-commit',
+        'I reverted a revert commit.',
+      ).evidenceCommits(...commits)
     }
   }
-}
+})()

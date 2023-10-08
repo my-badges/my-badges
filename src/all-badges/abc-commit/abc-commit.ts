@@ -1,7 +1,7 @@
-import {Commit, Repo} from '../../collect/collect.js'
-import {BadgePresenter, ID, Present} from '../../badges.js'
+import { Commit, Repo } from '../../collect/collect.js'
+import { BadgePresenter, ID, Present } from '../../badges.js'
 
-export default new class implements BadgePresenter {
+export default new (class implements BadgePresenter {
   url = new URL(import.meta.url)
   badges = [
     'a-commit',
@@ -27,8 +27,11 @@ export default new class implements BadgePresenter {
         for (const [prefix, badge] of types) {
           const re = new RegExp(`^(${prefix})`)
           if (re.test(commit.sha)) {
-            order[prefix.length] = () => grant(badge, `One of my commit sha starts with "${prefix}".`)
-              .evidence(link(re, repo, commit))
+            order[prefix.length] = () =>
+              grant(
+                badge,
+                `One of my commit sha starts with "${prefix}".`,
+              ).evidence(link(re, repo, commit))
             break
           }
         }
@@ -41,7 +44,7 @@ export default new class implements BadgePresenter {
       }
     }
   }
-}
+})()
 
 function link(re: RegExp, repo: Repo, commit: Commit) {
   const sha = commit.sha.replace(re, '<strong>$1</strong>')

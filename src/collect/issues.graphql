@@ -1,8 +1,4 @@
-query IssuesQuery(
-  $username: String!,
-  $num: Int = 100,
-  $cursor: String
-) {
+query IssuesQuery($username: String!, $num: Int = 100, $cursor: String) {
   user(login: $username) {
     issues(first: $num, after: $cursor, filterBy: { createdBy: $username }) {
       totalCount

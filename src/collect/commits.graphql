@@ -1,15 +1,15 @@
 query CommitsQuery(
-  $owner: String!,
-  $name: String!,
-  $author: ID!,
-  $num: Int = 100,
+  $owner: String!
+  $name: String!
+  $author: ID!
+  $num: Int = 100
   $cursor: String
 ) {
   repository(owner: $owner, name: $name) {
     defaultBranchRef {
       target {
         ... on Commit {
-          history(first: $num, after: $cursor, author: {id: $author}) {
+          history(first: $num, after: $cursor, author: { id: $author }) {
             totalCount
             nodes {
               sha: oid

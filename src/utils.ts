@@ -1,7 +1,9 @@
 import { Commit, Pull } from './collect/collect.js'
 
 export function linkCommit(commit: Commit): string {
-  return `<a href="https://github.com/${commit.repository.owner.login}/${commit.repository.name}/commit/${commit.sha}">${commit.sha.slice(0, 7)}</a>`
+  return `<a href="https://github.com/${commit.repository.owner.login}/${
+    commit.repository.name
+  }/commit/${commit.sha}">${commit.sha.slice(0, 7)}</a>`
 }
 
 export function linkPull(pull: Pull): string {
@@ -17,5 +19,4 @@ export function quoteAttr(s: string) {
     .replace(/>/g, '&gt;')
     .replace(/\r\n/g, '&#13;')
     .replace(/[\r\n]/g, '&#13;')
-
 }

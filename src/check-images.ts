@@ -1,13 +1,13 @@
-import {allBadges} from './all-badges/index.js'
+import { allBadges } from './all-badges/index.js'
 import fs from 'node:fs'
-import {fileURLToPath} from 'url'
+import { fileURLToPath } from 'url'
 import * as path from 'path'
 
-void async function main() {
+void (async function main() {
   const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
 
   let foundMissing = false
-  for (const {default: b} of allBadges) {
+  for (const { default: b } of allBadges) {
     const dirname = path.basename(path.dirname(fileURLToPath(b.url)))
     for (const id of b.badges) {
       const imagePath = path.join('src/all-badges', dirname, `${id}.png`)
@@ -24,4 +24,4 @@ void async function main() {
     process.exit(1)
     return
   }
-}()
+})()
