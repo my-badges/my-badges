@@ -1,4 +1,4 @@
-<h1><img src=".github/logo.png" alt="My Badges" height="32" align="center"> My Badges</h1>
+<h1><img src=".github/logo.png" alt="My Badges" height="40" align="center"> My Badges</h1>
 
 🎖 **Welcome to My Badges!**
 
