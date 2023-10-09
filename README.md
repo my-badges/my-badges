@@ -1,6 +1,4 @@
-<img src=".github/my-badges.png" alt="My Badges" width="170" align="right">
-
-# My Badges
+<h1>My Badges <img src=".github/logo.png" alt="My Badges" height="50" align="center"></h1>
 
 🎖 **Welcome to My Badges!**
 
