@@ -43,6 +43,12 @@ Check out how these badges sparkle on [my profile](https://github.com/antonmedv)
 <img src="src/all-badges/mass-delete-commit/mass-delete-commit-10k.png" alt="mass-delete-commit-10k" width="64">
 <img src="src/all-badges/revert-revert-commit/revert-revert-commit.png" alt="revert-revert-commit" width="64">
 <img src="src/all-badges/my-badges-contributor/my-badges-contributor.png" alt="my-badges-contributor" width="64">
+<img src="src/all-badges/fix-commit/fix-2.png" alt="fix-2" width="64">
+<img src="src/all-badges/fix-commit/fix-3.png" alt="fix-3" width="64">
+<img src="src/all-badges/fix-commit/fix-4.png" alt="fix-4" width="64">
+<img src="src/all-badges/fix-commit/fix-5.png" alt="fix-5" width="64">
+<img src="src/all-badges/fix-commit/fix-6.png" alt="fix-6" width="64">
+<img src="src/all-badges/fix-commit/fix-6+.png" alt="fix-6+" width="64">
 </p>
 
 But we are planning on adding much more. **Add your own badges too**!
