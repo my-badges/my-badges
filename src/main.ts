@@ -13,17 +13,17 @@ import { updateBadges } from './update-badges.js'
 
 void (async function main() {
   const argv = minimist(process.argv.slice(2), {
-    string: ['data', 'repo'],
+    string: ['data', 'repo', 'token'],
   })
-  const [username] = argv._
-  const [owner, repo]: [string | undefined, string | undefined] = argv.repo
-    ? argv.repo.split('/', 2)
-    : [undefined, undefined]
+  const {GITHUB_TOKEN, GITHUB_USER, GITHUB_REPO} = process.env
+  const [username = GITHUB_USER] = argv._
+  const [owner, repo]: [string?, string?] = (argv.repo || GITHUB_REPO)?.split('/', 2) || []
   const dataPath: string = argv.data ?? ''
+  const token = argv.token || GITHUB_TOKEN
 
   const MyOctokit = Octokit.plugin(retry, throttling)
   const octokit = new MyOctokit({
-    auth: process.env.GITHUB_TOKEN,
+    auth: token,
     log: console,
     throttle: {
       onRateLimit: (retryAfter, options: any, octokit, retryCount) => {
