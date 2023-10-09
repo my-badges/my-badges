@@ -9,4 +9,5 @@ export const allBadges = [
   await import('./mass-delete-commit/mass-delete-commit.js'),
   await import('./revert-revert-commit/revert-revert-commit.js'),
   await import('./my-badges-contributor/my-badges-contributor.js'),
+  await import('./fix-commit/fix-commit.js'),
 ] as const

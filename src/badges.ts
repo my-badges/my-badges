@@ -1,8 +1,14 @@
 import { allBadges } from './all-badges/index.js'
 import { Data, Commit, Pull } from './collect/collect.js'
-import { linkCommit, linkPull } from './utils.js'
+import { expectType, linkCommit, linkPull } from './utils.js'
 import { fileURLToPath } from 'url'
 import * as path from 'path'
+
+for (const {
+  default: { badges },
+} of allBadges) {
+  expectType<readonly [string, ...string[]]>(badges)
+}
 
 export type ID = (typeof allBadges)[number]['default']['badges'][number]
 
@@ -12,10 +18,9 @@ export interface BadgePresenter {
   present: Present
 }
 
-export type Present = (
-  data: Data,
-  grant: ReturnType<typeof badgeCollection>,
-) => void
+export type Grant = ReturnType<typeof badgeCollection>
+
+export type Present = (data: Data, grant: Grant) => void
 
 export type Badge = {
   id: ID

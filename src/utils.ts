@@ -7,7 +7,7 @@ export function linkCommit(commit: Commit): string {
 }
 
 export function linkPull(pull: Pull): string {
-  return `<a href=https://github.com/${pull.repository.owner.login}/${pull.repository.name}/pull/${pull.number}>#${pull.number}</a>`
+  return `<a href="https://github.com/${pull.repository.owner.login}/${pull.repository.name}/pull/${pull.number}">#${pull.number}</a>`
 }
 
 export function quoteAttr(s: string) {
@@ -20,3 +20,5 @@ export function quoteAttr(s: string) {
     .replace(/\r\n/g, '&#13;')
     .replace(/[\r\n]/g, '&#13;')
 }
+
+export const expectType = <T>(expression: T) => void 0
