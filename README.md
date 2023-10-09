@@ -119,7 +119,7 @@ This command will collect your data and save it to `data/your-username.json` fil
 You can skip recollecting the data with `--data` flag.
 
 ```sh
-node dist/main.js your-username --data data/your-username.json
+node dist/main.js --data data/your-username.json
 ```
 
 ### How to create a badge image?
