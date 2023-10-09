@@ -8,10 +8,12 @@ Think of My Badges as a fun twist on GitHub's achievements. We've added a dash o
 that are quirky and different!
 
 🔧 **Integration is Easy!**
+
 You can effortlessly integrate My Badges into your GitHub profile. With our automatic updating action, your badges stay
 fresh. Whenever you unlock a new badge or the community adds a fresh one, it updates in real-time.
 
 👀 **Curious to see them in action?**
+
 Check out how these badges sparkle on [my profile](https://github.com/antonmedv).
 
 ## List of badges
