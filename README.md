@@ -10,7 +10,7 @@ that are quirky and different!
 🔧 **Integration is Easy!**
 
 You can effortlessly integrate My Badges into your GitHub profile. With our automatic updating action, your badges stay
-fresh. Whenever you unlock a new badge or the community adds a fresh one, it updates in real-time.
+fresh. Whenever you unlock a new badge or the community adds a fresh one, it updates daily.
 
 👀 **Curious to see them in action?**
 
