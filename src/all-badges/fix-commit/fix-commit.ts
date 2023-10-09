@@ -13,51 +13,52 @@ export default new (class implements BadgePresenter {
   ] as const
   present: Present = (data, grant) => {
     for (const repo of data.repos) {
-      let sequentialFixes = 0
+      const sequences: Commit[][] = []
       let previousCommitDate = null
       let evidence: Commit[] = []
 
       for (const commit of repo.commits) {
         const currentCommitDate = new Date(commit.committedDate)
 
-        // If the commit message contains "fix" and is within a 15-minute span of the previous commit
-        if (
-          commit.message.includes('fix') &&
-          (previousCommitDate === null ||
-            currentCommitDate.getTime() - previousCommitDate.getTime() <=
-              15 * 60 * 1000)
-        ) {
-          sequentialFixes++
+        const isFix = /^fix/i.test(commit.message)
+        const isSequential =
+          previousCommitDate === null ||
+          currentCommitDate.getTime() - previousCommitDate.getTime() <=
+            15 * 60 * 1000
+
+        if (isFix && isSequential) {
           evidence.push(commit)
         } else {
-          this.grantBadge(sequentialFixes, grant, evidence)
-          evidence = commit.message.includes('fix') ? [commit] : []
-          sequentialFixes = evidence.length
+          sequences.push(evidence)
+          evidence = isFix ? [commit] : []
         }
 
         previousCommitDate = currentCommitDate
       }
 
-      // Check for any remaining sequences after exiting the loop
-      if (sequentialFixes > 0) {
-        this.grantBadge(sequentialFixes, grant, evidence)
+      if (evidence.length > 0) {
+        sequences.push(evidence)
+      }
+
+      sequences.sort((a, b) => a.length - b.length)
+
+      for (const sec of sequences) {
+        const count = sec.length
+        const description = `I did ${count} sequential fixes.`
+
+        if (count === 2)
+          grant('fix-2', description).evidenceCommitsWithMessage(...sec)
+        else if (count === 3)
+          grant('fix-3', description).evidenceCommitsWithMessage(...sec)
+        else if (count === 4)
+          grant('fix-4', description).evidenceCommitsWithMessage(...sec)
+        else if (count === 5)
+          grant('fix-5', description).evidenceCommitsWithMessage(...sec)
+        else if (count === 6)
+          grant('fix-6', description).evidenceCommitsWithMessage(...sec)
+        else if (count > 6)
+          grant('fix-6+', description).evidenceCommitsWithMessage(...sec)
       }
     }
-  }
-
-  grantBadge(count: number, grant: Grant, evidence: Commit[]) {
-    let description = `Granted for making ${count} sequential fixes.`
-
-    if (count === 2) grant('fix-2', description).evidenceCommits(...evidence)
-    else if (count === 3)
-      grant('fix-3', description).evidenceCommits(...evidence)
-    else if (count === 4)
-      grant('fix-4', description).evidenceCommits(...evidence)
-    else if (count === 5)
-      grant('fix-5', description).evidenceCommits(...evidence)
-    else if (count === 6)
-      grant('fix-6', description).evidenceCommits(...evidence)
-    else if (count > 6)
-      grant('fix-6+', description).evidenceCommits(...evidence)
   }
 })()

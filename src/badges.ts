@@ -54,11 +54,13 @@ export function badgeCollection(badges: Badge[], baseUrl: URL) {
       },
       evidenceCommits(...commits: Commit[]) {
         this.evidence(
+          'Commits:\n\n' + commits.map((x) => `- ${linkCommit(x)}`).join('\n'),
+        )
+      },
+      evidenceCommitsWithMessage(...commits: Commit[]) {
+        this.evidence(
           'Commits:\n\n' +
-            commits
-              .map(linkCommit)
-              .map((x) => '- ' + x)
-              .join('\n'),
+            commits.map((x) => `- ${linkCommit(x)}: ${x.message}`).join('\n'),
         )
       },
       evidencePRs(...pulls: Pull[]) {
