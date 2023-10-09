@@ -2,10 +2,17 @@
 
 # My Badges
 
-My Badges are similar to GitHub's achievements, only we have much more different and funny once!
-Integrate my-badges into your profile via an automatically updating action: badges will be updated automatically
-as oyu unlock new badges or new badges were added by the community. Here is an example of how my badges look like
-in [my profile](https://github.com/antonmedv).
+🎖 **Welcome to My Badges!**
+
+Think of My Badges as a fun twist on GitHub's achievements. We've added a dash of humor and variety, bringing you badges
+that are quirky and different!
+
+🔧 **Integration is Easy!**
+You can effortlessly integrate My Badges into your GitHub profile. With our automatic updating action, your badges stay
+fresh. Whenever you unlock a new badge or the community adds a fresh one, it updates in real-time.
+
+👀 **Curious to see them in action?**
+Check out how these badges sparkle on [my profile](https://github.com/antonmedv).
 
 ## List of badges
 
