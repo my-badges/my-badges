@@ -14,7 +14,8 @@ import { updateBadges } from './update-badges.js'
 void (async function main() {
   const { env } = process
   const argv = minimist(process.argv.slice(2), {
-    string: ['data', 'repo', 'token', 'size', 'user', 'dryrun'],
+    string: ['data', 'repo', 'token', 'size', 'user'],
+    boolean: ['dryrun'],
   })
   const {
     token = env.GITHUB_TOKEN,

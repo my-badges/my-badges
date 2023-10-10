@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises'
+import path from 'node:path'
 import { Octokit } from 'octokit'
 import { Commit, Pull } from './collect/collect.js'
 
@@ -29,13 +30,19 @@ export const upload = async (
   octokit: Octokit,
   route: Parameters<Octokit['request']>[0],
   data: Parameters<Octokit['request']>[1],
-  dryrun?: string,
+  dryrun?: boolean,
 ) => {
   if (dryrun) {
     console.log(`Skipped pushing ${data?.path} (dryrun)`)
-    return fs.writeFile(data?.path as string, data?.content as string)
+    const filepath = path.join(process.cwd(), data?.path as string)
+
+    await fs.mkdir(path.dirname(filepath), { recursive: true })
+    await fs.writeFile(filepath, data?.content as string)
   }
 
   console.log(`Uploading ${data?.path}`)
-  return octokit.request(route, data)
+  return octokit.request(route, {
+    ...data,
+    content: Buffer.from(data?.content as string, 'utf8').toString('base64'),
+  })
 }
