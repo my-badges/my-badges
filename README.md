@@ -1,8 +1,6 @@
-<img src=".github/my-badges.png" alt="My Badges" width="170" align="right">
+<h1><img src=".github/logo.png" alt="My Badges" height="40" align="center"> My Badges</h1>
 
-# My Badges
-
-🎖 **Welcome to My Badges!**
+**Welcome to My Badges!**
 
 Think of My Badges as a fun twist on GitHub's achievements. We've added a dash of humor and variety, bringing you badges
 that are quirky and different!
@@ -128,7 +126,7 @@ This command will collect your data and save it to `data/your-username.json` fil
 You can skip recollecting the data with `--data` flag.
 
 ```sh
-node dist/main.js your-username --data data/your-username.json
+node dist/main.js --data data/your-username.json
 ```
 
 ### How to create a badge image?

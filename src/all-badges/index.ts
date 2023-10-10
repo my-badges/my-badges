@@ -5,7 +5,7 @@ export const allBadges = [
   await import('./yeti/yeti.js'),
   await import('./star-gazer/star-gazer.js'),
   await import('./dead-commit/dead-commit.js'),
-  await import('./fuck-commit/fuck-commit.js'),
+  await import('./bad-words/bad-words.js'),
   await import('./mass-delete-commit/mass-delete-commit.js'),
   await import('./revert-revert-commit/revert-revert-commit.js'),
   await import('./my-badges-contributor/my-badges-contributor.js'),
