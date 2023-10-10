@@ -7,6 +7,7 @@ export async function updateReadme(
   owner: string,
   repo: string,
   badges: Badge[],
+  size: number | string = 64,
 ) {
   console.log('Loading README.md')
   const readme = await octokit.request<'readme'>(
@@ -32,7 +33,8 @@ export async function updateReadme(
     const badgesHtml = badges
       .map((badge) => {
         const desc = quoteAttr(badge.desc)
-        return `<a href="my-badges/${badge.id}.md"><img src="${badge.image}" alt="${desc}" title="${desc}" width="64"></a>`
+        // prettier-ignore
+        return `<a href="my-badges/${badge.id}.md"><img src="${badge.image}" alt="${desc}" title="${desc}" width="${parseInt(size + '')}"></a>`
       })
       .join('\n')
 

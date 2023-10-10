@@ -91,6 +91,15 @@ jobs:
 
 - Start **my-badges** workflow, or wait for it to run automatically.
 
+## Configuration
+| Param   | ENV alias      | Description                                                                                | Default |
+|---------|----------------|--------------------------------------------------------------------------------------------|---------|
+| `token` | `GITHUB_TOKEN` | Auth token                                                                                 |         |
+| `user`  | `GITHUB_USER`  | Username                                                                                   |         |
+| `repo`  | `GITHUB_REPO`  | Repository name                                                                            |         |
+| `data`  |                | Path to JSON to generate badges. If empty, required data will be obtained from the GH API  |         |
+| `size`  |                | Badge size for README.md, px                                                               | 64      |
+
 ## Contributing badges
 
 If you want to contribute a badge:
