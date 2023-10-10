@@ -36,7 +36,7 @@ Check out how these badges sparkle on [my profile](https://github.com/antonmedv)
 <img src="src/all-badges/yeti/yeti.png" alt="yeti" width="64">
 <img src="src/all-badges/star-gazer/star-gazer.png" alt="star-gazer" width="64">
 <img src="src/all-badges/dead-commit/dead-commit.png" alt="dead-commit" width="64">
-<img src="src/all-badges/fuck-commit/fuck-commit.png" alt="fuck-commit" width="64">
+<img src="src/all-badges/bad-words/bad-words.png" alt="bad-words" width="64">
 <img src="src/all-badges/mass-delete-commit/mass-delete-commit.png" alt="mass-delete-commit" width="64">
 <img src="src/all-badges/mass-delete-commit/mass-delete-commit-10k.png" alt="mass-delete-commit-10k" width="64">
 <img src="src/all-badges/revert-revert-commit/revert-revert-commit.png" alt="revert-revert-commit" width="64">
@@ -47,6 +47,7 @@ Check out how these badges sparkle on [my profile](https://github.com/antonmedv)
 <img src="src/all-badges/fix-commit/fix-5.png" alt="fix-5" width="64">
 <img src="src/all-badges/fix-commit/fix-6.png" alt="fix-6" width="64">
 <img src="src/all-badges/fix-commit/fix-6+.png" alt="fix-6+" width="64">
+<img src="src/all-badges/chore-commit/chore-commit.png" alt="chore-commit" width="64">
 </p>
 
 But we are planning on adding much more. **Add your own badges too**!
