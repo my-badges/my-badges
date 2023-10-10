@@ -9,7 +9,7 @@ export async function updateBadges(
   badges: Badge[],
   oldJson: string | undefined,
   jsonSha: string | undefined,
-  dryrun: string | undefined,
+  dryrun: boolean,
 ) {
   const myBadgesPath = 'my-badges/my-badges.json'
 
@@ -29,7 +29,7 @@ export async function updateBadges(
           name: 'My Badges',
           email: 'my-badges@github.com',
         },
-        content: Buffer.from(newJson, 'utf8').toString('base64'),
+        content: newJson,
         sha: jsonSha,
       },
       dryrun,
@@ -82,7 +82,7 @@ export async function updateBadges(
           name: 'My Badges',
           email: 'my-badges@github.com',
         },
-        content: Buffer.from(content, 'utf8').toString('base64'),
+        content,
         sha: sha,
       },
       dryrun,

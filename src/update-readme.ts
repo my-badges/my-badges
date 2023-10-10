@@ -8,7 +8,7 @@ export async function updateReadme(
   repo: string,
   badges: Badge[],
   size: number | string = 64,
-  dryrun: string | undefined,
+  dryrun: boolean,
 ) {
   console.log('Loading README.md')
   const readme = await octokit.request<'readme'>(
@@ -61,7 +61,7 @@ export async function updateReadme(
         name: 'My Badges',
         email: 'my-badges@github.com',
       },
-      content: Buffer.from(content, 'utf8').toString('base64'),
+      content,
       sha: readme.data.sha,
     },
     dryrun,
