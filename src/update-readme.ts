@@ -1,6 +1,6 @@
 import { Octokit } from 'octokit'
 import { Badge } from './badges.js'
-import { quoteAttr } from './utils.js'
+import { quoteAttr, upload } from './utils.js'
 
 export async function updateReadme(
   octokit: Octokit,
@@ -8,6 +8,7 @@ export async function updateReadme(
   repo: string,
   badges: Badge[],
   size: number | string = 64,
+  dryrun: string | undefined,
 ) {
   console.log('Loading README.md')
   const readme = await octokit.request<'readme'>(
@@ -48,17 +49,21 @@ export async function updateReadme(
       content.slice(start)
   }
 
-  console.log('Updating README.md')
-  await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
-    owner,
-    repo,
-    path: readme.data.path,
-    message: 'Update my-badges',
-    committer: {
-      name: 'My Badges',
-      email: 'my-badges@github.com',
+  await upload(
+    octokit,
+    'PUT /repos/{owner}/{repo}/contents/{path}',
+    {
+      owner,
+      repo,
+      path: readme.data.path,
+      message: 'Update my-badges',
+      committer: {
+        name: 'My Badges',
+        email: 'my-badges@github.com',
+      },
+      content: Buffer.from(content, 'utf8').toString('base64'),
+      sha: readme.data.sha,
     },
-    content: Buffer.from(content, 'utf8').toString('base64'),
-    sha: readme.data.sha,
-  })
+    dryrun,
+  )
 }

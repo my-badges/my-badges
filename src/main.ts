@@ -14,7 +14,7 @@ import { updateBadges } from './update-badges.js'
 void (async function main() {
   const { env } = process
   const argv = minimist(process.argv.slice(2), {
-    string: ['data', 'repo', 'token', 'size', 'user'],
+    string: ['data', 'repo', 'token', 'size', 'user', 'dryrun'],
   })
   const {
     token = env.GITHUB_TOKEN,
@@ -22,6 +22,7 @@ void (async function main() {
     user: username = argv._[0] || env.GITHUB_USER,
     data: dataPath = '',
     size,
+    dryrun,
   } = argv
   const [owner, repo] = repository?.split('/', 2) || []
 
@@ -100,7 +101,7 @@ void (async function main() {
   console.log('Badges', badges)
 
   if (owner && repo) {
-    await updateBadges(octokit, owner, repo, badges, oldJson, jsonSha)
-    await updateReadme(octokit, owner, repo, badges, size)
+    await updateBadges(octokit, owner, repo, badges, oldJson, jsonSha, dryrun)
+    await updateReadme(octokit, owner, repo, badges, size, dryrun)
   }
 })()
