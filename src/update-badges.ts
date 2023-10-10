@@ -1,6 +1,6 @@
 import { Octokit, RequestError } from 'octokit'
 import { Badge } from './badges.js'
-import { quoteAttr } from './utils.js'
+import { quoteAttr, upload } from './utils.js'
 
 export async function updateBadges(
   octokit: Octokit,
@@ -9,6 +9,7 @@ export async function updateBadges(
   badges: Badge[],
   oldJson: string | undefined,
   jsonSha: string | undefined,
+  dryrun: string | undefined,
 ) {
   const myBadgesPath = 'my-badges/my-badges.json'
 
@@ -16,19 +17,23 @@ export async function updateBadges(
   if (newJson == oldJson) {
     console.log('No change in my-badges.json')
   } else {
-    console.log('Updating my-badges.json')
-    await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
-      owner,
-      repo,
-      path: myBadgesPath,
-      message: 'Update my-badges',
-      committer: {
-        name: 'My Badges',
-        email: 'my-badges@github.com',
+    await upload(
+      octokit,
+      'PUT /repos/{owner}/{repo}/contents/{path}',
+      {
+        owner,
+        repo,
+        path: myBadgesPath,
+        message: 'Update my-badges',
+        committer: {
+          name: 'My Badges',
+          email: 'my-badges@github.com',
+        },
+        content: Buffer.from(newJson, 'utf8').toString('base64'),
+        sha: jsonSha,
       },
-      content: Buffer.from(newJson, 'utf8').toString('base64'),
-      sha: jsonSha,
-    })
+      dryrun,
+    )
   }
 
   for (const badge of badges) {
@@ -65,18 +70,22 @@ export async function updateBadges(
       continue
     }
 
-    console.log(`Uploading ${badgePath}`)
-    await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
-      owner,
-      repo,
-      path: badgePath,
-      message: sha ? `Update ${badge.id}.md` : `Add ${badge.id}.md`,
-      committer: {
-        name: 'My Badges',
-        email: 'my-badges@github.com',
+    await upload(
+      octokit,
+      'PUT /repos/{owner}/{repo}/contents/{path}',
+      {
+        owner,
+        repo,
+        path: badgePath,
+        message: sha ? `Update ${badge.id}.md` : `Add ${badge.id}.md`,
+        committer: {
+          name: 'My Badges',
+          email: 'my-badges@github.com',
+        },
+        content: Buffer.from(content, 'utf8').toString('base64'),
+        sha: sha,
       },
-      content: Buffer.from(content, 'utf8').toString('base64'),
-      sha: sha,
-    })
+      dryrun,
+    )
   }
 }

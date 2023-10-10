@@ -1,3 +1,5 @@
+import fs from 'node:fs/promises'
+import { Octokit } from 'octokit'
 import { Commit, Pull } from './collect/collect.js'
 
 export function linkCommit(commit: Commit): string {
@@ -22,3 +24,18 @@ export function quoteAttr(s: string) {
 }
 
 export const expectType = <T>(expression: T) => void 0
+
+export const upload = async (
+  octokit: Octokit,
+  route: Parameters<Octokit['request']>[0],
+  data: Parameters<Octokit['request']>[1],
+  dryrun?: string,
+) => {
+  if (dryrun) {
+    console.log(`Skipped pushing ${data?.path} (dryrun)`)
+    return fs.writeFile(data?.path as string, data?.content as string)
+  }
+
+  console.log(`Uploading ${data?.path}`)
+  return octokit.request(route, data)
+}
