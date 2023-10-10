@@ -9,7 +9,7 @@ export default new (class implements BadgePresenter {
         if (/^chore\b/.test(commit.message)) {
           grant(
             'chore-commit',
-            'I did a little housekeeping! 🧹'
+            'I did a little housekeeping! 🧹',
           ).evidenceCommitsWithMessage(commit)
           return
         }
