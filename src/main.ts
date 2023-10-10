@@ -12,15 +12,18 @@ import { updateReadme } from './update-readme.js'
 import { updateBadges } from './update-badges.js'
 
 void (async function main() {
+  const { env } = process
   const argv = minimist(process.argv.slice(2), {
-    string: ['data', 'repo', 'token'],
+    string: ['data', 'repo', 'token', 'size', 'user'],
   })
-  const { GITHUB_TOKEN, GITHUB_USER, GITHUB_REPO } = process.env
-  const [username = GITHUB_USER] = argv._
-  const [owner, repo]: [string?, string?] =
-    (argv.repo || GITHUB_REPO)?.split('/', 2) || []
-  const dataPath: string = argv.data ?? ''
-  const token = argv.token || GITHUB_TOKEN
+  const {
+    token = env.GITHUB_TOKEN,
+    repo: repository = env.GITHUB_REPO,
+    user: username = argv._[0] || env.GITHUB_USER,
+    data: dataPath = '',
+    size,
+  } = argv
+  const [owner, repo] = repository?.split('/', 2) || []
 
   const MyOctokit = Octokit.plugin(retry, throttling)
   const octokit = new MyOctokit({
@@ -98,6 +101,6 @@ void (async function main() {
 
   if (owner && repo) {
     await updateBadges(octokit, owner, repo, badges, oldJson, jsonSha)
-    await updateReadme(octokit, owner, repo, badges)
+    await updateReadme(octokit, owner, repo, badges, size)
   }
 })()
