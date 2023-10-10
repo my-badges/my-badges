@@ -8,8 +8,10 @@ export default new (class implements BadgePresenter {
       for (const commit of repo.commits) {
         const data = new Date(commit.committedDate)
         if (data.getMonth() === 10 && data.getDate() === 5) {
-          grant('delorean', 'I committed on the day Doctor Emmett Brown invented the flux capacitor!')
-            .evidenceCommits(commit)
+          grant(
+            'delorean',
+            'I committed on the day Doctor Emmett Brown invented the flux capacitor!',
+          ).evidenceCommits(commit)
           return
         }
       }
