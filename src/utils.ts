@@ -38,6 +38,8 @@ export const upload = async (
 
     await fs.mkdir(path.dirname(filepath), { recursive: true })
     await fs.writeFile(filepath, data?.content as string)
+
+    return
   }
 
   console.log(`Uploading ${data?.path}`)

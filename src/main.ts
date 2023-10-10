@@ -25,7 +25,7 @@ void (async function main() {
     size,
     dryrun,
   } = argv
-  const [owner, repo] = repository?.split('/', 2) || []
+  const [owner, repo] = repository?.split('/', 2) || [username, username]
 
   const MyOctokit = Octokit.plugin(retry, throttling)
   const octokit = new MyOctokit({
