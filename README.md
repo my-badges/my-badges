@@ -48,6 +48,7 @@ Check out how these badges sparkle on [my profile](https://github.com/antonmedv)
 <img src="src/all-badges/fix-commit/fix-6.png" alt="fix-6" width="64">
 <img src="src/all-badges/fix-commit/fix-6+.png" alt="fix-6+" width="64">
 <img src="src/all-badges/chore-commit/chore-commit.png" alt="chore-commit" width="64">
+<img src="src/all-badges/delorean/delorean.png" alt="delorean" width="64">
 </p>
 
 But we are planning on adding much more. **Add your own badges too**!
