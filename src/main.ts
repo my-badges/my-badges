@@ -15,9 +15,10 @@ void (async function main() {
   const argv = minimist(process.argv.slice(2), {
     string: ['data', 'repo', 'token'],
   })
-  const {GITHUB_TOKEN, GITHUB_USER, GITHUB_REPO} = process.env
+  const { GITHUB_TOKEN, GITHUB_USER, GITHUB_REPO } = process.env
   const [username = GITHUB_USER] = argv._
-  const [owner, repo]: [string?, string?] = (argv.repo || GITHUB_REPO)?.split('/', 2) || []
+  const [owner, repo]: [string?, string?] =
+    (argv.repo || GITHUB_REPO)?.split('/', 2) || []
   const dataPath: string = argv.data ?? ''
   const token = argv.token || GITHUB_TOKEN
 

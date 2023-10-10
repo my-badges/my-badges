@@ -4,7 +4,7 @@ import { linkCommit } from '../../utils.js'
 
 export default new (class implements BadgePresenter {
   url = new URL(import.meta.url)
-  badges = ['fuck-commit'] as const
+  badges = ['bad-words'] as const
   present: Present = (data, grant) => {
     const commits: Commit[] = []
 
@@ -18,9 +18,9 @@ export default new (class implements BadgePresenter {
 
     if (commits.length > 0) {
       grant(
-        'fuck-commit',
+        'bad-words',
         'I used a word "fuck" in my commit message.',
-      ).evidenceCommits(...commits)
+      ).evidenceCommitsWithMessage(...commits)
     }
   }
 })()
