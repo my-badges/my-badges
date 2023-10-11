@@ -2,6 +2,7 @@ export const allBadges = [
   await import('./abc-commit/abc-commit.js'),
   await import('./stars/stars.js'),
   await import('./time-of-commit/time-of-commit.js'),
+  await import('./github-anniversary/github-anniversary.js'),
   await import('./yeti/yeti.js'),
   await import('./star-gazer/star-gazer.js'),
   await import('./dead-commit/dead-commit.js'),
