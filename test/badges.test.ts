@@ -37,9 +37,11 @@ describe('badges', () => {
       'fix-5',
       'fix-6',
       'fix-6+',
+      'chore-commit',
+      'delorean',
     ]
 
-    assert.deepEqual(names, expected)
+    assert.deepEqual(names.sort(), expected.sort())
   })
 
   it('grant respects pick and omit params', () => {

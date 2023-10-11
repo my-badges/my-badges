@@ -14,7 +14,7 @@
     "build": "npm run copy-files && npm run tsc",
     "copy-files": "copyfiles -u 1 src/**/*.graphql dist/",
     "check-images": "node dist/check-images.js",
-    "test": "test:unit",
+    "test": "npm run test:unit",
     "test:unit": "c8 -r lcov -r text -o coverage -x scripts -x test node --loader ts-node/esm --experimental-specifier-resolution=node scripts/test.mjs",
     "release": "release-it"
   },
