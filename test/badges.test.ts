@@ -39,6 +39,7 @@ describe('badges', () => {
       'fix-6+',
       'chore-commit',
       'delorean',
+      'covid-19',
     ]
 
     assert.deepEqual(names.sort(), expected.sort())
