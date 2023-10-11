@@ -6,7 +6,7 @@ import { Octokit, RequestError } from 'octokit'
 import { retry } from '@octokit/plugin-retry'
 import { throttling } from '@octokit/plugin-throttling'
 import { collect, Data } from './collect/collect.js'
-import { allBadges } from './all-badges/index.js'
+import { allBadges, names } from './all-badges/index.js'
 import { Badge, badgeCollection } from './badges.js'
 import { updateReadme } from './update-readme.js'
 import { updateBadges } from './update-badges.js'
@@ -14,7 +14,7 @@ import { updateBadges } from './update-badges.js'
 void (async function main() {
   const { env } = process
   const argv = minimist(process.argv.slice(2), {
-    string: ['data', 'repo', 'token', 'size', 'user'],
+    string: ['data', 'repo', 'token', 'size', 'user', 'pick', 'omit'],
     boolean: ['dryrun'],
   })
   const {
@@ -24,8 +24,12 @@ void (async function main() {
     data: dataPath = '',
     size,
     dryrun,
+    pick,
+    omit,
   } = argv
   const [owner, repo] = repository?.split('/', 2) || [username, username]
+  const pickBadges = pick ? pick.split(',') : names
+  const omitBadges = omit ? omit.split(',') : []
 
   const MyOctokit = Octokit.plugin(retry, throttling)
   const octokit = new MyOctokit({
@@ -96,7 +100,7 @@ void (async function main() {
   }
 
   for (const { default: presenter } of allBadges) {
-    const grant = badgeCollection(badges, presenter.url)
+    const grant = badgeCollection(badges, presenter.url, pickBadges, omitBadges)
     presenter.present(data, grant)
   }
   console.log('Badges', badges)

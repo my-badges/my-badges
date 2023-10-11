@@ -29,11 +29,30 @@ export type Badge = {
   image: string
 }
 
-export function badgeCollection(badges: Badge[], baseUrl: URL) {
+const voidGrant = {
+  evidence() {},
+  evidenceCommits() {},
+  evidenceCommitsWithMessage() {},
+  evidencePRs() {},
+}
+
+export function badgeCollection(
+  badges: Badge[],
+  baseUrl: URL,
+  pickBadges: string[],
+  omitBadges: string[],
+) {
   const indexes = new Map(badges.map((x, i) => [x.id, i]))
   const baseDir = path.basename(path.dirname(fileURLToPath(baseUrl)))
 
   return function grant(id: ID, desc: string) {
+    if (!pickBadges.includes(id) || omitBadges.includes(id)) {
+      if (indexes.has(id)) {
+        badges.splice(indexes.get(id)!, 1)
+      }
+      return voidGrant
+    }
+
     const badge: Badge = {
       id,
       desc,
