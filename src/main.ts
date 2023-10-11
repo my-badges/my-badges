@@ -6,7 +6,7 @@ import { Octokit, RequestError } from 'octokit'
 import { retry } from '@octokit/plugin-retry'
 import { throttling } from '@octokit/plugin-throttling'
 import { collect, Data } from './collect/collect.js'
-import { allBadges, names } from './all-badges/index.js'
+import { allBadges } from './all-badges/index.js'
 import { Badge, badgeCollection } from './badges.js'
 import { updateReadme } from './update-readme.js'
 import { updateBadges } from './update-badges.js'
@@ -29,7 +29,7 @@ void (async function main() {
     compact,
   } = argv
   const [owner, repo] = repository?.split('/', 2) || [username, username]
-  const pickBadges = pick ? pick.split(',') : names
+  const pickBadges = pick ? pick.split(',') : []
   const omitBadges = omit ? omit.split(',') : []
 
   const MyOctokit = Octokit.plugin(retry, throttling)
@@ -104,13 +104,18 @@ void (async function main() {
     const grant = badgeCollection(
       userBadges,
       presenter,
-      pickBadges,
-      omitBadges,
       compact,
     )
     presenter.present(data, grant)
   }
   console.log('Badges', userBadges)
+
+  if (pickBadges.length > 0) {
+    userBadges = userBadges.filter((x) => pickBadges.includes(x.id))
+  }
+  if (omitBadges.length > 0) {
+    userBadges = userBadges.filter((x) => !omitBadges.includes(x.id))
+  }
 
   if (owner && repo) {
     await updateBadges(

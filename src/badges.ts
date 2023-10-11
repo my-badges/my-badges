@@ -34,21 +34,12 @@ export type Badge = {
 export function badgeCollection(
   userBadges: Badge[],
   presenter: (typeof allBadges)[number]['default'],
-  pickBadges: string[],
-  omitBadges: string[],
   compact: boolean,
 ) {
   const indexes = new Map(userBadges.map((x, i) => [x.id, i]))
   const baseDir = path.basename(path.dirname(fileURLToPath(presenter.url)))
 
   return function grant(id: ID, desc: string) {
-    // if (!pickBadges.includes(id) || omitBadges.includes(id)) {
-    //   if (indexes.has(id)) {
-    //     badges.splice(indexes.get(id)!, 1)
-    //   }
-    //   return voidGrant
-    // }
-
     const badge: Badge = {
       id,
       tier: 0,

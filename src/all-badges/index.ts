@@ -15,5 +15,3 @@ export const allBadges = [
   await import('./delorean/delorean.js'),
   await import('./covid-19/covid-19.js'),
 ] as const
-
-export const names = allBadges.flatMap(({ default: { badges } }) => badges)

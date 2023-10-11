@@ -9,9 +9,8 @@ describe('stars', () => {
     const badges: Badge[] = []
     const grant = badgeCollection(
       badges,
-      starsPresenter.url,
-      [...starsPresenter.badges],
-      [],
+      starsPresenter,
+      true,
     )
     const data: Data = {
       user: {} as Data['user'],
