@@ -3,8 +3,8 @@ name: Release
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: ['test']
-    branches: ['master']
+    workflows: [ 'test' ]
+    branches: [ 'master' ]
     types:
       - completed
 
@@ -19,16 +19,29 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: master
+
       - name: Configure git
         run: |
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-      - run: npm install
-      - run: npm run build
+
+      - name: Bump version
+        run: |
+          npm version patch
+          git push       
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
       - name: Release
         run: |
           npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
-          npm run release -- patch
+          npm publish
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

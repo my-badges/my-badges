@@ -29,21 +29,11 @@
     "@types/node": "^20.8.0",
     "copyfiles": "^2.4.1",
     "prettier": "^3.0.3",
-    "release-it": "^16.2.1",
     "typescript": "^5.2.2"
   },
   "files": [
     "dist"
   ],
-  "release-it": {
-    "git": {
-      "requireCleanWorkingDir": false,
-      "tag": false
-    },
-    "github": {
-      "release": false
-    }
-  },
   "prettier": {
     "semi": false,
     "singleQuote": true,
