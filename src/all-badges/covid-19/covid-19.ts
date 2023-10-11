@@ -6,7 +6,10 @@ export default new (class implements BadgePresenter {
   present: Present = (data, grant) => {
     const date = new Date(data.user.createdAt)
     if (date.getFullYear() < 2020) {
-      grant('covid-19', 'I rolled before Covid-19: Survivor of the Great TP Shortage')
+      grant(
+        'covid-19',
+        'I rolled before Covid-19: Survivor of the Great TP Shortage',
+      )
     }
   }
 })()
