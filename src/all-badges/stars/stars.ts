@@ -3,39 +3,43 @@ import { BadgePresenter, Present } from '../../badges.js'
 export default new (class implements BadgePresenter {
   url = new URL(import.meta.url)
   badges = [
-    'stars-100',
-    'stars-500',
-    'stars-1000',
-    'stars-2000',
-    'stars-5000',
-    'stars-10000',
     'stars-20000',
+    'stars-10000',
+    'stars-5000',
+    'stars-2000',
+    'stars-1000',
+    'stars-500',
+    'stars-100',
   ] as const
+  tiers = true
   present: Present = (data, grant) => {
     let totalStars = 0
-    for (const repo of data.repos) {
-      totalStars += repo.stargazers_count || 0
-    }
-    if (totalStars >= 100) {
-      grant('stars-100', `I collected 100 stars.`)
-    }
-    if (totalStars >= 500) {
-      grant('stars-500', 'I collected 500 stars.')
-    }
-    if (totalStars >= 1000) {
-      grant('stars-1000', 'I collected 1000 stars.')
-    }
-    if (totalStars >= 2000) {
-      grant('stars-2000', 'I collected 2000 stars.')
-    }
-    if (totalStars >= 5000) {
-      grant('stars-5000', 'I collected 5000 stars.')
-    }
-    if (totalStars >= 10000) {
-      grant('stars-10000', 'I collected 10000 stars.')
-    }
-    if (totalStars >= 20000) {
-      grant('stars-20000', 'I collected 20000 stars.')
-    }
+
+    const sorted = data.repos.sort(
+      ({ stargazers_count: a = 0 }, { stargazers_count: b = 0 }) => b - a,
+    )
+    const reasonable = sorted
+      .map((repo) => {
+        if (!repo.stargazers_count) {
+          return
+        }
+        totalStars += repo.stargazers_count
+
+        return `* <a href="https://github.com/${repo.owner.login}/${repo.name}     <i>${repo.stargazers_count}</i></a>`
+      })
+      .filter(Boolean)
+
+    const text = `Repos:
+${reasonable.join('\n')}
+
+<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>
+`
+
+    this.badges.forEach((badge) => {
+      const limit = +badge.slice(6)
+      if (totalStars >= limit) {
+        grant(badge, `I collected ${limit} stars.`).evidence(text)
+      }
+    })
   }
 })()

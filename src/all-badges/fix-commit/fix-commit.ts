@@ -11,6 +11,7 @@ export default new (class implements BadgePresenter {
     'fix-6',
     'fix-6+', // For more than 6
   ] as const
+  tiers = true
   present: Present = (data, grant) => {
     for (const repo of data.repos) {
       const sequences: Commit[][] = []

@@ -15,6 +15,7 @@ export type ID = (typeof allBadges)[number]['default']['badges'][number]
 export interface BadgePresenter {
   url: URL
   badges: unknown
+  tiers?: boolean
   present: Present
 }
 

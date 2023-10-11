@@ -1,37 +1,36 @@
 import { Octokit } from 'octokit'
 import { Badge } from './badges.js'
 import { quoteAttr, upload } from './utils.js'
+import { allBadges } from './all-badges/index.js'
 
-export async function updateReadme(
-  octokit: Octokit,
-  owner: string,
-  repo: string,
+export function generateReadme(
+  readme: string,
   badges: Badge[],
   size: number | string = 64,
-  dryrun: boolean,
+  tiers: boolean,
 ) {
-  console.log('Loading README.md')
-  const readme = await octokit.request<'readme'>(
-    'GET /repos/{owner}/{repo}/readme',
-    {
-      owner,
-      repo,
-    },
-  )
-
   const startString = '<!-- my-badges start -->'
   const endString = '<!-- my-badges end -->'
 
-  let content = Buffer.from(readme.data.content, 'base64').toString('utf8')
+  let content = readme
 
   const start = content.indexOf(startString)
   const end = content.indexOf(endString)
   const needToAddNewLine = content[end + endString.length + 1] !== '\n'
+  const highestBadges = allBadges.flatMap(({ default: { badges: _badges , tiers: _tiers} }) =>
+    _tiers
+      ? _badges.find((badge) => badges.some(({ id }) => id === badge))
+      : _badges,
+  )
+  const filter = tiers
+    ? ({ id }: Badge) => highestBadges.includes(id)
+    : () => true
 
   if (start !== -1 && end !== -1) {
     content = content.slice(0, start) + content.slice(end + endString.length)
 
     const badgesHtml = badges
+      .filter(filter)
       .map((badge) => {
         const desc = quoteAttr(badge.desc)
         // prettier-ignore
@@ -48,6 +47,32 @@ export async function updateReadme(
       (needToAddNewLine ? '\n' : '') +
       content.slice(start)
   }
+
+  return content
+}
+
+export async function updateReadme(
+  octokit: Octokit,
+  owner: string,
+  repo: string,
+  badges: Badge[],
+  size: number | string,
+  dryrun: boolean,
+  tiers: boolean,
+) {
+  const readme = await octokit.request<'readme'>(
+    'GET /repos/{owner}/{repo}/readme',
+    {
+      owner,
+      repo,
+    },
+  )
+  const content = await generateReadme(
+    Buffer.from(readme.data.content, 'base64').toString('utf8'),
+    badges,
+    size,
+    tiers,
+  )
 
   await upload(
     octokit,

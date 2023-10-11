@@ -39,6 +39,7 @@ describe('badges', () => {
       'fix-6+',
       'chore-commit',
       'delorean',
+      'covid-19',
     ]
 
     assert.deepEqual(names.sort(), expected.sort())
@@ -55,18 +56,18 @@ describe('badges', () => {
 
     assert.deepEqual(badges, [
       {
-        id: 'a-commit',
-        desc: 'test',
-        body: '',
-        image:
-          'https://github.com/my-badges/my-badges/blob/master/src/all-badges/abc-commit/a-commit.png?raw=true',
-      },
-      {
         id: 'abcd-commit',
         desc: 'test',
         body: '',
         image:
           'https://github.com/my-badges/my-badges/blob/master/src/all-badges/abc-commit/abcd-commit.png?raw=true',
+      },
+      {
+        id: 'a-commit',
+        desc: 'test',
+        body: '',
+        image:
+          'https://github.com/my-badges/my-badges/blob/master/src/all-badges/abc-commit/a-commit.png?raw=true',
       },
     ])
   })
