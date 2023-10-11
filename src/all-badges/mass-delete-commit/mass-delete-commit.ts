@@ -1,6 +1,6 @@
 import { BadgePresenter, Present } from '../../badges.js'
 
-export default new (class implements BadgePresenter {
+export default new (class extends BadgePresenter {
   url = new URL(import.meta.url)
   badges = ['mass-delete-commit', 'mass-delete-commit-10k'] as const
   present: Present = (data, grant) => {

@@ -1,7 +1,7 @@
 import { BadgePresenter, Present } from '../../badges.js'
 import { Commit, Data, User } from '../../collect/collect.js'
 
-export default new (class implements BadgePresenter {
+export default new (class extends BadgePresenter {
   url = new URL(import.meta.url)
   badges = ['midnight-commits', 'morning-commits', 'evening-commits'] as const
   present: Present = (data, grant) => {

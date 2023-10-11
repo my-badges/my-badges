@@ -12,10 +12,11 @@ for (const {
 
 export type ID = (typeof allBadges)[number]['default']['badges'][number]
 
-export interface BadgePresenter {
-  url: URL
-  badges: unknown
-  present: Present
+export abstract class BadgePresenter {
+  abstract url: URL
+  singleTier = false
+  abstract badges: unknown
+  abstract present: Present
 }
 
 export type Grant = ReturnType<typeof badgeCollection>
@@ -37,18 +38,30 @@ const voidGrant = {
 }
 
 export function badgeCollection(
-  badges: Badge[],
-  baseUrl: URL,
+  userBadges: Badge[],
+  presenter: (typeof allBadges)[number]['default'],
   pickBadges: string[],
   omitBadges: string[],
+  compact: boolean,
 ) {
-  const indexes = new Map(badges.map((x, i) => [x.id, i]))
-  const baseDir = path.basename(path.dirname(fileURLToPath(baseUrl)))
+  const indexes = new Map(userBadges.map((x, i) => [x.id, i]))
+  const baseDir = path.basename(path.dirname(fileURLToPath(presenter.url)))
+
+  if (compact && presenter.singleTier) {
+    for (const badge of presenter.badges) {
+      for (let i = 0; i < userBadges.length; i++) {
+        if (userBadges[i].id === badge) {
+          userBadges.splice(i, 1)
+          break
+        }
+      }
+    }
+  }
 
   return function grant(id: ID, desc: string) {
     if (!pickBadges.includes(id) || omitBadges.includes(id)) {
       if (indexes.has(id)) {
-        badges.splice(indexes.get(id)!, 1)
+        userBadges.splice(indexes.get(id)!, 1)
       }
       return voidGrant
     }
@@ -61,10 +74,10 @@ export function badgeCollection(
     }
 
     if (!indexes.has(id)) {
-      badges.push(badge)
-      indexes.set(id, badges.length - 1)
+      userBadges.push(badge)
+      indexes.set(id, userBadges.length - 1)
     } else {
-      badges[indexes.get(id)!] = badge
+      userBadges[indexes.get(id)!] = badge
     }
 
     return {

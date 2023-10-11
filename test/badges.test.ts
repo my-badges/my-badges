@@ -49,7 +49,13 @@ describe('badges', () => {
     const presenter = abcPresenter
     const pickBadges = ['a-commit', 'ab-commit', 'abc-commit', 'abcd-commit']
     const omitBadges = ['ab-commit', 'abc-commit']
-    const grant = badgeCollection(badges, presenter.url, pickBadges, omitBadges)
+    const grant = badgeCollection(
+      badges,
+      presenter.url,
+      pickBadges,
+      omitBadges,
+      compact,
+    )
 
     abcPresenter.badges.forEach((badge) => grant(badge, 'test'))
 

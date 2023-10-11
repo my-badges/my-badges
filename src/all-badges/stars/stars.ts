@@ -1,6 +1,6 @@
 import { BadgePresenter, Present } from '../../badges.js'
 
-export default new (class implements BadgePresenter {
+export default new (class extends BadgePresenter {
   url = new URL(import.meta.url)
   badges = [
     'stars-100',
