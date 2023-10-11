@@ -39,7 +39,10 @@
     "singleQuote": true,
     "endOfLine": "lf"
   },
-  "repository": "my-badges/my-badges",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/my-badges/my-badges.git"
+  },
   "author": "Anton Medvedev <anton@medv.io>",
   "license": "MIT"
 }
