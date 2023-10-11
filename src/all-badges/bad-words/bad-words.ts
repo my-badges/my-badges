@@ -2,7 +2,7 @@ import { Commit, Repo } from '../../collect/collect.js'
 import { Present, BadgePresenter } from '../../badges.js'
 import { linkCommit } from '../../utils.js'
 
-export default new (class extends BadgePresenter {
+export default new (class implements BadgePresenter {
   url = new URL(import.meta.url)
   badges = ['bad-words'] as const
   present: Present = (data, grant) => {

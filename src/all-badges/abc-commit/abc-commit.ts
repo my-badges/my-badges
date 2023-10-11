@@ -1,7 +1,7 @@
 import { Commit, Repo } from '../../collect/collect.js'
 import { BadgePresenter, ID, Present } from '../../badges.js'
 
-export default new (class extends BadgePresenter {
+export default new (class implements BadgePresenter {
   url = new URL(import.meta.url)
   tiers = true
   badges = [

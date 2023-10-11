@@ -1,7 +1,7 @@
 import { Commit } from '../../collect/collect.js'
 import { BadgePresenter, Present } from '../../badges.js'
 
-export default new (class extends BadgePresenter {
+export default new (class implements BadgePresenter {
   url = new URL(import.meta.url)
   badges = ['revert-revert-commit'] as const
   present: Present = (data, grant) => {

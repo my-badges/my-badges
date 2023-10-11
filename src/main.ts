@@ -108,7 +108,6 @@ void (async function main() {
     )
     presenter.present(data, grant)
   }
-  console.log('Badges', userBadges)
 
   if (pickBadges.length > 0) {
     userBadges = userBadges.filter((x) => pickBadges.includes(x.id))
@@ -116,6 +115,8 @@ void (async function main() {
   if (omitBadges.length > 0) {
     userBadges = userBadges.filter((x) => !omitBadges.includes(x.id))
   }
+
+  console.log(JSON.stringify(userBadges, null, 2))
 
   if (owner && repo) {
     await updateBadges(

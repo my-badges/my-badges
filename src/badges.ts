@@ -1,5 +1,5 @@
 import { allBadges } from './all-badges/index.js'
-import { Data, Commit, Pull } from './collect/collect.js'
+import { Commit, Data, Pull } from './collect/collect.js'
 import { expectType, linkCommit, linkPull } from './utils.js'
 import { fileURLToPath } from 'url'
 import * as path from 'path'
@@ -12,11 +12,11 @@ for (const {
 
 export type ID = (typeof allBadges)[number]['default']['badges'][number]
 
-export abstract class BadgePresenter {
-  abstract url: URL
-  tiers = false
-  abstract badges: unknown
-  abstract present: Present
+export interface BadgePresenter {
+  url: URL
+  tiers?: boolean
+  badges: unknown
+  present: Present
 }
 
 export type Grant = ReturnType<typeof badgeCollection>
@@ -33,7 +33,7 @@ export type Badge = {
 
 export function badgeCollection(
   userBadges: Badge[],
-  presenter: (typeof allBadges)[number]['default'],
+  presenter: BadgePresenter,
   compact: boolean,
 ) {
   const indexes = new Map(userBadges.map((x, i) => [x.id, i]))
@@ -48,15 +48,17 @@ export function badgeCollection(
       image: `https://github.com/my-badges/my-badges/blob/master/src/all-badges/${baseDir}/${id}.png?raw=true`,
     }
 
-    if (compact) {
+    if (compact && presenter.tiers) {
       let found = false
-      for (const badgeId of presenter.badges) {
+      for (const badgeId of presenter.badges as ID[]) {
         if (indexes.has(badgeId)) {
+          found = true
           const index = indexes.get(badgeId)!
           const alreadyExistingBadge = userBadges[index]
-          if (alreadyExistingBadge.tier < badge.tier) {
+          if (alreadyExistingBadge.tier <= badge.tier) {
             userBadges[index] = badge
           }
+          break
         }
       }
       if (!found) {

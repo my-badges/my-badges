@@ -3,7 +3,7 @@ import { Endpoints } from '@octokit/types'
 import { PullsQuery } from './pulls.js'
 import { CommitsQuery } from './commits.js'
 import fs from 'node:fs'
-import { fileURLToPath } from 'url'
+import { fileURLToPath } from 'node:url'
 import { IssuesQuery } from './issues.js'
 import { UserQuery } from './user.js'
 
