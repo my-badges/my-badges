@@ -14,6 +14,24 @@ fresh. Whenever you unlock a new badge or the community adds a fresh one, it upd
 
 Check out how these badges sparkle on [my profile](https://github.com/antonmedv).
 
+🎨 **Want to add your own badges?**
+
+We welcome contributions! If you have an idea for a badge, feel free to add it to the list of ideas below. If you want
+to add your own badge, check out the [contributing guidelines](#contributing-badges).
+
+📚 **How to get badges?**
+
+Here is a few examples of how to get badges:
+
+| Badge                                                                                                             | Description                                |
+|-------------------------------------------------------------------------------------------------------------------|--------------------------------------------|
+| <img src="src/all-badges/abc-commit/a-commit.png" alt="a-commit" width="64">                                      | Make a commit with SHA starting with `a`.  |
+| <img src="src/all-badges/abc-commit/ab-commit.png" alt="ab-commit" width="64">                                    | Make a commit with SHA starting with `ab`. |
+| <img src="src/all-badges/stars/stars-1000.png" alt="stars-1000" width="64">                                       | Collect 1000 stars on your repositories.   |
+| <img src="src/all-badges/star-gazer/star-gazer.png" alt="star-gazer" width="64">                                  | Give 1000 stars to other repositories.     |
+| <img src="src/all-badges/my-badges-contributor/my-badges-contributor.png" alt="my-badges-contributor" width="64"> | Add a badge to my-badges repository.       |
+| And many more...                                                                                                  |                                            |
+
 ## List of badges
 
 <p>
@@ -93,6 +111,7 @@ jobs:
 - Start **my-badges** workflow, or wait for it to run automatically.
 
 ## Configuration
+
 | Param    | ENV alias      | Description                                                                                                                                       | Default       |
 |----------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
 | `token`  | `GITHUB_TOKEN` | Auth token                                                                                                                                        |               |
