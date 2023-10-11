@@ -13,3 +13,5 @@ jobs:
         run: npm run build
       - name: Check all images exist
         run: npm run check-images
+      - name: Run unit tests
+        run: npm run test:unit

@@ -13,3 +13,5 @@ export const allBadges = [
   await import('./chore-commit/chore-commit.js'),
   await import('./delorean/delorean.js'),
 ] as const
+
+export const names = allBadges.flatMap(({ default: { badges } }) => badges)
