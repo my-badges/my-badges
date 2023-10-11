@@ -1,8 +1,9 @@
 import { BadgePresenter, Grant, Present } from '../../badges.js'
 import { Commit } from '../../collect/collect.js'
 
-export default new (class implements BadgePresenter {
+export default new (class extends BadgePresenter {
   url = new URL(import.meta.url)
+  tiers = true
   badges = [
     'fix-2',
     'fix-3',
@@ -11,7 +12,6 @@ export default new (class implements BadgePresenter {
     'fix-6',
     'fix-6+', // For more than 6
   ] as const
-  tiers = true
   present: Present = (data, grant) => {
     for (const repo of data.repos) {
       const sequences: Commit[][] = []
@@ -48,17 +48,29 @@ export default new (class implements BadgePresenter {
         const description = `I did ${count} sequential fixes.`
 
         if (count === 2)
-          grant('fix-2', description).evidenceCommitsWithMessage(...sec)
+          grant('fix-2', description)
+            .evidenceCommitsWithMessage(...sec)
+            .tier(1)
         else if (count === 3)
-          grant('fix-3', description).evidenceCommitsWithMessage(...sec)
+          grant('fix-3', description)
+            .evidenceCommitsWithMessage(...sec)
+            .tier(2)
         else if (count === 4)
-          grant('fix-4', description).evidenceCommitsWithMessage(...sec)
+          grant('fix-4', description)
+            .evidenceCommitsWithMessage(...sec)
+            .tier(3)
         else if (count === 5)
-          grant('fix-5', description).evidenceCommitsWithMessage(...sec)
+          grant('fix-5', description)
+            .evidenceCommitsWithMessage(...sec)
+            .tier(4)
         else if (count === 6)
-          grant('fix-6', description).evidenceCommitsWithMessage(...sec)
+          grant('fix-6', description)
+            .evidenceCommitsWithMessage(...sec)
+            .tier(5)
         else if (count > 6)
-          grant('fix-6+', description).evidenceCommitsWithMessage(...sec)
+          grant('fix-6+', description)
+            .evidenceCommitsWithMessage(...sec)
+            .tier(6)
       }
     }
   }

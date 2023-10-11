@@ -7,7 +7,6 @@ export function generateReadme(
   readme: string,
   badges: Badge[],
   size: number | string = 64,
-  tiers: boolean,
 ) {
   const startString = '<!-- my-badges start -->'
   const endString = '<!-- my-badges end -->'
@@ -17,20 +16,11 @@ export function generateReadme(
   const start = content.indexOf(startString)
   const end = content.indexOf(endString)
   const needToAddNewLine = content[end + endString.length + 1] !== '\n'
-  const highestBadges = allBadges.flatMap(({ default: { badges: _badges , tiers: _tiers} }) =>
-    _tiers
-      ? _badges.find((badge) => badges.some(({ id }) => id === badge))
-      : _badges,
-  )
-  const filter = tiers
-    ? ({ id }: Badge) => highestBadges.includes(id)
-    : () => true
 
   if (start !== -1 && end !== -1) {
     content = content.slice(0, start) + content.slice(end + endString.length)
 
     const badgesHtml = badges
-      .filter(filter)
       .map((badge) => {
         const desc = quoteAttr(badge.desc)
         // prettier-ignore
@@ -58,7 +48,6 @@ export async function updateReadme(
   badges: Badge[],
   size: number | string,
   dryrun: boolean,
-  tiers: boolean,
 ) {
   const readme = await octokit.request<'readme'>(
     'GET /repos/{owner}/{repo}/readme',
@@ -67,11 +56,11 @@ export async function updateReadme(
       repo,
     },
   )
-  const content = await generateReadme(
+
+  const content = generateReadme(
     Buffer.from(readme.data.content, 'base64').toString('utf8'),
     badges,
     size,
-    tiers,
   )
 
   await upload(

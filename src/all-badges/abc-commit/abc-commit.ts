@@ -1,17 +1,17 @@
 import { Commit, Repo } from '../../collect/collect.js'
 import { BadgePresenter, ID, Present } from '../../badges.js'
 
-export default new (class implements BadgePresenter {
+export default new (class extends BadgePresenter {
   url = new URL(import.meta.url)
+  tiers = true
   badges = [
-    'abcdef-commit',
-    'abcde-commit',
-    'abcd-commit',
-    'abc-commit',
-    'ab-commit',
     'a-commit',
+    'ab-commit',
+    'abc-commit',
+    'abcd-commit',
+    'abcde-commit',
+    'abcdef-commit',
   ] as const
-  tiers = true as const
   present: Present = (data, grant) => {
     const types: [string, ID][] = [
       ['abcdef', 'abcdef-commit'],
@@ -29,10 +29,9 @@ export default new (class implements BadgePresenter {
           const re = new RegExp(`^(${prefix})`)
           if (re.test(commit.sha)) {
             order[prefix.length] = () =>
-              grant(
-                badge,
-                `One of my commit sha starts with "${prefix}".`,
-              ).evidence(link(re, repo, commit))
+              grant(badge, `One of my commit sha starts with "${prefix}".`)
+                .evidence(link(re, repo, commit))
+                .tier(prefix.length)
             break
           }
         }

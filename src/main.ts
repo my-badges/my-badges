@@ -15,7 +15,7 @@ void (async function main() {
   const { env } = process
   const argv = minimist(process.argv.slice(2), {
     string: ['data', 'repo', 'token', 'size', 'user', 'pick', 'omit'],
-    boolean: ['dryrun', 'tiers'],
+    boolean: ['dryrun', 'compact'],
   })
   const {
     token = env.GITHUB_TOKEN,
@@ -26,7 +26,7 @@ void (async function main() {
     dryrun,
     pick,
     omit,
-    tiers,
+    compact,
   } = argv
   const [owner, repo] = repository?.split('/', 2) || [username, username]
   const pickBadges = pick ? pick.split(',') : names
@@ -74,7 +74,7 @@ void (async function main() {
     fs.writeFileSync(`data/${username}.json`, JSON.stringify(data, null, 2))
   }
 
-  let badges: Badge[] = []
+  let userBadges: Badge[] = []
   let oldJson: string | undefined
   let jsonSha: string | undefined
   if (owner && repo) {
@@ -92,7 +92,7 @@ void (async function main() {
         'utf8',
       )
       jsonSha = myBadgesResp.data.sha
-      badges = JSON.parse(oldJson)
+      userBadges = JSON.parse(oldJson)
     } catch (err) {
       if (err instanceof RequestError && err.response?.status != 404) {
         throw err
@@ -101,13 +101,27 @@ void (async function main() {
   }
 
   for (const { default: presenter } of allBadges) {
-    const grant = badgeCollection(badges, presenter.url, pickBadges, omitBadges)
+    const grant = badgeCollection(
+      userBadges,
+      presenter,
+      pickBadges,
+      omitBadges,
+      compact,
+    )
     presenter.present(data, grant)
   }
-  console.log('Badges', badges)
+  console.log('Badges', userBadges)
 
   if (owner && repo) {
-    await updateBadges(octokit, owner, repo, badges, oldJson, jsonSha, dryrun)
-    await updateReadme(octokit, owner, repo, badges, size, dryrun, tiers)
+    await updateBadges(
+      octokit,
+      owner,
+      repo,
+      userBadges,
+      oldJson,
+      jsonSha,
+      dryrun,
+    )
+    await updateReadme(octokit, owner, repo, userBadges, size, dryrun)
   }
 })()
