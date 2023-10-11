@@ -11,6 +11,7 @@ export default new (class implements BadgePresenter {
     'stars-500',
     'stars-100',
   ] as const
+  tiers = true
   present: Present = (data, grant) => {
     let totalStars = 0
 

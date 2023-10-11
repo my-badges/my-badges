@@ -4,13 +4,14 @@ import { BadgePresenter, ID, Present } from '../../badges.js'
 export default new (class implements BadgePresenter {
   url = new URL(import.meta.url)
   badges = [
-    'a-commit',
-    'ab-commit',
-    'abc-commit',
-    'abcd-commit',
-    'abcde-commit',
     'abcdef-commit',
+    'abcde-commit',
+    'abcd-commit',
+    'abc-commit',
+    'ab-commit',
+    'a-commit',
   ] as const
+  tiers = true as const
   present: Present = (data, grant) => {
     const types: [string, ID][] = [
       ['abcdef', 'abcdef-commit'],
