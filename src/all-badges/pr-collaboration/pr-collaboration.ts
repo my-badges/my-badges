@@ -1,4 +1,5 @@
 import { BadgePresenter, Present } from '../../badges.js'
+import { Pull } from '../../collect/collect.js'
 
 export default new (class implements BadgePresenter {
   url = new URL(import.meta.url)
@@ -11,7 +12,7 @@ export default new (class implements BadgePresenter {
     'pr-collaboration-25',
   ] as const
   present: Present = (data, grant) => {
-    for (const pull of data.pulls) {
+    for (const pull of data.pulls.sort(byParticipantsCount)) {
       if (pull.participants.totalCount >= 5) {
         grant(
           'pr-collaboration-5',
@@ -55,3 +56,7 @@ export default new (class implements BadgePresenter {
     }
   }
 })()
+
+function byParticipantsCount(a: Pull, b: Pull) {
+  return a.participants.totalCount - b.participants.totalCount
+}
