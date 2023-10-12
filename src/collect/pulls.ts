@@ -15,6 +15,12 @@ export type PullsQuery = {
           }
           name: string
         }
+        participants: {
+          totalCount: number
+          nodes: Array<{
+            login: string
+          }>
+        }
       }>
     }
     pageInfo: {

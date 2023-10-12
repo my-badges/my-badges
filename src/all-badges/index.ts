@@ -14,4 +14,5 @@ export const allBadges = [
   await import('./chore-commit/chore-commit.js'),
   await import('./delorean/delorean.js'),
   await import('./covid-19/covid-19.js'),
+  await import('./pr-collaboration/pr-collaboration.js'),
 ] as const

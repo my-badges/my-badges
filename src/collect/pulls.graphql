@@ -15,6 +15,12 @@ query PullsQuery($username: String!, $num: Int = 100, $cursor: String) {
           }
           name
         }
+        participants(first: 20) {
+          totalCount
+          nodes {
+            login
+          }
+        }
       }
       pageInfo {
         hasNextPage

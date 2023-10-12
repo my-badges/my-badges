@@ -83,4 +83,12 @@ class Evidence {
     )
     return this
   }
+
+  evidencePRsWithTitle(...pulls: Pull[]) {
+    this.evidence(
+      'Pull requests:\n\n' +
+        pulls.map((x) => `- ${linkPull(x)}: ${x.title}`).join('\n'),
+    )
+    return this
+  }
 }
