@@ -3,7 +3,11 @@ import { BadgePresenter, Present } from '../../badges.js'
 export default new (class implements BadgePresenter {
   url = new URL(import.meta.url)
   tiers = true
-  badges = ['mass-delete-commit-10k', 'mass-delete-commit'] as const
+  badges = [
+    //
+    'mass-delete-commit',
+    'mass-delete-commit-10k',
+  ] as const
   present: Present = (data, grant) => {
     for (const repo of data.repos) {
       for (const commit of repo.commits) {
