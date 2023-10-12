@@ -14,16 +14,6 @@ export default new (class implements BadgePresenter {
     'stars-20000',
   ] as const
   present: Present = (data, grant) => {
-    const buckets: Record<(typeof this.badges)[number], Repo[]> = {
-      'stars-100': [],
-      'stars-500': [],
-      'stars-1000': [],
-      'stars-2000': [],
-      'stars-5000': [],
-      'stars-10000': [],
-      'stars-20000': [],
-    }
-
     const repos = data.repos.sort(asc).filter(withStars)
     let totalStars = 0
 
