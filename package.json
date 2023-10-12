@@ -15,8 +15,7 @@
     "copy-files": "copyfiles -u 1 src/**/*.graphql dist/",
     "check-images": "node dist/check-images.js",
     "test": "npm run test:unit",
-    "test:unit": "c8 -r lcov -r text -o coverage -x scripts -x test node --loader ts-node/esm --experimental-specifier-resolution=node scripts/test.mjs",
-    "release": "release-it"
+    "test:unit": "c8 -r lcov -r text -o coverage -x scripts -x test node --loader ts-node/esm --experimental-specifier-resolution=node scripts/test.mjs"
   },
   "dependencies": {
     "@octokit/plugin-retry": "^6.0.1",
@@ -32,7 +31,6 @@
     "copyfiles": "^2.4.1",
     "fast-glob": "^3.3.1",
     "prettier": "^3.0.3",
-    "release-it": "^16.2.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
