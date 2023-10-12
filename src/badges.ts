@@ -1,8 +1,6 @@
 import { allBadges } from './all-badges/index.js'
 import { Commit, Data, Pull } from './collect/collect.js'
 import { expectType, linkCommit, linkPull } from './utils.js'
-import { fileURLToPath } from 'url'
-import * as path from 'path'
 
 for (const {
   default: { badges },
@@ -31,49 +29,18 @@ export type Badge = {
   image: string
 }
 
-export function badgeCollection(
-  userBadges: Badge[],
-  presenter: BadgePresenter,
-  compact: boolean,
-) {
-  const indexes = new Map(userBadges.map((x, i) => [x.id, i]))
-  const baseDir = path.basename(path.dirname(fileURLToPath(presenter.url)))
-
+export function badgeCollection(newBadges: Badge[]) {
   return function grant(id: ID, desc: string) {
     const badge: Badge = {
       id,
       tier: 0,
       desc,
       body: '',
-      image: `https://github.com/my-badges/my-badges/blob/master/src/all-badges/${baseDir}/${id}.png?raw=true`,
+      image: '',
     }
-
-    if (compact && presenter.tiers) {
-      let found = false
-      for (const badgeId of presenter.badges as ID[]) {
-        if (indexes.has(badgeId)) {
-          found = true
-          const index = indexes.get(badgeId)!
-          const alreadyExistingBadge = userBadges[index]
-          if (alreadyExistingBadge.tier <= badge.tier) {
-            userBadges[index] = badge
-          }
-          break
-        }
-      }
-      if (!found) {
-        userBadges.push(badge)
-        indexes.set(id, userBadges.length - 1)
-      }
-    } else {
-      if (indexes.has(id)) {
-        userBadges[indexes.get(id)!] = badge
-      } else {
-        userBadges.push(badge)
-        indexes.set(id, userBadges.length - 1)
-      }
+    if (!newBadges.some((x) => x.id === id)) {
+      newBadges.push(badge)
     }
-
     return new Evidence(badge)
   }
 }

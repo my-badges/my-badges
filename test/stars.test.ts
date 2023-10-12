@@ -7,11 +7,7 @@ import { Data } from '../src/collect/collect.js'
 describe('stars', () => {
   it('counts and renders as expected', () => {
     const badges: Badge[] = []
-    const grant = badgeCollection(
-      badges,
-      starsPresenter,
-      true,
-    )
+    const grant = badgeCollection(badges, starsPresenter, true)
     const data: Data = {
       user: {} as Data['user'],
       pulls: {} as Data['pulls'],
