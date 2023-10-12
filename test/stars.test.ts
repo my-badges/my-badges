@@ -7,7 +7,7 @@ import { Data } from '../src/collect/collect.js'
 describe('stars', () => {
   it('counts and renders as expected', () => {
     const badges: Badge[] = []
-    const grant = badgeCollection(badges, starsPresenter, true)
+    const grant = badgeCollection(badges)
     const data: Data = {
       user: {} as Data['user'],
       pulls: {} as Data['pulls'],
@@ -34,52 +34,53 @@ describe('stars', () => {
 
     assert.deepEqual(badges, [
       {
-        id: 'stars-2000',
-        desc: 'I collected 2000 stars.',
-        body:
-          'Repos:\n' +
-          '* <a href="https://github.com/foo/qux     <i>2000</i></a>\n' +
-          '* <a href="https://github.com/foo/bar     <i>1000</i></a>\n' +
-          '\n' +
-          "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
-        image:
-          'https://github.com/my-badges/my-badges/blob/master/src/all-badges/stars/stars-2000.png?raw=true',
-      },
-      {
-        id: 'stars-1000',
-        desc: 'I collected 1000 stars.',
-        body:
-          'Repos:\n' +
-          '* <a href="https://github.com/foo/qux     <i>2000</i></a>\n' +
-          '* <a href="https://github.com/foo/bar     <i>1000</i></a>\n' +
-          '\n' +
-          "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
-        image:
-          'https://github.com/my-badges/my-badges/blob/master/src/all-badges/stars/stars-1000.png?raw=true',
-      },
-      {
-        id: 'stars-500',
-        desc: 'I collected 500 stars.',
-        body:
-          'Repos:\n' +
-          '* <a href="https://github.com/foo/qux     <i>2000</i></a>\n' +
-          '* <a href="https://github.com/foo/bar     <i>1000</i></a>\n' +
-          '\n' +
-          "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
-        image:
-          'https://github.com/my-badges/my-badges/blob/master/src/all-badges/stars/stars-500.png?raw=true',
-      },
-      {
         id: 'stars-100',
+        tier: 1,
         desc: 'I collected 100 stars.',
         body:
           'Repos:\n' +
-          '* <a href="https://github.com/foo/qux     <i>2000</i></a>\n' +
-          '* <a href="https://github.com/foo/bar     <i>1000</i></a>\n' +
+          '\n' +
+          '* <a href="https://github.com/foo/bar">foo/bar: ★1000</a>\n' +
           '\n' +
           "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
-        image:
-          'https://github.com/my-badges/my-badges/blob/master/src/all-badges/stars/stars-100.png?raw=true',
+        image: '',
+      },
+      {
+        id: 'stars-500',
+        tier: 2,
+        desc: 'I collected 500 stars.',
+        body:
+          'Repos:\n' +
+          '\n' +
+          '* <a href="https://github.com/foo/bar">foo/bar: ★1000</a>\n' +
+          '\n' +
+          "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
+        image: '',
+      },
+      {
+        id: 'stars-1000',
+        tier: 3,
+        desc: 'I collected 1000 stars.',
+        body:
+          'Repos:\n' +
+          '\n' +
+          '* <a href="https://github.com/foo/bar">foo/bar: ★1000</a>\n' +
+          '\n' +
+          "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
+        image: '',
+      },
+      {
+        id: 'stars-2000',
+        tier: 4,
+        desc: 'I collected 2000 stars.',
+        body:
+          'Repos:\n' +
+          '\n' +
+          '* <a href="https://github.com/foo/bar">foo/bar: ★1000</a>\n' +
+          '* <a href="https://github.com/foo/qux">foo/qux: ★2000</a>\n' +
+          '\n' +
+          "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
+        image: '',
       },
     ])
   })
