@@ -49,7 +49,7 @@ describe('present-badges', () => {
           '\n' +
           "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
         image:
-          'https://github.com/my-badges/my-badges/blob/master/src/all-badges/pr-collaboration/stars-100.png?raw=true',
+          'https://github.com/my-badges/my-badges/blob/master/src/all-badges/stars/stars-100.png?raw=true',
       },
       {
         id: 'stars-500',
@@ -62,7 +62,7 @@ describe('present-badges', () => {
           '\n' +
           "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
         image:
-          'https://github.com/my-badges/my-badges/blob/master/src/all-badges/pr-collaboration/stars-500.png?raw=true',
+          'https://github.com/my-badges/my-badges/blob/master/src/all-badges/stars/stars-500.png?raw=true',
       },
     ])
   })
@@ -88,7 +88,7 @@ describe('present-badges', () => {
           '\n' +
           "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
         image:
-          'https://github.com/my-badges/my-badges/blob/master/src/all-badges/pr-collaboration/stars-100.png?raw=true',
+          'https://github.com/my-badges/my-badges/blob/master/src/all-badges/stars/stars-100.png?raw=true',
       },
     ])
   })
@@ -115,7 +115,7 @@ describe('present-badges', () => {
           '\n' +
           "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
         image:
-          'https://github.com/my-badges/my-badges/blob/master/src/all-badges/pr-collaboration/stars-2000.png?raw=true',
+          'https://github.com/my-badges/my-badges/blob/master/src/all-badges/stars/stars-2000.png?raw=true',
       },
     ])
   })

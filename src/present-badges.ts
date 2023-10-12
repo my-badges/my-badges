@@ -21,9 +21,9 @@ export const presentBadges = (
   omitBadges: string[],
   compact: boolean,
 ): Badge[] => {
-  const newBadges: Badge[] = []
   const presenters: BadgePresenter[] = allBadges.map((m) => m.default)
   for (const presenter of presenters) {
+    const newBadges: Badge[] = []
     const grant = badgeCollection(newBadges)
     presenter.present(data, grant)
 
@@ -32,9 +32,10 @@ export const presentBadges = (
       const baseDir = path.basename(path.dirname(fileURLToPath(presenter.url)))
       b.image = `https://github.com/my-badges/my-badges/blob/master/src/all-badges/${baseDir}/${b.id}.png?raw=true`
     }
+
+    userBadges = mergeBadges(userBadges, newBadges)
   }
 
-  userBadges = mergeBadges(userBadges, newBadges)
 
   if (compact) {
     for (const presenter of presenters) {
