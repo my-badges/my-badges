@@ -95,6 +95,11 @@ void (async function main() {
       )
       jsonSha = myBadgesResp.data.sha
       userBadges = JSON.parse(oldJson)
+
+      // Add missing tier property in old my-badges.json.
+      for (const b of userBadges) {
+        if (b.tier === undefined) b.tier = 0
+      }
     } catch (err) {
       if (err instanceof RequestError && err.response?.status != 404) {
         throw err
