@@ -2,6 +2,7 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import { Octokit } from 'octokit'
 import { Commit, Pull } from './collect/collect.js'
+import { Badge } from './badges.js'
 
 export function linkCommit(commit: Commit): string {
   return `<a href="https://github.com/${commit.repository.owner.login}/${
