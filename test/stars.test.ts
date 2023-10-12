@@ -10,7 +10,7 @@ describe('stars', () => {
     const grant = badgeCollection(badges)
     const data: Data = {
       user: {} as Data['user'],
-      pulls: {} as Data['pulls'],
+      pulls: [] as Data['pulls'],
       issues: {} as Data['issues'],
       repos: [
         {
@@ -19,6 +19,7 @@ describe('stars', () => {
           owner: {
             login: 'foo',
           },
+          commits: [],
         },
         {
           stargazers_count: 2000,
@@ -26,6 +27,7 @@ describe('stars', () => {
           owner: {
             login: 'foo',
           },
+          commits: [] as any[],
         },
       ] as Data['repos'],
     }
