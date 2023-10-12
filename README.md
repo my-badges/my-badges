@@ -51,12 +51,16 @@ Here is a few examples of how to get badges:
 <img src="src/all-badges/time-of-commit/midnight-commits.png" alt="midnight-commits" width="64">
 <img src="src/all-badges/time-of-commit/morning-commits.png" alt="morning-commits" width="64">
 <img src="src/all-badges/time-of-commit/evening-commits.png" alt="evening-commits" width="64">
+<img src="src/all-badges/github-anniversary/github-anniversary-5.png" alt="github-anniversary-5" width="64">
+<img src="src/all-badges/github-anniversary/github-anniversary-10.png" alt="github-anniversary-10" width="64">
+<img src="src/all-badges/github-anniversary/github-anniversary-15.png" alt="github-anniversary-15" width="64">
+<img src="src/all-badges/github-anniversary/github-anniversary-20.png" alt="github-anniversary-20" width="64">
 <img src="src/all-badges/yeti/yeti.png" alt="yeti" width="64">
 <img src="src/all-badges/star-gazer/star-gazer.png" alt="star-gazer" width="64">
 <img src="src/all-badges/dead-commit/dead-commit.png" alt="dead-commit" width="64">
 <img src="src/all-badges/bad-words/bad-words.png" alt="bad-words" width="64">
-<img src="src/all-badges/mass-delete-commit/mass-delete-commit.png" alt="mass-delete-commit" width="64">
 <img src="src/all-badges/mass-delete-commit/mass-delete-commit-10k.png" alt="mass-delete-commit-10k" width="64">
+<img src="src/all-badges/mass-delete-commit/mass-delete-commit.png" alt="mass-delete-commit" width="64">
 <img src="src/all-badges/revert-revert-commit/revert-revert-commit.png" alt="revert-revert-commit" width="64">
 <img src="src/all-badges/my-badges-contributor/my-badges-contributor.png" alt="my-badges-contributor" width="64">
 <img src="src/all-badges/fix-commit/fix-2.png" alt="fix-2" width="64">
