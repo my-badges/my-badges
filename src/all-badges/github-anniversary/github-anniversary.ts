@@ -2,6 +2,7 @@ import { BadgePresenter, Present } from '../../badges.js'
 
 export default new (class implements BadgePresenter {
   url = new URL(import.meta.url)
+  tiers = true
   badges = [
     'github-anniversary-5',
     'github-anniversary-10',
