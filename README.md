@@ -59,8 +59,8 @@ Here is a few examples of how to get badges:
 <img src="src/all-badges/star-gazer/star-gazer.png" alt="star-gazer" width="64">
 <img src="src/all-badges/dead-commit/dead-commit.png" alt="dead-commit" width="64">
 <img src="src/all-badges/bad-words/bad-words.png" alt="bad-words" width="64">
-<img src="src/all-badges/mass-delete-commit/mass-delete-commit-10k.png" alt="mass-delete-commit-10k" width="64">
 <img src="src/all-badges/mass-delete-commit/mass-delete-commit.png" alt="mass-delete-commit" width="64">
+<img src="src/all-badges/mass-delete-commit/mass-delete-commit-10k.png" alt="mass-delete-commit-10k" width="64">
 <img src="src/all-badges/revert-revert-commit/revert-revert-commit.png" alt="revert-revert-commit" width="64">
 <img src="src/all-badges/my-badges-contributor/my-badges-contributor.png" alt="my-badges-contributor" width="64">
 <img src="src/all-badges/fix-commit/fix-2.png" alt="fix-2" width="64">
@@ -72,6 +72,11 @@ Here is a few examples of how to get badges:
 <img src="src/all-badges/chore-commit/chore-commit.png" alt="chore-commit" width="64">
 <img src="src/all-badges/delorean/delorean.png" alt="delorean" width="64">
 <img src="src/all-badges/covid-19/covid-19.png" alt="covid-19" width="64">
+<img src="src/all-badges/pr-collaboration/pr-collaboration-5.png" alt="pr-collaboration-5" width="64">
+<img src="src/all-badges/pr-collaboration/pr-collaboration-10.png" alt="pr-collaboration-10" width="64">
+<img src="src/all-badges/pr-collaboration/pr-collaboration-15.png" alt="pr-collaboration-15" width="64">
+<img src="src/all-badges/pr-collaboration/pr-collaboration-20.png" alt="pr-collaboration-20" width="64">
+<img src="src/all-badges/pr-collaboration/pr-collaboration-25.png" alt="pr-collaboration-25" width="64">
 </p>
 
 But we are planning on adding much more. **Add your own badges too**!
