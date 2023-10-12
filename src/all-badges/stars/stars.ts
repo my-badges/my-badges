@@ -72,7 +72,7 @@ function text(repos: Repo[], max: number): string {
   let totalStars = 0
   for (const repo of repos) {
     totalStars += repo.stargazers_count || 0
-    text += `* <a href="https://github.com/${repo.owner.login}/${repo.name}">${repo.stargazers_count}</a>\n`
+    text += `* <a href="https://github.com/${repo.owner.login}/${repo.name}">${repo.owner.login}/${repo.name}: ★${repo.stargazers_count}</a>\n`
     if (totalStars >= max) {
       break
     }
