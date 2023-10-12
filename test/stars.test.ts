@@ -76,8 +76,8 @@ describe('stars', () => {
         body:
           'Repos:\n' +
           '\n' +
-          '* <a href="https://github.com/foo/bar">foo/bar: ★1000</a>\n' +
           '* <a href="https://github.com/foo/qux">foo/qux: ★2000</a>\n' +
+          '* <a href="https://github.com/foo/bar">foo/bar: ★1000</a>\n' +
           '\n' +
           "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
         image: '',

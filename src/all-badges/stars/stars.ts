@@ -68,15 +68,19 @@ function withStars(repo: Repo) {
 }
 
 function text(repos: Repo[], max: number): string {
-  let text = 'Repos:\n\n'
+  const lines: string[] = []
   let totalStars = 0
   for (const repo of repos) {
     totalStars += repo.stargazers_count || 0
-    text += `* <a href="https://github.com/${repo.owner.login}/${repo.name}">${repo.owner.login}/${repo.name}: ★${repo.stargazers_count}</a>\n`
-    if (totalStars >= max) {
-      break
-    }
+    lines.push(
+      `* <a href="https://github.com/${repo.owner.login}/${repo.name}">${repo.owner.login}/${repo.name}: ★${repo.stargazers_count}</a>`,
+    )
+    if (totalStars >= max) break
   }
-  text += `\n<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n`
-  return text
+  return `Repos:
+
+${lines.reverse().join('\n')}
+
+<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>
+`
 }
