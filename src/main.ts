@@ -123,21 +123,27 @@ void (async function main() {
       b.image = `https://github.com/my-badges/my-badges/blob/master/src/all-badges/${baseDir}/${b.id}.png?raw=true`
     }
 
+    const badgeFromPresenter = (x: Badge) =>
+      (presenter.badges as ID[]).includes(x.id)
+
     // Merge existing userBadges with newBadges.
     if (compact && presenter.tiers) {
       const newHighestTierBadge = newBadges.reduce((prev, curr) => {
         return prev.tier > curr.tier ? prev : curr
       })
 
-      const existingBadgeIndex = userBadges.findIndex((x) =>
-        (presenter.badges as ID[]).includes(x.id),
-      )
+      const existingBadgeIndex = userBadges.findIndex(badgeFromPresenter)
       if (existingBadgeIndex === -1) {
         userBadges.push(newHighestTierBadge)
       } else if (
-        newHighestTierBadge.tier > userBadges[existingBadgeIndex].tier
+        newHighestTierBadge.tier >= userBadges[existingBadgeIndex].tier
       ) {
         userBadges[existingBadgeIndex] = newHighestTierBadge
+
+        // Drop all other badges from the same presenter.
+        userBadges = userBadges.filter(
+          (x, i) => i === existingBadgeIndex || !badgeFromPresenter(x),
+        )
       }
     } else {
       for (const badge of newBadges) {
