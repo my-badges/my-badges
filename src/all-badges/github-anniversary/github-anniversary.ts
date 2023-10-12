@@ -9,23 +9,21 @@ export default new (class implements BadgePresenter {
     'github-anniversary-20',
   ] as const
   present: Present = (data, grant) => {
-    const date = new Date(data.user.createdAt)
-    const now = new Date()
-    const years = now.getFullYear() - date.getFullYear()
-    const months = now.getMonth() - date.getMonth()
-    const days = now.getDate() - date.getDate()
-    const totalDays = years * 365 + months * 30 + days
-    if (totalDays >= 5 * 365) {
-      grant('github-anniversary-5', `I joined GitHub 5 years ago.`)
-    }
-    if (totalDays >= 10 * 365) {
-      grant('github-anniversary-10', `I joined GitHub 10 years ago.`)
-    }
-    if (totalDays >= 15 * 365) {
-      grant('github-anniversary-15', `I joined GitHub 15 years ago.`)
-    }
-    if (totalDays >= 20 * 365) {
-      grant('github-anniversary-20', `I joined GitHub 20 years ago.`)
-    }
+    const createdAt = new Date(data.user.createdAt)
+    const now = Date.now()
+
+    this.badges.forEach((badge) => {
+      const years = +badge.slice(19)
+      if (
+        now >=
+        new Date(
+          createdAt.getFullYear() + years,
+          createdAt.getMonth(),
+          createdAt.getDay(),
+        ).valueOf()
+      ) {
+        grant(badge, `I joined GitHub ${years} years ago.`)
+      }
+    })
   }
 })()
