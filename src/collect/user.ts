@@ -38,6 +38,12 @@ export type UserQuery = {
     starredRepositories: {
       totalCount: number
     }
+    publicKeys: {
+      totalCount: number
+      nodes: Array<{
+        key: string
+      }>
+    }
   }
   rateLimit: {
     limit: number

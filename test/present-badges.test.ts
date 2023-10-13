@@ -5,7 +5,11 @@ import { presentBadges } from '../src/present-badges.js'
 
 describe('present-badges', () => {
   const data: Data = {
-    user: {} as Data['user'],
+    user: {
+      publicKeys: {
+        totalCount: 1,
+      },
+    } as Data['user'],
     pulls: [] as Data['pulls'],
     issues: {} as Data['issues'],
     repos: [

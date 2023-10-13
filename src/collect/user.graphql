@@ -43,6 +43,12 @@ query UserQuery($login: String!) {
     starredRepositories {
       totalCount
     }
+    publicKeys {
+      totalCount
+      nodes {
+        key
+      }
+    }
   }
   rateLimit {
     limit
