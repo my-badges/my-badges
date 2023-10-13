@@ -1,6 +1,7 @@
 import { Octokit, RequestError } from 'octokit'
 import { Badge } from './badges.js'
 import { quoteAttr, upload } from './utils.js'
+import { MY_BADGES_JSON_PATH } from './constants.js'
 
 export async function updateBadges(
   octokit: Octokit,
@@ -11,8 +12,6 @@ export async function updateBadges(
   jsonSha: string | undefined,
   dryrun: boolean,
 ) {
-  const myBadgesPath = 'my-badges/my-badges.json'
-
   const newJson = JSON.stringify(badges, null, 2)
   if (newJson == oldJson) {
     console.log('No change in my-badges.json')
@@ -23,7 +22,7 @@ export async function updateBadges(
       {
         owner,
         repo,
-        path: myBadgesPath,
+        path: MY_BADGES_JSON_PATH,
         message: 'Update my-badges',
         committer: {
           name: 'My Badges',

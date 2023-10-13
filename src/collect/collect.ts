@@ -24,8 +24,8 @@ export type Pull = PullsQuery['user']['pullRequests']['nodes'][0]
 export type Issues = IssuesQuery['user']['issues']['nodes'][0]
 
 export async function collect(
-  username: string,
   octokit: Octokit,
+  username: string,
 ): Promise<Data> {
   const { user } = await octokit.graphql<UserQuery>(
     loadGraphql('./user.graphql'),

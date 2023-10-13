@@ -27,6 +27,11 @@ export function quoteAttr(s: string) {
 
 export const expectType = <T>(expression: T) => void 0
 
+export const decodeBase64 = (data: string) =>
+  Buffer.from(data, 'base64').toString('utf8')
+export const encodeBase64 = (data: string) =>
+  Buffer.from(data, 'utf8').toString('base64')
+
 export const upload = async (
   octokit: Octokit,
   route: Parameters<Octokit['request']>[0],
@@ -46,6 +51,6 @@ export const upload = async (
   console.log(`Uploading ${data?.path}`)
   return octokit.request(route, {
     ...data,
-    content: Buffer.from(data?.content as string, 'utf8').toString('base64'),
+    content: encodeBase64(data?.content as string),
   })
 }
