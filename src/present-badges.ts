@@ -36,7 +36,6 @@ export const presentBadges = (
     userBadges = mergeBadges(userBadges, newBadges)
   }
 
-
   if (compact) {
     for (const presenter of presenters) {
       if (!presenter.tiers) {
