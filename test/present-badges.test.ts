@@ -97,6 +97,45 @@ describe('present-badges', () => {
     ])
   })
 
+  it('presentBadges() supports masks for `omit` && `pick`', () => {
+    const userBadges = presentBadges(
+      data,
+      [],
+      ['stars-*'],
+      ['stars-*000'],
+      false,
+    )
+
+    assert.deepEqual(userBadges, [
+      {
+        id: 'stars-100',
+        tier: 1,
+        desc: 'I collected 100 stars.',
+        body:
+          'Repos:\n' +
+          '\n' +
+          '* <a href="https://github.com/foo/bar">foo/bar: ★1000</a>\n' +
+          '\n' +
+          "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
+        image:
+          'https://github.com/my-badges/my-badges/blob/master/src/all-badges/stars/stars-100.png?raw=true',
+      },
+      {
+        id: 'stars-500',
+        tier: 2,
+        desc: 'I collected 500 stars.',
+        body:
+          'Repos:\n' +
+          '\n' +
+          '* <a href="https://github.com/foo/bar">foo/bar: ★1000</a>\n' +
+          '\n' +
+          "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
+        image:
+          'https://github.com/my-badges/my-badges/blob/master/src/all-badges/stars/stars-500.png?raw=true',
+      },
+    ])
+  })
+
   it('presentBadges() applies `compact`', () => {
     const userBadges = presentBadges(
       data,

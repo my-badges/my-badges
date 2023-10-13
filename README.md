@@ -68,7 +68,7 @@ You can also perform these steps manually:
 | `size`    |                | Badge size for README.md, px                                                                                                                            | 64            |
 | `dryrun`  |                | Generate badges, but skip pushing them to git                                                                                                           |               |
 | `pick`    |                | List of badges to pick. Pass `--pick="a-commit,ab-commit,revert-revert-commit"` to generate only the specified entries. If empty gets all of them       |               |
-| `omit`    |                | List of badges to exclude. For example, if you're too shy to flex your stars: `--omit:stars-100,stars-500,stars-1000`                                   |               |
+| `omit`    |                | List of badges to exclude. For example, if you're too shy to flex your stars: `--omit:stars-100,stars-500,stars-1000` or even shorter `--omit:stars-*`  |               |
 | `compact` |                | Represent the highest tier badges in README.md. For example, If you have both `stars-100` and `stars-500` achievements, only the last one will be shown |               |
 
 ## License
