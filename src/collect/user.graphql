@@ -43,7 +43,7 @@ query UserQuery($login: String!) {
     starredRepositories {
       totalCount
     }
-    publicKeys {
+    publicKeys(first: 5) {
       totalCount
       nodes {
         key
