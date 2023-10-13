@@ -14,6 +14,9 @@ export const mergeBadges = (...badges: (Badge | Badge[])[]): Badge[] =>
       ),
   )
 
+const parseRegexp = (value: string): RegExp =>
+  new RegExp(`^${value}$`.replace('*', '.+'))
+
 export const presentBadges = (
   data: Data,
   userBadges: Badge[],
@@ -57,10 +60,14 @@ export const presentBadges = (
     }
   }
   if (pickBadges.length > 0) {
-    userBadges = userBadges.filter((x) => pickBadges.includes(x.id))
+    userBadges = userBadges.filter((x) =>
+      pickBadges.map(parseRegexp).some((r) => r.test(x.id)),
+    )
   }
   if (omitBadges.length > 0) {
-    userBadges = userBadges.filter((x) => !omitBadges.includes(x.id))
+    userBadges = userBadges.filter((x) =>
+      omitBadges.map(parseRegexp).every((r) => !r.test(x.id)),
+    )
   }
 
   return userBadges
