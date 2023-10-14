@@ -1,5 +1,6 @@
 /node_modules/
 /data/
 /dist/
+/my-badges/
 yarn.lock
 coverage
