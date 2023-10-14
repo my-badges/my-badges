@@ -9,6 +9,10 @@ query PullsQuery($username: String!, $num: Int = 100, $cursor: String) {
         body
         closed
         merged
+        mergedAt
+        mergedBy {
+          login
+        }
         repository {
           owner {
             login
@@ -19,6 +23,35 @@ query PullsQuery($username: String!, $num: Int = 100, $cursor: String) {
           totalCount
           nodes {
             login
+          }
+        }
+        lastCommit: commits(last: 1) {
+          nodes {
+            commit {
+              checkSuites(first: 20) {
+                totalCount
+                nodes {
+                  app {
+                    name
+                  }
+                  workflowRun {
+                    workflow {
+                      name
+                    }
+                  }
+                  lastCheckRun: checkRuns(last: 1) {
+                    totalCount
+                    nodes {
+                      name
+                      conclusion
+                      status
+                      startedAt
+                      completedAt
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
