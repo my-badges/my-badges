@@ -18,4 +18,5 @@ export const allBadges = [
   await import('./public-keys/public-keys.js'),
   await import('./old-issue/old-issue.js'),
   await import('./this-is-fine/this-is-fine.js'),
+  await import('./the-ultimate-question/the-ultimate-question.js'),
 ] as const
