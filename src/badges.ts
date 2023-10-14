@@ -1,6 +1,6 @@
 import { allBadges } from './all-badges/index.js'
-import { Commit, Data, Pull } from './collect/collect.js'
-import { expectType, linkCommit, linkPull } from './utils.js'
+import { Commit, Data, Issue, Pull } from './collect/collect.js'
+import { expectType, linkCommit, linkIssue, linkPull } from './utils.js'
 
 for (const {
   default: { badges },
@@ -88,6 +88,14 @@ class Evidence {
     this.evidence(
       'Pull requests:\n\n' +
         pulls.map((x) => `- ${linkPull(x)}: ${x.title}`).join('\n'),
+    )
+    return this
+  }
+
+  evidenceIssuesWithTitles(...issues: Issue[]) {
+    this.evidence(
+      'Issues:\n\n' +
+        issues.map((x) => `- ${linkIssue(x)}: ${x.title}`).join('\n'),
     )
     return this
   }

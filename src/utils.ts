@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { Octokit } from 'octokit'
-import { Commit, Pull } from './collect/collect.js'
+import { Commit, Issue, Pull } from './collect/collect.js'
 import { Badge } from './badges.js'
 
 export function linkCommit(commit: Commit): string {
@@ -12,6 +12,10 @@ export function linkCommit(commit: Commit): string {
 
 export function linkPull(pull: Pull): string {
   return `<a href="https://github.com/${pull.repository.owner.login}/${pull.repository.name}/pull/${pull.number}">#${pull.number}</a>`
+}
+
+export function linkIssue(issue: Issue): string {
+  return `<a href="https://github.com/${issue.repository.owner.login}/${issue.repository.name}/issues/${issue.number}">#${issue.number}</a>`
 }
 
 export function quoteAttr(s: string) {

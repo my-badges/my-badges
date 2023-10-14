@@ -11,7 +11,7 @@ export type Data = {
   user: User
   repos: Repo[]
   pulls: Pull[]
-  issues: Issues[]
+  issues: Issue[]
 }
 export type User = UserQuery['user']
 export type Repo =
@@ -21,7 +21,7 @@ export type Repo =
 export type Commit =
   CommitsQuery['repository']['defaultBranchRef']['target']['history']['nodes'][0]
 export type Pull = PullsQuery['user']['pullRequests']['nodes'][0]
-export type Issues = IssuesQuery['user']['issues']['nodes'][0]
+export type Issue = IssuesQuery['user']['issues']['nodes'][0]
 
 export async function collect(
   octokit: Octokit,
