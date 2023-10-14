@@ -1,6 +1,6 @@
 {
   "name": "update-my-badges",
-  "version": "1.0.87",
+  "version": "1.0.88",
   "description": "Generate badges for your GitHub projects",
   "type": "module",
   "bin": {
