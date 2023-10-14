@@ -8,6 +8,7 @@ import { updateReadme } from './update-readme.js'
 import { updateBadges } from './update-badges.js'
 import { presentBadges } from './present-badges.js'
 import { getBadges } from './get-badges.js'
+import { allBadges } from './all-badges/index.js'
 
 void (async function main() {
   try {
@@ -63,6 +64,7 @@ void (async function main() {
     )
 
     userBadges = presentBadges(
+      allBadges.map((m) => m.default),
       data,
       userBadges,
       pickBadges,

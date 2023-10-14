@@ -10,21 +10,21 @@ export const mergeBadges = (...badges: (Badge | Badge[])[]): Badge[] =>
       .flat()
       .reduce<Record<string, Badge>>(
         (m, v) => Object.assign(m, { [v.id]: v }),
-        {},
-      ),
+        {}
+      )
   )
 
 const parseRegexp = (value: string): RegExp =>
   new RegExp(`^${value}$`.replace('*', '.+'))
 
 export const presentBadges = (
+  presenters: BadgePresenter[],
   data: Data,
   userBadges: Badge[],
   pickBadges: string[],
   omitBadges: string[],
-  compact: boolean,
+  compact: boolean
 ): Badge[] => {
-  const presenters: BadgePresenter[] = allBadges.map((m) => m.default)
   for (const presenter of presenters) {
     const newBadges: Badge[] = []
     const grant = badgeCollection(newBadges)
@@ -45,28 +45,28 @@ export const presentBadges = (
         continue
       }
       const touchedBadges = userBadges.filter(({ id }) =>
-        (presenter.badges as ID[]).includes(id),
+        (presenter.badges as ID[]).includes(id)
       )
       const newHighestTierBadge = touchedBadges.reduce(
         (prev, curr) => (prev.tier > curr.tier ? prev : curr),
-        {} as Badge,
+        {} as Badge
       )
 
       omitBadges.push(
         ...touchedBadges
           .map(({ id }) => id)
-          .filter((id) => id !== newHighestTierBadge.id),
+          .filter((id) => id !== newHighestTierBadge.id)
       )
     }
   }
   if (pickBadges.length > 0) {
     userBadges = userBadges.filter((x) =>
-      pickBadges.map(parseRegexp).some((r) => r.test(x.id)),
+      pickBadges.map(parseRegexp).some((r) => r.test(x.id))
     )
   }
   if (omitBadges.length > 0) {
     userBadges = userBadges.filter((x) =>
-      omitBadges.map(parseRegexp).every((r) => !r.test(x.id)),
+      omitBadges.map(parseRegexp).every((r) => !r.test(x.id))
     )
   }
 

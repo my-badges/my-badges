@@ -32,8 +32,11 @@ describe('present-badges', () => {
     ] as Data['repos'],
   }
 
-  it('presentBadges() applies `pick`', () => {
+  it('presentBadges() applies `pick`', async () => {
     const userBadges = presentBadges(
+      [
+        await import('../src/all-badges/stars/stars.js'),
+      ].map((m) => m.default),
       data,
       [],
       ['stars-100', 'stars-500'],
@@ -71,8 +74,11 @@ describe('present-badges', () => {
     ])
   })
 
-  it('presentBadges() applies `omit`', () => {
+  it('presentBadges() applies `omit`', async () => {
     const userBadges = presentBadges(
+      [
+        await import('../src/all-badges/stars/stars.js'),
+      ].map((m) => m.default),
       data,
       [],
       ['stars-100', 'stars-500'],
@@ -97,8 +103,11 @@ describe('present-badges', () => {
     ])
   })
 
-  it('presentBadges() supports masks for `omit` && `pick`', () => {
+  it('presentBadges() supports masks for `omit` && `pick`', async () => {
     const userBadges = presentBadges(
+      [
+        await import('../src/all-badges/stars/stars.js'),
+      ].map((m) => m.default),
       data,
       [],
       ['stars-*'],
@@ -136,8 +145,11 @@ describe('present-badges', () => {
     ])
   })
 
-  it('presentBadges() applies `compact`', () => {
+  it('presentBadges() applies `compact`', async () => {
     const userBadges = presentBadges(
+      [
+        await import('../src/all-badges/stars/stars.js'),
+      ].map((m) => m.default),
       data,
       [],
       ['stars-1000', 'stars-2000', 'stars-5000'],
