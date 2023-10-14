@@ -31,8 +31,10 @@ export default new (class implements BadgePresenter {
     }
 
     if (pulls.length > 0) {
-      grant('this-is-fine', 'I merged a PR with failing checks').evidencePRsWithTitle(...pulls)
+      grant(
+        'this-is-fine',
+        'I merged a PR with failing checks',
+      ).evidencePRsWithTitle(...pulls)
     }
-    \/
   }
 })()
