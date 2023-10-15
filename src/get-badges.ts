@@ -37,19 +37,17 @@ export const getOldData = async (
   myBadges?: any, // test snapshot
 ) => {
   console.log('Loading my-badges.json')
-
-  const { data } =
-    myBadges ||
-    (await octokit.request<'content-file'>(
-      'GET /repos/{owner}/{repo}/contents/{path}',
-      {
-        owner,
-        repo,
-        path: MY_BADGES_JSON_PATH,
-      },
-    ))
-
   try {
+    const { data } =
+      myBadges ||
+      (await octokit.request<'content-file'>(
+        'GET /repos/{owner}/{repo}/contents/{path}',
+        {
+          owner,
+          repo,
+          path: MY_BADGES_JSON_PATH,
+        },
+      ))
     const oldJson = decodeBase64(data.content)
     const jsonSha = data.sha
     const userBadges = JSON.parse(oldJson)
