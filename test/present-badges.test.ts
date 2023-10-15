@@ -1,6 +1,6 @@
 import * as assert from 'node:assert'
 import { describe, it } from 'node:test'
-import { Data } from '../src/collect/collect.js'
+import { Data } from '../src/providers/gh/collect/collect.js'
 import { presentBadges } from '../src/present-badges.js'
 
 describe('present-badges', () => {

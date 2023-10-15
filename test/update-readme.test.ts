@@ -1,6 +1,6 @@
 import * as assert from 'node:assert'
 import { describe, it } from 'node:test'
-import { generateReadme } from '../src/update-readme.js'
+import { generateReadme } from '../src/providers/gh/index.js'
 import type { Badge } from '../src/badges.js'
 import abcPresenter from '../src/all-badges/abc-commit/abc-commit.js'
 import { badgeCollection } from '../src/badges.js'

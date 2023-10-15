@@ -1,4 +1,4 @@
-import { Commit, Repo } from '../../collect/collect.js'
+import { Commit, Repo } from '../../providers/gh/collect/collect.js'
 import { BadgePresenter, ID, Present } from '../../badges.js'
 
 export default new (class implements BadgePresenter {
