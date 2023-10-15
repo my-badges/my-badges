@@ -17,6 +17,7 @@ export type TUpdateMyBadgesOpts = Partial<{
   dryrun: boolean
   compact: boolean
   provider: TProvider
+  cwd: string
 }>
 
 export const update = async (
@@ -60,6 +61,7 @@ export const normalizeOpts = (
     pick,
     omit,
     provider = githubProvider,
+    cwd = process.cwd(),
   } = argv
   const [owner, repo] = repository?.split('/', 2) || [user, user]
   const pickBadges = pick ? pick.split(',') : []
@@ -77,6 +79,7 @@ export const normalizeOpts = (
     omitBadges,
     dataPath,
     provider,
+    cwd,
   }
 }
 
@@ -85,23 +88,26 @@ export const getData = async ({
   token,
   user,
   provider,
+  cwd = process.cwd(),
 }: Pick<
   TUpdateMyBadgesNormalizedOpts,
-  'token' | 'dataPath' | 'user' | 'provider'
+  'token' | 'dataPath' | 'user' | 'provider' | 'cwd'
 >) => {
   if (dataPath !== '') {
     if (!fs.existsSync(dataPath)) {
       throw new Error('Data file not found')
     }
-    return JSON.parse(fs.readFileSync(dataPath, 'utf8')) as Data
+    return JSON.parse(
+      fs.readFileSync(path.resolve(cwd, dataPath), 'utf8'),
+    ) as Data
   }
 
   if (!user) {
     throw new Error('Specify username')
   }
 
-  const data = provider.getData({ user, token }) // await collect(octokit, username)
-  const filepath = path.join(process.cwd(), `data/${user}.json`)
+  const data = await provider.getData({ user, token }) // await collect(octokit, username)
+  const filepath = path.join(cwd, `data/${user}.json`)
 
   await writeFile(filepath, JSON.stringify(data, null, 2))
 
@@ -115,11 +121,12 @@ export const getSnapshot = async ({
   token,
   user,
   provider,
+  cwd,
 }: Pick<
   TUpdateMyBadgesNormalizedOpts,
-  'token' | 'dataPath' | 'repo' | 'owner' | 'user' | 'provider'
+  'token' | 'dataPath' | 'repo' | 'owner' | 'user' | 'provider' | 'cwd'
 >) => {
-  const data = await getData({ dataPath, token, user, provider })
+  const data = await getData({ dataPath, token, user, provider, cwd })
   const userBadges =
     owner && repo ? await provider.getBadges({ token, user, repo, owner }) : []
 

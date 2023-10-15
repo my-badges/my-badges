@@ -20,6 +20,7 @@ export interface TProvider {
     size: number | string
     readme?: string
     dryrun?: boolean
+    cwd?: string
   }): Promise<void>
 }
 
@@ -35,4 +36,5 @@ export type TUpdateMyBadgesNormalizedOpts = {
   omitBadges: string[]
   dataPath: string
   provider: TProvider
+  cwd: string
 }

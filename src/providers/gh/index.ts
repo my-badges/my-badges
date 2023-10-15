@@ -1,3 +1,5 @@
+import fs from 'node:fs/promises'
+import path from 'node:path'
 import type { TProvider } from '../../interfaces.js'
 import { getOctokit } from './octokit.js'
 import { collect } from './collect/collect.js'
@@ -9,7 +11,6 @@ import {
   writeFile,
 } from '../../utils.js'
 import { RequestError } from 'octokit'
-import path from 'node:path'
 import { Badge } from '../../badges.js'
 
 export const githubProvider: TProvider = {
@@ -47,8 +48,9 @@ export const githubProvider: TProvider = {
     repo = user,
     size,
     dryrun,
+    cwd,
   }) {
-    const oldReadme = await read(token, 'readme.md', owner, repo)
+    const oldReadme = await read(token, 'readme.md', owner, repo, dryrun, cwd)
     const readme = generateReadme(oldReadme + '', badges, size)
     const uploads: Record<string, any> = {
       [MY_BADGES_JSON_PATH]: JSON.stringify(badges, null, 2),
@@ -69,7 +71,7 @@ export const githubProvider: TProvider = {
 
     await Promise.all(
       Object.entries(uploads).map(([contentPath, content]) =>
-        upload(token, content, owner, repo, contentPath, dryrun),
+        upload(token, content, owner, repo, contentPath, dryrun, cwd),
       ),
     )
   },
@@ -80,20 +82,35 @@ export const read = async (
   contentPath: string,
   owner: string,
   repo: string,
+  dryrun?: boolean,
+  cwd = process.cwd(),
 ) => {
-  const octokit = getOctokit(token)
-  const {
-    data: { content, sha },
-  } = await octokit.request<'content-file'>(
-    'GET /repos/{owner}/{repo}/contents/{path}',
-    {
-      path: contentPath,
-      owner,
-      repo,
-    },
-  )
+  try {
+    if (dryrun) {
+      return (await fs.readFile(
+        path.resolve(cwd, contentPath),
+        'utf8',
+      )) as string & { sha: string }
+    }
 
-  return Object.assign(new String(decodeBase64(content)), { sha })
+    const octokit = getOctokit(token)
+    const {
+      data: { content, sha },
+    } = await octokit.request<'content-file'>(
+      'GET /repos/{owner}/{repo}/contents/{path}',
+      {
+        path: contentPath,
+        owner,
+        repo,
+      },
+    )
+
+    return Object.assign(new String(decodeBase64(content)), { sha })
+  } catch (e) {
+    console.warn(e)
+
+    return '' as string & { sha: string }
+  }
 }
 
 export const upload = async (
@@ -103,10 +120,11 @@ export const upload = async (
   repo: string,
   contentPath: string,
   dryrun?: boolean,
+  cwd = process.cwd(),
 ) => {
   if (dryrun) {
     console.log(`Skipped pushing ${contentPath} (dryrun)`)
-    const filepath = path.join(process.cwd(), contentPath)
+    const filepath = path.join(cwd, contentPath)
 
     await writeFile(filepath, content)
     return
