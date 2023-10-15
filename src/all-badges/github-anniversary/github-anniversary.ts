@@ -13,7 +13,7 @@ export default new (class implements BadgePresenter {
     const createdAt = new Date(data.user.createdAt)
     const now = Date.now()
 
-    this.badges.forEach((badge) => {
+    this.badges.forEach((badge, i) => {
       const years = +badge.slice(19)
       if (
         now >=
@@ -23,7 +23,7 @@ export default new (class implements BadgePresenter {
           createdAt.getDay(),
         ).valueOf()
       ) {
-        grant(badge, `I joined GitHub ${years} years ago.`)
+        grant(badge, `I joined GitHub ${years} years ago.`).tier(i)
       }
     })
   }
