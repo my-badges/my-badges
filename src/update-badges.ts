@@ -16,6 +16,7 @@ export type TUpdateMyBadgesOpts = Partial<{
   size: number | string
   dryrun: boolean
   compact: boolean
+  shuffle: boolean
   provider: TProvider
   cwd: string
 }>
@@ -25,7 +26,7 @@ export const update = async (
   env = process.env,
 ): Promise<void> => {
   const _opts = normalizeOpts(opts, env)
-  const { pickBadges, omitBadges, compact, provider } = _opts
+  const { pickBadges, omitBadges, compact, provider, shuffle } = _opts
 
   let { data, userBadges } = await getSnapshot(_opts)
 
@@ -36,6 +37,7 @@ export const update = async (
     pickBadges,
     omitBadges,
     compact,
+    shuffle,
   )
 
   console.log(JSON.stringify(userBadges, null, 2))
@@ -58,6 +60,7 @@ export const normalizeOpts = (
     size = 64,
     dryrun = false,
     compact = false,
+    shuffle = false,
     pick,
     omit,
     provider = githubProvider,
@@ -75,6 +78,7 @@ export const normalizeOpts = (
     size,
     dryrun,
     compact,
+    shuffle,
     pickBadges,
     omitBadges,
     dataPath,

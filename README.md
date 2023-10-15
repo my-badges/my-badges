@@ -70,6 +70,7 @@ You can also perform these steps manually:
 | `pick`    |                | List of badges to pick. Pass `--pick="a-commit,ab-commit,revert-revert-commit"` to generate only the specified entries. If empty gets all of them       |                 |
 | `omit`    |                | List of badges to exclude. For example, if you're too shy to flex your stars: `--omit:stars-100,stars-500,stars-1000` or even shorter `--omit:stars-*`  |                 |
 | `compact` |                | Represent the highest tier badges in README.md. For example, If you have both `stars-100` and `stars-500` achievements, only the last one will be shown |                 |
+| `shuffle` |                | Apply random badges sorting                                                                                                                             |                 |
 | `cwd`     |                | Directory to operate                                                                                                                                    | `process.cwd()` |
 
 ## License

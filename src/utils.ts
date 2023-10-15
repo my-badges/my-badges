@@ -62,3 +62,6 @@ export const writeFile = async (filepath: string, content: string) => {
   await fs.mkdir(path.dirname(filepath), { recursive: true })
   await fs.writeFile(filepath, content)
 }
+
+export const shuffleArray = (arr: any[]) =>
+  arr.sort(() => Math.sign(Math.random() - 0.5))
