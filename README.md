@@ -10,7 +10,7 @@
 Badges will be updated automatically every day. And you will get new badges as you progress, or
 as community adds new badges. **Yes, you can [add your own badges](CONTRIBUTING.md)!**
 
-But how does those badges look like? Take a look [here](https://github.com/antonmedv),
+But how does those badges look like? Check this out [here](https://github.com/antonmedv),
 or [here](https://github.com/antongolub).
 
 ## Installation
