@@ -37,4 +37,5 @@ export type TUpdateMyBadgesNormalizedOpts = {
   dataPath: string
   provider: TProvider
   cwd: string
+  shuffle: boolean
 }

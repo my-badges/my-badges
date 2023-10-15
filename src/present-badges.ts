@@ -2,6 +2,7 @@ import { Badge, badgeCollection, BadgePresenter, ID } from './badges.js'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { Data } from './providers/gh/collect/collect.js'
+import { shuffleArray } from './utils.js'
 
 export const mergeBadges = (...badges: (Badge | Badge[])[]): Badge[] =>
   Object.values(
@@ -23,6 +24,7 @@ export const presentBadges = (
   pickBadges: string[],
   omitBadges: string[],
   compact: boolean,
+  shuffle: boolean,
 ): Badge[] => {
   for (const presenter of presenters) {
     const newBadges: Badge[] = []
@@ -67,6 +69,10 @@ export const presentBadges = (
     userBadges = userBadges.filter((x) =>
       omitBadges.map(parseRegexp).every((r) => !r.test(x.id)),
     )
+  }
+
+  if (shuffle) {
+    shuffleArray(userBadges)
   }
 
   return userBadges

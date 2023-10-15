@@ -40,6 +40,7 @@ describe('present-badges', () => {
       ['stars-100', 'stars-500'],
       [],
       false,
+      false,
     )
 
     assert.deepEqual(userBadges, [
@@ -80,6 +81,7 @@ describe('present-badges', () => {
       ['stars-100', 'stars-500'],
       ['stars-500'],
       false,
+      false,
     )
 
     assert.deepEqual(userBadges, [
@@ -106,6 +108,7 @@ describe('present-badges', () => {
       [],
       ['stars-*'],
       ['stars-*000'],
+      false,
       false,
     )
 
@@ -147,6 +150,7 @@ describe('present-badges', () => {
       ['stars-1000', 'stars-2000', 'stars-5000'],
       [],
       true,
+      false,
     )
 
     assert.deepEqual(userBadges, [
