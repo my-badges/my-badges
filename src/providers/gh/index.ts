@@ -124,7 +124,12 @@ export const read = async (
       data: { content, sha },
     } =
       contentPath === 'readme.md'
-        ? await octokit.request<'content-file'>(
+        ? await octokit.request<'readme'>('GET /repos/{owner}/{repo}/readme', {
+            path: contentPath,
+            owner,
+            repo,
+          })
+        : await octokit.request<'content-file'>(
             'GET /repos/{owner}/{repo}/contents/{path}',
             {
               path: contentPath,
@@ -132,11 +137,6 @@ export const read = async (
               repo,
             },
           )
-        : await octokit.request<'readme'>('GET /repos/{owner}/{repo}/readme', {
-            path: contentPath,
-            owner,
-            repo,
-          })
 
     return Object.assign(decodeBase64(content), { sha })
   } catch (e) {
