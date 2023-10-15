@@ -1,4 +1,4 @@
-import { Pull } from '../../collect/collect.js'
+import { Pull } from '../../providers/gh/collect/collect.js'
 import { BadgePresenter, Present } from '../../badges.js'
 
 export default new (class implements BadgePresenter {

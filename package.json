@@ -6,6 +6,11 @@
   "bin": {
     "update-my-badges": "dist/main.js"
   },
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "default": "./dist/index.js"
+  },
   "scripts": {
     "fmt": "prettier --write .",
     "fmt:check": "prettier --check .",

@@ -1,4 +1,4 @@
-import { Commit, Repo } from '../../collect/collect.js'
+import { Commit, Repo } from '../../providers/gh/collect/collect.js'
 import { Present, BadgePresenter } from '../../badges.js'
 import { linkCommit } from '../../utils.js'
 

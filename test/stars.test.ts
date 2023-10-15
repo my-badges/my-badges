@@ -2,7 +2,7 @@ import * as assert from 'node:assert'
 import { describe, it } from 'node:test'
 import starsPresenter from '../src/all-badges/stars/stars.js'
 import { Badge, badgeCollection } from '../src/badges.js'
-import { Data } from '../src/collect/collect.js'
+import { Data } from '../src/providers/gh/collect/collect.js'
 
 describe('stars', () => {
   it('counts and renders as expected', () => {

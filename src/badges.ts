@@ -1,5 +1,5 @@
 import { allBadges } from './all-badges/index.js'
-import { Commit, Data, Issue, Pull } from './collect/collect.js'
+import { Commit, Data, Issue, Pull } from './providers/gh/collect/collect.js'
 import { expectType, linkCommit, linkIssue, linkPull } from './utils.js'
 
 for (const {

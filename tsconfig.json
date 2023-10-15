@@ -6,7 +6,7 @@
     "module": "NodeNext",
     "strict": true,
     "outDir": "./dist",
-    "declaration": false,
+    "declaration": true,
     "allowJs": true
   },
   "include": ["./src/**/*"]

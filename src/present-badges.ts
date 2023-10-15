@@ -1,8 +1,7 @@
 import { Badge, badgeCollection, BadgePresenter, ID } from './badges.js'
-import { allBadges } from './all-badges/index.js'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { Data } from './collect/collect.js'
+import { Data } from './providers/gh/collect/collect.js'
 
 export const mergeBadges = (...badges: (Badge | Badge[])[]): Badge[] =>
   Object.values(

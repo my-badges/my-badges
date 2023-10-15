@@ -1,8 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { Octokit } from 'octokit'
-import { Commit, Issue, Pull } from './collect/collect.js'
-import { Badge } from './badges.js'
+import { Commit, Issue, Pull } from './providers/gh/collect/collect.js'
 
 export function linkCommit(commit: Commit): string {
   return `<a href="https://github.com/${commit.repository.owner.login}/${
@@ -57,4 +56,9 @@ export const upload = async (
     ...data,
     content: encodeBase64(data?.content as string),
   })
+}
+
+export const writeFile = async (filepath: string, content: string) => {
+  await fs.mkdir(path.dirname(filepath), { recursive: true })
+  await fs.writeFile(filepath, content)
 }
