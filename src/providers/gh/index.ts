@@ -126,7 +126,7 @@ export const read = async (
 
     return Object.assign(new String(decodeBase64(content)), { sha })
   } catch (e) {
-    console.warn(e)
+    console.warn(contentPath, e)
 
     return '' as string & { sha: string }
   }
@@ -149,13 +149,15 @@ export const upload = async (
     return
   }
 
-  console.log(`Uploading ${contentPath}`)
+  const { sha } = content
+  console.log(`Uploading ${contentPath} ${sha}`)
+
   const octokit = getOctokit(token)
   return octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
     owner,
     repo,
     path: contentPath,
-    message: `chore: ${contentPath} upsert`,
+    message: `chore: ${contentPath} ${sha ? 'updated' : 'added'}`,
     committer: {
       name: 'My Badges',
       email: 'my-badges@github.com',

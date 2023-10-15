@@ -8,7 +8,7 @@ void (async function main() {
     const { env } = process
     const argv = minimist<TUpdateMyBadgesOpts>(process.argv.slice(2), {
       string: ['data', 'repo', 'token', 'size', 'user', 'pick', 'omit'],
-      boolean: ['dryrun', 'compact'],
+      boolean: ['dryrun', 'compact', 'shuffle'],
     })
 
     await update(argv, env)
