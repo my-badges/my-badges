@@ -71,10 +71,29 @@ export const githubProvider: TProvider = {
 
     await Promise.all(
       Object.entries(uploads).map(([contentPath, content]) =>
-        upload(token, content, owner, repo, contentPath, dryrun, cwd),
+        upsert(token, content, owner, repo, contentPath, dryrun, cwd),
       ),
     )
   },
+}
+
+export const upsert = async (
+  token: string,
+  content: string & { sha?: string },
+  owner: string,
+  repo: string,
+  contentPath: string,
+  dryrun?: boolean,
+  cwd = process.cwd(),
+) => {
+  const _content = await read(token, contentPath, owner, repo, dryrun, cwd)
+
+  if (content == _content) {
+    return
+  }
+
+  Object.assign(content, { sha: _content.sha })
+  await upload(token, content, owner, repo, contentPath, dryrun, cwd)
 }
 
 export const read = async (
