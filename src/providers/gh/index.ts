@@ -88,12 +88,19 @@ export const upsert = async (
 ) => {
   const _content = await read(token, contentPath, owner, repo, dryrun, cwd)
 
-  if (content == _content) {
+  if (content.toString() == _content.toString()) {
     return
   }
 
-  Object.assign(content, { sha: _content.sha })
-  await upload(token, content, owner, repo, contentPath, dryrun, cwd)
+  await upload(
+    token,
+    Object.assign(content, { sha: _content.sha }),
+    owner,
+    repo,
+    contentPath,
+    dryrun,
+    cwd,
+  )
 }
 
 export const read = async (
@@ -124,7 +131,7 @@ export const read = async (
       },
     )
 
-    return Object.assign(new String(decodeBase64(content)), { sha })
+    return Object.assign(decodeBase64(content), { sha })
   } catch (e) {
     console.warn(contentPath, e)
 
@@ -163,7 +170,7 @@ export const upload = async (
       email: 'my-badges@github.com',
     },
     content: encodeBase64(content as string),
-    sha: content.sha,
+    sha,
   })
 }
 
