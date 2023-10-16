@@ -19,9 +19,23 @@ export const githubProvider: TProvider = {
 
     return collect(octokit, user)
   },
-  async getBadges({ user, token, owner = user, repo = user }) {
+  async getBadges({
+    user,
+    token,
+    owner = user,
+    repo = user,
+    dryrun = false,
+    cwd,
+  }) {
     try {
-      const content = await read(token, MY_BADGES_JSON_PATH, owner, repo)
+      const content = await read({
+        token,
+        contentPath: MY_BADGES_JSON_PATH,
+        dryrun,
+        owner,
+        repo,
+        cwd,
+      })
       const userBadges = JSON.parse(content + '')
       userBadges.sha = content.sha
 
@@ -49,8 +63,17 @@ export const githubProvider: TProvider = {
     size,
     dryrun,
     cwd,
+    committerName,
+    committerEmail,
   }) {
-    const oldReadme = await read(token, 'readme.md', owner, repo, dryrun, cwd)
+    const oldReadme = await read({
+      token,
+      contentPath: 'readme.md',
+      owner,
+      repo,
+      dryrun,
+      cwd,
+    })
     const readme = generateReadme(oldReadme + '', badges, size)
     const uploads: Record<string, any> = {
       [MY_BADGES_JSON_PATH]: JSON.stringify(badges, null, 2),
@@ -71,46 +94,55 @@ export const githubProvider: TProvider = {
 
     await Promise.all(
       Object.entries(uploads).map(([contentPath, content]) =>
-        upsert(token, content, owner, repo, contentPath, dryrun, cwd),
+        upsert({
+          token,
+          content,
+          owner,
+          repo,
+          contentPath,
+          dryrun,
+          cwd,
+          committerName,
+          committerEmail,
+        }),
       ),
     )
   },
 }
 
-export const upsert = async (
-  token: string,
-  content: string & { sha?: string },
-  owner: string,
-  repo: string,
-  contentPath: string,
-  dryrun?: boolean,
-  cwd = process.cwd(),
-) => {
-  const _content = await read(token, contentPath, owner, repo, dryrun, cwd)
+type UpsertOpts = {
+  token: string
+  content: string & { sha?: string; path?: string }
+  owner: string
+  repo: string
+  contentPath: string
+  dryrun: boolean
+  cwd: string
+  committerName: string
+  committerEmail: string
+}
+
+export const upsert = async (opts: UpsertOpts) => {
+  const { content } = opts
+  const _content = await read(opts)
 
   if (content.toString() == _content.toString()) {
     return
   }
 
-  await upload(
-    token,
-    Object.assign(content, { sha: _content.sha, path: _content.path }),
-    owner,
-    repo,
-    contentPath,
-    dryrun,
-    cwd,
-  )
+  await upload({
+    ...opts,
+    content: Object.assign(content, { sha: _content.sha, path: _content.path }),
+  })
 }
 
 export const read = async (
-  token: string,
-  contentPath: string,
-  owner: string,
-  repo: string,
-  dryrun?: boolean,
-  cwd = process.cwd(),
+  opts: Pick<
+    UpsertOpts,
+    'token' | 'dryrun' | 'contentPath' | 'cwd' | 'repo' | 'owner'
+  >,
 ): Promise<string & { sha?: string; path?: string }> => {
+  const { dryrun, cwd, contentPath, token, repo, owner } = opts
   try {
     if (dryrun) {
       return (await fs.readFile(
@@ -146,15 +178,19 @@ export const read = async (
   }
 }
 
-export const upload = async (
-  token: string,
-  content: string & { sha?: string; path?: string },
-  owner: string,
-  repo: string,
-  contentPath: string,
-  dryrun?: boolean,
-  cwd = process.cwd(),
-) => {
+export const upload = async (opts: UpsertOpts) => {
+  const {
+    token,
+    content,
+    owner,
+    repo,
+    contentPath,
+    dryrun,
+    cwd,
+    committerName,
+    committerEmail,
+  } = opts
+
   if (dryrun) {
     console.log(`Skipped pushing ${contentPath} (dryrun)`)
     const filepath = path.join(cwd, contentPath)
@@ -173,8 +209,8 @@ export const upload = async (
     path: _contentPath || contentPath,
     message: `chore: ${contentPath} ${sha ? 'updated' : 'added'}`,
     committer: {
-      name: 'My Badges',
-      email: 'my-badges@github.com',
+      name: committerName,
+      email: committerEmail,
     },
     content: encodeBase64(content as string),
     sha,

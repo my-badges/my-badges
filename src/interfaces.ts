@@ -8,19 +8,23 @@ export interface TProvider {
   getBadges(ctx: {
     user: string
     token: string
-    repo?: string
-    owner?: string
+    repo: string
+    owner: string
+    cwd: string
+    dryrun: boolean
   }): Promise<TBadges>
   updateBadges(ctx: {
     user: string
     token: string
     badges: TBadges
-    repo?: string
-    owner?: string
+    repo: string
+    owner: string
     size: number | string
     readme?: string
-    dryrun?: boolean
-    cwd?: string
+    dryrun: boolean
+    cwd: string
+    committerName: string
+    committerEmail: string
   }): Promise<void>
 }
 
@@ -32,10 +36,12 @@ export type TUpdateMyBadgesNormalizedOpts = {
   size: string | number
   dryrun: boolean
   compact: boolean
+  shuffle: boolean
   pickBadges: string[]
   omitBadges: string[]
   dataPath: string
   provider: TProvider
   cwd: string
-  shuffle: boolean
+  committerName: string
+  committerEmail: string
 }

@@ -19,6 +19,8 @@ export type TUpdateMyBadgesOpts = Partial<{
   shuffle: boolean
   provider: TProvider
   cwd: string
+  'committer-name': string
+  'committer-email': string
 }>
 
 export const update = async (
@@ -58,13 +60,19 @@ export const normalizeOpts = (
     user: user = argv._[0] || env.GITHUB_USER,
     data: dataPath = '',
     size = 64,
-    dryrun = false,
+    dryrun = argv['dry-run'] || false,
     compact = false,
     shuffle = false,
     pick,
     omit,
     provider = githubProvider,
     cwd = process.cwd(),
+    committerName = argv['committer-name'] ||
+      env.GIT_COMMITTER_NAME ||
+      'My Badges',
+    committerEmail = argv['committer-email'] ||
+      env.GIT_COMMITTER_EMAIL ||
+      'my-badges@github.com',
   } = argv
   const [owner, repo] = repository?.split('/', 2) || [user, user]
   const pickBadges = pick ? pick.split(',') : []
@@ -72,8 +80,8 @@ export const normalizeOpts = (
 
   return {
     token,
-    owner,
     repo,
+    owner,
     user,
     size,
     dryrun,
@@ -84,6 +92,8 @@ export const normalizeOpts = (
     dataPath,
     provider,
     cwd,
+    committerName,
+    committerEmail,
   }
 }
 
@@ -126,13 +136,23 @@ export const getSnapshot = async ({
   user,
   provider,
   cwd,
+  dryrun,
 }: Pick<
   TUpdateMyBadgesNormalizedOpts,
-  'token' | 'dataPath' | 'repo' | 'owner' | 'user' | 'provider' | 'cwd'
+  | 'token'
+  | 'dataPath'
+  | 'repo'
+  | 'owner'
+  | 'user'
+  | 'provider'
+  | 'cwd'
+  | 'dryrun'
 >) => {
   const data = await getData({ dataPath, token, user, provider, cwd })
   const userBadges =
-    owner && repo ? await provider.getBadges({ token, user, repo, owner }) : []
+    owner && repo
+      ? await provider.getBadges({ token, user, repo, owner, cwd, dryrun })
+      : []
 
   return {
     data,

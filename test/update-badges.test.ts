@@ -3,8 +3,8 @@ import { describe, it } from 'node:test'
 import fs from 'node:fs'
 import path from 'node:path'
 import os from 'node:os'
-import { getSnapshot, update } from '../src/update-badges.js'
-import type { TBadges, TProvider } from '../src/interfaces.js'
+import { getSnapshot, update, normalizeOpts } from '../src/update-badges.js'
+import type { TProvider } from '../src/interfaces.js'
 import type { Data } from '../src/providers/gh/collect/collect.js'
 import { githubProvider } from '../src/providers/gh/index.js'
 
@@ -20,11 +20,56 @@ const voidProvider: TProvider = {
 }
 
 describe('my-badges', () => {
+  describe('normalizeOpts()', () => {
+    it('assembles arv and env inputs', () => {
+      const result = normalizeOpts(
+        {
+          user: 'foo',
+          repo: 'bar/baz',
+          data: 'data/path',
+          size: '100',
+          dryrun: true,
+          compact: true,
+          shuffle: true,
+          pick: 'baz,qux',
+          omit: 'foo-*,bar',
+          cwd: '/custom/cwd',
+        },
+        {
+          GITHUB_TOKEN: 'token',
+          GIT_COMMITTER_NAME: 'John Doe',
+        },
+      )
+      const expected = {
+        token: 'token',
+        user: 'foo',
+        owner: 'bar',
+        repo: 'baz',
+        dataPath: 'data/path',
+        size: '100',
+        dryrun: true,
+        compact: true,
+        shuffle: true,
+        pickBadges: ['baz', 'qux'],
+        omitBadges: ['foo-*', 'bar'],
+        provider: githubProvider,
+        cwd: '/custom/cwd',
+        committerName: 'John Doe',
+        committerEmail: 'my-badges@github.com',
+      }
+
+      Object.entries(result).forEach(([k, v]) => {
+        assert.deepEqual(v, (expected as any)[k])
+      })
+    })
+  })
+
   const token = 'token'
   const user = 'antongolub'
   const owner = user
   const repo = user
   const cwd = tempy()
+  const dryrun = false
 
   describe('getSnapshot()', () => {
     it('reads data snapshot if `dataPath` specified', async () => {
@@ -51,6 +96,7 @@ describe('my-badges', () => {
         repo,
         provider: voidProvider,
         cwd,
+        dryrun,
       })
 
       assert.deepEqual(_data, data)
@@ -70,6 +116,7 @@ describe('my-badges', () => {
           repo,
           provider: voidProvider,
           cwd,
+          dryrun,
         })
       } catch (e) {
         assert.equal((e as Error).message, 'Data file not found')
@@ -88,6 +135,7 @@ describe('my-badges', () => {
           repo,
           provider: voidProvider,
           cwd,
+          dryrun,
         })
       } catch (e) {
         assert.equal((e as Error).message, 'Specify username')
