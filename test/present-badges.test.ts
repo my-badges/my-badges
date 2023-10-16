@@ -2,6 +2,7 @@ import * as assert from 'node:assert'
 import { describe, it } from 'node:test'
 import { Data } from '../src/collect/collect.js'
 import { presentBadges } from '../src/present-badges.js'
+import { Badge, BadgePresenter } from '../src/badges.js'
 
 describe('present-badges', () => {
   const data: Data = {
@@ -11,7 +12,7 @@ describe('present-badges', () => {
       },
     } as Data['user'],
     pulls: [] as Data['pulls'],
-    issues: {} as Data['issues'],
+    issues: [] as Data['issues'],
     repos: [
       {
         stargazers_count: 1000,
@@ -165,5 +166,47 @@ describe('present-badges', () => {
           'https://github.com/my-badges/my-badges/blob/master/src/all-badges/stars/stars-2000.png?raw=true',
       },
     ])
+  })
+
+  it('presentBadges() keeps existing order of badges', async () => {
+    const dumpPresenter: BadgePresenter = {
+      url: new URL('file:///tmp/dump.js'),
+      badges: ['a-commit', 'ab-commit', 'abc-commit'],
+      present: (_, grant) => {
+        grant('a-commit', 'a')
+        grant('ab-commit', 'ab')
+        grant('abc-commit', 'abc')
+      },
+    }
+
+    const oldUserBadges: Badge[] = [
+      {
+        id: 'a-commit',
+        tier: 0,
+        desc: 'a',
+        body: '',
+        image: '',
+      },
+      {
+        id: 'abc-commit',
+        tier: 0,
+        desc: 'abc',
+        body: '',
+        image: '',
+      },
+    ]
+
+    const userBadges = presentBadges(
+      [dumpPresenter],
+      data,
+      oldUserBadges,
+      [],
+      [],
+      false,
+    )
+    assert.deepEqual(
+      userBadges.map((x) => x.id),
+      ['a-commit', 'abc-commit', 'ab-commit'],
+    )
   })
 })

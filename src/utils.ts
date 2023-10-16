@@ -31,30 +31,6 @@ export function quoteAttr(s: string) {
 
 export const expectType = <T>(expression: T) => void 0
 
-export const decodeBase64 = (data: string) =>
-  Buffer.from(data, 'base64').toString('utf8')
-export const encodeBase64 = (data: string) =>
-  Buffer.from(data, 'utf8').toString('base64')
-
-export const upload = async (
-  octokit: Octokit,
-  route: Parameters<Octokit['request']>[0],
-  data: Parameters<Octokit['request']>[1],
-  dryrun?: boolean,
-) => {
-  if (dryrun) {
-    console.log(`Skipped pushing ${data?.path} (dryrun)`)
-    const filepath = path.join(process.cwd(), data?.path as string)
-
-    await fs.mkdir(path.dirname(filepath), { recursive: true })
-    await fs.writeFile(filepath, data?.content as string)
-
-    return
-  }
-
-  console.log(`Uploading ${data?.path}`)
-  return octokit.request(route, {
-    ...data,
-    content: encodeBase64(data?.content as string),
-  })
+export function parseMask(value: string): RegExp {
+  return new RegExp(`^${value}$`.replace('*', '.+'))
 }
