@@ -6,7 +6,7 @@ import { Badge } from './badges.js'
 export function gitClone(owner: string, repo: string) {
   spawnSync(
     'git',
-    ['clone', '--depth=1', `git@github.com:${owner}/${repo}.git`, 'repo'],
+    ['clone', '--depth=1', `https://github.com/${owner}/${repo}.git`, 'repo'],
     {
       stdio: 'inherit',
     },
