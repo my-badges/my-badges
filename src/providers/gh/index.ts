@@ -94,7 +94,7 @@ export const upsert = async (
 
   await upload(
     token,
-    Object.assign(content, { sha: _content.sha }),
+    Object.assign(content, { sha: _content.sha, path: _content.path }),
     owner,
     repo,
     contentPath,
@@ -110,7 +110,7 @@ export const read = async (
   repo: string,
   dryrun?: boolean,
   cwd = process.cwd(),
-) => {
+): Promise<string & { sha?: string; path?: string }> => {
   try {
     if (dryrun) {
       return (await fs.readFile(
@@ -121,7 +121,7 @@ export const read = async (
 
     const octokit = getOctokit(token)
     const {
-      data: { content, sha, path: _path, name: _name },
+      data: { content, sha, path: _contentPath },
     } =
       contentPath === 'readme.md'
         ? await octokit.request<'readme'>('GET /repos/{owner}/{repo}/readme', {
@@ -137,19 +137,18 @@ export const read = async (
               repo,
             },
           )
-    console.log('read:', contentPath, sha, _path, _name)
 
-    return Object.assign(decodeBase64(content), { sha })
+    return Object.assign(decodeBase64(content), { sha, path: _contentPath })
   } catch (e) {
     console.warn(contentPath, e)
 
-    return '' as string & { sha: string }
+    return ''
   }
 }
 
 export const upload = async (
   token: string,
-  content: string & { sha?: string },
+  content: string & { sha?: string; path?: string },
   owner: string,
   repo: string,
   contentPath: string,
@@ -164,14 +163,14 @@ export const upload = async (
     return
   }
 
-  const { sha } = content
+  const { sha, path: _contentPath } = content
   console.log(`Uploading ${contentPath} ${sha}`)
 
   const octokit = getOctokit(token)
   return octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
     owner,
     repo,
-    path: contentPath,
+    path: _contentPath || contentPath,
     message: `chore: ${contentPath} ${sha ? 'updated' : 'added'}`,
     committer: {
       name: 'My Badges',
