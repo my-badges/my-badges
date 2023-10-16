@@ -4,7 +4,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import os from 'node:os'
 import { Octokit } from 'octokit'
-import { getBadges, getOldData } from '../src/get-badges.js'
+import { getBadges, getOldData } from '../src/get-data.js'
 import { encodeBase64 } from '../src/utils.js'
 
 const tempy = () => fs.mkdtempSync(path.join(os.tmpdir(), 'tempy-'))

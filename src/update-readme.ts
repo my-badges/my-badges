@@ -1,17 +1,35 @@
-import { Octokit } from 'octokit'
+import fs from 'node:fs'
+import { chdir } from 'node:process'
 import { Badge } from './badges.js'
-import { quoteAttr, upload } from './utils.js'
-import { allBadges } from './all-badges/index.js'
+import { quoteAttr } from './utils.js'
+
+export function updateReadme(badges: Badge[], size: number | string) {
+  chdir('repo')
+
+  const readmeFilename = detectReadmeFilename()
+  const readmeContent = fs.readFileSync(readmeFilename, 'utf8')
+
+  const content = generateReadme(readmeContent, badges, size)
+  fs.writeFileSync(readmeFilename, content)
+
+  chdir('..')
+}
+
+function detectReadmeFilename(): string {
+  if (fs.existsSync('README.md')) return 'README.md'
+  if (fs.existsSync('readme.md')) return 'readme.md'
+  throw new Error('Cannot find README.md')
+}
 
 export function generateReadme(
-  readme: string,
+  readmeContent: string,
   badges: Badge[],
   size: number | string = 64,
 ) {
   const startString = '<!-- my-badges start -->'
   const endString = '<!-- my-badges end -->'
 
-  let content = readme
+  let content = readmeContent
 
   const start = content.indexOf(startString)
   const end = content.indexOf(endString)
@@ -39,45 +57,4 @@ export function generateReadme(
   }
 
   return content
-}
-
-export async function updateReadme(
-  octokit: Octokit,
-  owner: string,
-  repo: string,
-  badges: Badge[],
-  size: number | string,
-  dryrun: boolean,
-) {
-  const readme = await octokit.request<'readme'>(
-    'GET /repos/{owner}/{repo}/readme',
-    {
-      owner,
-      repo,
-    },
-  )
-
-  const content = generateReadme(
-    Buffer.from(readme.data.content, 'base64').toString('utf8'),
-    badges,
-    size,
-  )
-
-  await upload(
-    octokit,
-    'PUT /repos/{owner}/{repo}/contents/{path}',
-    {
-      owner,
-      repo,
-      path: readme.data.path,
-      message: 'Update my-badges',
-      committer: {
-        name: 'My Badges',
-        email: 'my-badges@github.com',
-      },
-      content,
-      sha: readme.data.sha,
-    },
-    dryrun,
-  )
 }

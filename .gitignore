@@ -2,5 +2,6 @@
 /data/
 /dist/
 /my-badges/
+/repo/
 yarn.lock
 coverage

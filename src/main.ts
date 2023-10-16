@@ -4,11 +4,12 @@ import minimist from 'minimist'
 import { Octokit } from 'octokit'
 import { retry } from '@octokit/plugin-retry'
 import { throttling } from '@octokit/plugin-throttling'
-import { updateReadme } from './update-readme.js'
-import { updateBadges } from './update-badges.js'
 import { presentBadges } from './present-badges.js'
-import { getBadges } from './get-badges.js'
+import { getData } from './get-data.js'
 import { allBadges } from './all-badges/index.js'
+import { getUserBadges, gitClone, gitPush } from './repo.js'
+import { updateBadges } from './update-badges.js'
+import { updateReadme } from './update-readme.js'
 
 void (async function main() {
   try {
@@ -28,7 +29,8 @@ void (async function main() {
       omit,
       compact,
     } = argv
-    const [owner, repo] = repository?.split('/', 2) || [username, username]
+    const [owner, repo]: [string | undefined, string | undefined] =
+      repository?.split('/', 2) || [username, username]
     const pickBadges = pick ? pick.split(',') : []
     const omitBadges = omit ? omit.split(',') : []
 
@@ -55,14 +57,10 @@ void (async function main() {
       retry: { doNotRetry: ['429'] },
     })
 
-    let { userBadges, data, oldJson, jsonSha } = await getBadges(
-      octokit,
-      dataPath,
-      username,
-      owner,
-      repo,
-    )
+    if (owner && repo) gitClone(owner, repo)
+    const data = await getData(octokit, dataPath, username)
 
+    let userBadges = getUserBadges()
     userBadges = presentBadges(
       allBadges.map((m) => m.default),
       data,
@@ -75,16 +73,11 @@ void (async function main() {
     console.log(JSON.stringify(userBadges, null, 2))
 
     if (owner && repo) {
-      await updateBadges(
-        octokit,
-        owner,
-        repo,
-        userBadges,
-        oldJson,
-        jsonSha,
-        dryrun,
-      )
-      await updateReadme(octokit, owner, repo, userBadges, size, dryrun)
+      updateBadges(userBadges)
+      updateReadme(userBadges, size)
+      if (!dryrun) {
+        gitPush()
+      }
     }
   } catch (e) {
     console.error(e)
