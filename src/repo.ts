@@ -3,10 +3,15 @@ import { spawnSync } from 'node:child_process'
 import { chdir } from 'node:process'
 import { Badge } from './badges.js'
 
-export function gitClone(owner: string, repo: string) {
+export function gitClone(owner: string, repo: string, token: string) {
   spawnSync(
     'git',
-    ['clone', '--depth=1', `https://github.com/${owner}/${repo}.git`, 'repo'],
+    [
+      'clone',
+      '--depth=1',
+      `https://${owner}:${token}@github.com/${owner}/${repo}.git`,
+      'repo',
+    ],
     {
       stdio: 'inherit',
     },

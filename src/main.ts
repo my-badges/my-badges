@@ -57,7 +57,7 @@ void (async function main() {
       retry: { doNotRetry: ['429'] },
     })
 
-    if (owner && repo) gitClone(owner, repo)
+    if (owner && repo) gitClone(owner, repo, token)
     const data = await getData(octokit, dataPath, username)
 
     let userBadges = getUserBadges()
