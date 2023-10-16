@@ -169,13 +169,20 @@ describe('present-badges', () => {
   })
 
   it('presentBadges() keeps existing order of badges', async () => {
-    const dumpPresenter: BadgePresenter = {
+    const dumpPresenter1: BadgePresenter = {
       url: new URL('file:///tmp/dump.js'),
       badges: ['a-commit', 'ab-commit', 'abc-commit'],
       present: (_, grant) => {
         grant('a-commit', 'a')
         grant('ab-commit', 'ab')
         grant('abc-commit', 'abc')
+      },
+    }
+    const dumpPresenter2: BadgePresenter = {
+      url: new URL('file:///tmp/dump.js'),
+      badges: ['this-is-fine'],
+      present: (_, grant) => {
+        grant('this-is-fine', 'this is fine')
       },
     }
 
@@ -194,10 +201,17 @@ describe('present-badges', () => {
         body: '',
         image: '',
       },
+      {
+        id: 'this-is-fine',
+        tier: 0,
+        desc: 'this is fine',
+        body: '',
+        image: '',
+      },
     ]
 
     const userBadges = presentBadges(
-      [dumpPresenter],
+      [dumpPresenter1, dumpPresenter2],
       data,
       oldUserBadges,
       [],
@@ -206,7 +220,7 @@ describe('present-badges', () => {
     )
     assert.deepEqual(
       userBadges.map((x) => x.id),
-      ['a-commit', 'abc-commit', 'ab-commit'],
+      ['a-commit', 'abc-commit', 'this-is-fine', 'ab-commit'],
     )
   })
 })
