@@ -1,8 +1,6 @@
-import fs from 'node:fs/promises'
-import path from 'node:path'
-import { Octokit } from 'octokit'
+import process from 'node:process'
+import { spawnSync } from 'node:child_process'
 import { Commit, Issue, Pull } from './collect/collect.js'
-import { Badge } from './badges.js'
 
 export function linkCommit(commit: Commit): string {
   return `<a href="https://github.com/${commit.repository.owner.login}/${
@@ -33,4 +31,11 @@ export const expectType = <T>(expression: T) => void 0
 
 export function parseMask(value: string): RegExp {
   return new RegExp(`^${value}$`.replace('*', '.+'))
+}
+
+export function exec(command: string, args: string[]): void {
+  const p = spawnSync(command, args, { stdio: 'inherit' })
+  if (p.status !== 0) {
+    throw new Error(`Command failed: ${command} ${args.join(' ')}`)
+  }
 }

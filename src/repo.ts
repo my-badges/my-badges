@@ -1,30 +1,20 @@
 import fs from 'node:fs'
-import { spawnSync } from 'node:child_process'
 import { chdir } from 'node:process'
 import { Badge } from './badges.js'
+import { exec } from './utils.js'
 
 export function gitClone(owner: string, repo: string, token: string) {
-  spawnSync(
-    'git',
-    [
-      'clone',
-      '--depth=1',
-      `https://${owner}:${token}@github.com/${owner}/${repo}.git`,
-      'repo',
-    ],
-    {
-      stdio: 'inherit',
-    },
-  )
+  exec('git', [
+    'clone',
+    '--depth=1',
+    `https://${owner}:${token}@github.com/${owner}/${repo}.git`,
+    'repo',
+  ])
 
   chdir('repo')
 
-  spawnSync('git', ['config', 'user.name', 'My Badges'], { stdio: 'inherit' })
-  spawnSync(
-    'git',
-    ['config', 'user.email', 'my-badges@users.noreply.github.com'],
-    { stdio: 'inherit' },
-  )
+  exec('git', ['config', 'user.name', 'My Badges'])
+  exec('git', ['config', 'user.email', 'my-badges@users.noreply.github.com'])
 
   chdir('..')
 }
@@ -32,9 +22,9 @@ export function gitClone(owner: string, repo: string, token: string) {
 export function gitPush() {
   chdir('repo')
 
-  spawnSync('git', ['add', '.'], { stdio: 'inherit' })
-  spawnSync('git', ['commit', '-m', 'Update badges'], { stdio: 'inherit' })
-  spawnSync('git', ['push'], { stdio: 'inherit' })
+  exec('git', ['add', '.'])
+  exec('git', ['commit', '-m', 'Update badges'])
+  exec('git', ['push'])
 
   chdir('..')
 }
