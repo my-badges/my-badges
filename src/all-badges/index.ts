@@ -19,4 +19,5 @@ export const allBadges = [
   await import('./old-issue/old-issue.js'),
   await import('./this-is-fine/this-is-fine.js'),
   await import('./the-ultimate-question/the-ultimate-question.js'),
+  await import('./favorite-word/favorite-word.js'),
 ] as const
