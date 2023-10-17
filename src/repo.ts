@@ -40,9 +40,9 @@ export function gitPush() {
 }
 
 export function getUserBadges(): Badge[] {
-  if (!fs.existsSync('my-badges/my-badges.json')) {
+  if (!fs.existsSync('repo/my-badges/my-badges.json')) {
     return []
   }
-  const data = fs.readFileSync('my-badges/my-badges.json', 'utf8')
+  const data = fs.readFileSync('repo/my-badges/my-badges.json', 'utf8')
   return JSON.parse(data)
 }
