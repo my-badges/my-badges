@@ -93,17 +93,22 @@ export async function collect(
       username,
     },
   )
-  for await (const resp of pulls) {
-    console.log(
-      `Loading pull requests ${
-        data.pulls.length + resp.user.pullRequests.nodes.length
-      }/${resp.user.pullRequests.totalCount} (cost: ${
-        resp.rateLimit.cost
-      }, remaining: ${resp.rateLimit.remaining})`,
-    )
-    for (const pull of resp.user.pullRequests.nodes) {
-      data.pulls.push(pull)
+  try {
+    for await (const resp of pulls) {
+      console.log(
+        `Loading pull requests ${
+          data.pulls.length + resp.user.pullRequests.nodes.length
+        }/${resp.user.pullRequests.totalCount} (cost: ${
+          resp.rateLimit.cost
+        }, remaining: ${resp.rateLimit.remaining})`,
+      )
+      for (const pull of resp.user.pullRequests.nodes) {
+        data.pulls.push(pull)
+      }
     }
+  } catch (err) {
+    console.error(`Failed to load pull requests`)
+    console.error(err)
   }
 
   const issues = octokit.graphql.paginate.iterator<IssuesQuery>(
@@ -112,15 +117,22 @@ export async function collect(
       username,
     },
   )
-  for await (const resp of issues) {
-    console.log(
-      `Loading issues ${data.issues.length + resp.user.issues.nodes.length}/${
-        resp.user.issues.totalCount
-      } (cost: ${resp.rateLimit.cost}, remaining: ${resp.rateLimit.remaining})`,
-    )
-    for (const issue of resp.user.issues.nodes) {
-      data.issues.push(issue)
+  try {
+    for await (const resp of issues) {
+      console.log(
+        `Loading issues ${data.issues.length + resp.user.issues.nodes.length}/${
+          resp.user.issues.totalCount
+        } (cost: ${resp.rateLimit.cost}, remaining: ${
+          resp.rateLimit.remaining
+        })`,
+      )
+      for (const issue of resp.user.issues.nodes) {
+        data.issues.push(issue)
+      }
     }
+  } catch (err) {
+    console.error(`Failed to load issues`)
+    console.error(err)
   }
 
   return data
