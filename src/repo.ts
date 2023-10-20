@@ -23,6 +23,7 @@ export function gitPush() {
   chdir('repo')
 
   exec('git', ['add', '.'])
+  exec('git', ['status'])
   exec('git', ['commit', '-m', 'Update badges'])
   exec('git', ['push'])
 
