@@ -1,5 +1,5 @@
 import { BadgePresenter, Present } from '../../badges.js'
-import { Issue, Pull } from '../../collect/collect.js'
+import { Issue, Pull } from '../../collect/types.js'
 
 export default new (class implements BadgePresenter {
   url = new URL(import.meta.url)

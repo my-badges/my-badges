@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process'
-import { Commit, Issue, Pull } from './collect/collect.js'
+import { Commit, Issue, Pull } from './collect/types.js'
 
 export function linkCommit(commit: Commit): string {
   return `<a href="https://github.com/${commit.repository.owner.login}/${

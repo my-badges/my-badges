@@ -1,6 +1,7 @@
-import { collect, Data } from './collect/collect.js'
+import { collect } from './collect/collect.js'
 import fs from 'node:fs'
 import { Octokit } from 'octokit'
+import { Data } from './collect/types.js'
 
 export async function getData(
   octokit: Octokit,

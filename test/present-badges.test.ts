@@ -1,8 +1,8 @@
 import * as assert from 'node:assert'
 import { describe, it } from 'node:test'
-import { Data } from '../src/collect/collect.js'
 import { presentBadges } from '../src/present-badges.js'
 import { Badge, BadgePresenter } from '../src/badges.js'
+import { Data } from '../src/collect/types.js'
 
 describe('present-badges', () => {
   const data: Data = {

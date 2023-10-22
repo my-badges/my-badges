@@ -2,8 +2,8 @@ import { Badge, badgeCollection, BadgePresenter, ID } from './badges.js'
 import { allBadges } from './all-badges/index.js'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { Data } from './collect/collect.js'
 import { parseMask } from './utils.js'
+import { Data } from './collect/types.js'
 
 export const presentBadges = (
   presenters: BadgePresenter[],

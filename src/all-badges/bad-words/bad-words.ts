@@ -1,6 +1,6 @@
-import { Commit, Repo } from '../../collect/collect.js'
 import { Present, BadgePresenter } from '../../badges.js'
 import { linkCommit } from '../../utils.js'
+import { Commit, Repo } from '../../collect/types.js'
 
 export default new (class implements BadgePresenter {
   url = new URL(import.meta.url)

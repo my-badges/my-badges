@@ -1,28 +1,10 @@
 import { Octokit } from 'octokit'
-import { Endpoints } from '@octokit/types'
 import { pullsQuery, PullsQuery } from './pulls.js'
 import { commitsQuery, CommitsQuery } from './commits.js'
-import fs from 'node:fs'
-import { fileURLToPath } from 'node:url'
 import { issuesQuery, IssuesQuery } from './issues.js'
 import { userQuery, UserQuery } from './user.js'
 import { IssueTimelineQuery, issueTimelineQuery } from './issue-timeline.js'
-
-export type Data = {
-  user: User
-  repos: Repo[]
-  pulls: Pull[]
-  issues: Issue[]
-}
-export type User = UserQuery['user']
-export type Repo =
-  Endpoints['GET /users/{username}/repos']['response']['data'][0] & {
-    commits: Commit[]
-  }
-export type Commit =
-  CommitsQuery['repository']['defaultBranchRef']['target']['history']['nodes'][0]
-export type Pull = PullsQuery['user']['pullRequests']['nodes'][0]
-export type Issue = IssuesQuery['user']['issues']['nodes'][0]
+import { Data } from './types.js'
 
 export async function collect(
   octokit: Octokit,

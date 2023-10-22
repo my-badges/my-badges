@@ -1,6 +1,6 @@
 import { allBadges } from './all-badges/index.js'
-import { Commit, Data, Issue, Pull } from './collect/collect.js'
 import { expectType, linkCommit, linkIssue, linkPull } from './utils.js'
+import { Commit, Data, Issue, Pull } from './collect/types.js'
 
 for (const {
   default: { badges },
