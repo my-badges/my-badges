@@ -11,8 +11,7 @@
     "fmt:check": "prettier --check .",
     "start": "tsc --watch",
     "tsc": "tsc",
-    "build": "npm run copy-files && npm run tsc",
-    "copy-files": "copyfiles -u 1 src/**/*.graphql dist/",
+    "build": "tsc",
     "check-images": "node dist/check-images.js",
     "test": "npm run test:unit",
     "test:unit": "c8 -r lcov -r text -o coverage -x scripts -x test node --loader ts-node/esm --experimental-specifier-resolution=node scripts/test.mjs"
@@ -28,7 +27,6 @@
     "@types/minimist": "^1.2.3",
     "@types/node": "^20.8.0",
     "c8": "^8.0.1",
-    "copyfiles": "^2.4.1",
     "fast-glob": "^3.3.1",
     "prettier": "^3.0.3",
     "ts-node": "^10.9.1",

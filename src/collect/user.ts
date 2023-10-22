@@ -1,3 +1,65 @@
+export const userQuery = `#graphql
+query UserQuery($login: String!) {
+  user(login: $login) {
+    id
+    login
+    name
+    avatarUrl
+    bio
+    company
+    location
+    email
+    twitterUsername
+    websiteUrl
+    status {
+      createdAt
+      emoji
+      message
+    }
+    createdAt
+    followers {
+      totalCount
+    }
+    following {
+      totalCount
+    }
+    anyPinnableItems
+    pinnedItems(first: 6) {
+      totalCount
+      nodes {
+        ... on Gist {
+          name
+        }
+        ... on Repository {
+          name
+        }
+      }
+    }
+    sponsoring {
+      totalCount
+    }
+    sponsors {
+      totalCount
+    }
+    starredRepositories {
+      totalCount
+    }
+    publicKeys(first: 5) {
+      totalCount
+      nodes {
+        key
+      }
+    }
+  }
+  rateLimit {
+    limit
+    cost
+    remaining
+    resetAt
+  }
+}
+`
+
 export type UserQuery = {
   user: {
     id: string
