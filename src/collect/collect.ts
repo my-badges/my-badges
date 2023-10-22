@@ -1,11 +1,12 @@
 import { Octokit } from 'octokit'
 import { Endpoints } from '@octokit/types'
-import { PullsQuery } from './pulls.js'
-import { CommitsQuery } from './commits.js'
+import { pullsQuery, PullsQuery } from './pulls.js'
+import { commitsQuery, CommitsQuery } from './commits.js'
 import fs from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { IssuesQuery } from './issues.js'
-import { UserQuery } from './user.js'
+import { issuesQuery, IssuesQuery } from './issues.js'
+import { userQuery, UserQuery } from './user.js'
+import { IssueTimelineQuery, issueTimelineQuery } from './issue-timeline.js'
 
 export type Data = {
   user: User
@@ -27,10 +28,9 @@ export async function collect(
   octokit: Octokit,
   username: string,
 ): Promise<Data> {
-  const { user } = await octokit.graphql<UserQuery>(
-    loadGraphql('./user.graphql'),
-    { login: username },
-  )
+  const { user } = await octokit.graphql<UserQuery>(userQuery, {
+    login: username,
+  })
 
   const data: Data = {
     user: user,
@@ -61,7 +61,7 @@ export async function collect(
     console.log(`Loading commits for ${repo.owner.login}/${repo.name}`)
     try {
       const commits = octokit.graphql.paginate.iterator<CommitsQuery>(
-        loadGraphql('./commits.graphql'),
+        commitsQuery,
         {
           owner: repo.owner.login,
           name: repo.name,
@@ -87,12 +87,9 @@ export async function collect(
     }
   }
 
-  const pulls = octokit.graphql.paginate.iterator<PullsQuery>(
-    loadGraphql('./pulls.graphql'),
-    {
-      username,
-    },
-  )
+  const pulls = octokit.graphql.paginate.iterator<PullsQuery>(pullsQuery, {
+    username,
+  })
   try {
     for await (const resp of pulls) {
       console.log(
@@ -111,12 +108,9 @@ export async function collect(
     console.error(err)
   }
 
-  const issues = octokit.graphql.paginate.iterator<IssuesQuery>(
-    loadGraphql('./issues.graphql'),
-    {
-      username,
-    },
-  )
+  const issues = octokit.graphql.paginate.iterator<IssuesQuery>(issuesQuery, {
+    username,
+  })
   try {
     for await (const resp of issues) {
       console.log(
@@ -135,9 +129,37 @@ export async function collect(
     console.error(err)
   }
 
-  return data
-}
+  for (const issue of data.issues) {
+    console.log(
+      `Loading issue timeline for ${issue.repository.name}#${issue.number}`,
+    )
+    try {
+      const timeline = octokit.graphql.paginate.iterator<IssueTimelineQuery>(
+        issueTimelineQuery,
+        {
+          owner: issue.repository.owner.login,
+          name: issue.repository.name,
+          number: issue.number,
+        },
+      )
+      for await (const resp of timeline) {
+        console.log(
+          `| timeline ${resp.repository.issue.timelineItems.nodes.length}/${resp.repository.issue.timelineItems.totalCount} (cost: ${resp.rateLimit.cost}, remaining: ${resp.rateLimit.remaining})`,
+        )
+        for (const event of resp.repository.issue.timelineItems.nodes) {
+          if (event.__typename == 'ClosedEvent') {
+            issue.closedAt = event.createdAt
+            issue.closedBy = event.actor.login
+          }
+        }
+      }
+    } catch (err) {
+      console.error(
+        `Failed to load issue timeline for ${issue.repository.name}#${issue.number}`,
+      )
+      console.error(err)
+    }
+  }
 
-function loadGraphql(file: string): string {
-  return fs.readFileSync(fileURLToPath(new URL(file, import.meta.url)), 'utf8')
+  return data
 }
