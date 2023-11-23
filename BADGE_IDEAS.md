@@ -8,7 +8,6 @@ Feel free to grab any of these ideas and implement them:
 - **caffeine-fueled** - For a burst of commits at odd hours, implying lots of coffee.
 - **ninja-commit** - Silent commits with minimal descriptions.
 - **commit-haiku** - Commit descriptions that are in the format of a haiku.
-- **emoji-only** - For commit messages that use only emojis.
 - **oops-fix** - For commits that quickly follow a previous commit to fix something minor.
 - **one-liner** - For commits that change only one line.
 - **marathoner** - For long coding sessions with many commits.
