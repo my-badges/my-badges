@@ -1,11 +1,8 @@
-import process from 'node:process'
 import { spawnSync } from 'node:child_process'
 import { Commit, Issue, Pull } from './collect/collect.js'
 
 export function linkCommit(commit: Commit): string {
-  return `<a href="https://github.com/${commit.repository.owner.login}/${
-    commit.repository.name
-  }/commit/${commit.sha}">${commit.sha.slice(0, 7)}</a>`
+  return `<a href="https://github.com/${commit.repository.owner.login}/${commit.repository.name}/commit/${commit.sha}">${commit.sha.slice(0, 7)}</a>`
 }
 
 export function linkPull(pull: Pull): string {
