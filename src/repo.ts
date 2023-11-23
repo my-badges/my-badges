@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import { chdir } from 'node:process'
 import { Badge } from './badges.js'
-import { exec } from './utils.js'
+import { exec, execWithOutput } from './utils.js'
 
 export function gitClone(owner: string, repo: string, token: string) {
   exec('git', [
@@ -17,6 +17,16 @@ export function gitClone(owner: string, repo: string, token: string) {
   exec('git', ['config', 'user.email', 'my-badges@users.noreply.github.com'])
 
   chdir('..')
+}
+
+export function thereAreChanges(): boolean {
+  chdir('repo')
+
+  const changes = execWithOutput('git', ['status', '--porcelain']).trim()
+
+  chdir('..')
+
+  return changes !== ''
 }
 
 export function gitPush() {
