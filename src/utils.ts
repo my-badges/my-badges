@@ -1,4 +1,3 @@
-import process from 'node:process'
 import { spawnSync } from 'node:child_process'
 import { Commit, Issue, Pull } from './collect/collect.js'
 
@@ -38,4 +37,12 @@ export function exec(command: string, args: string[]): void {
   if (p.status !== 0) {
     throw new Error(`Command failed: ${command} ${args.join(' ')}`)
   }
+}
+
+export function execWithOutput(command: string, args: string[]): string {
+  const p = spawnSync(command, args, { stdio: 'pipe' })
+  if (p.status !== 0) {
+    throw new Error(`Command failed: ${command} ${args.join(' ')}`)
+  }
+  return p.stdout.toString()
 }

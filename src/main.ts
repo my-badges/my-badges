@@ -7,7 +7,7 @@ import { throttling } from '@octokit/plugin-throttling'
 import { presentBadges } from './present-badges.js'
 import { getData } from './get-data.js'
 import { allBadges } from './all-badges/index.js'
-import { getUserBadges, gitClone, gitPush } from './repo.js'
+import { getUserBadges, gitClone, gitPush, thereAreChanges } from './repo.js'
 import { updateBadges } from './update-badges.js'
 import { updateReadme } from './update-readme.js'
 
@@ -75,7 +75,7 @@ void (async function main() {
     if (owner && repo) {
       updateBadges(userBadges)
       updateReadme(userBadges, size)
-      if (!dryrun) {
+      if (!dryrun && thereAreChanges()) {
         gitPush()
       }
     }
