@@ -36,3 +36,11 @@ export function exec(command: string, args: string[]): void {
     throw new Error(`Command failed: ${command} ${args.join(' ')}`)
   }
 }
+
+export function execWithOutput(command: string, args: string[]): string {
+  const p = spawnSync(command, args, { stdio: 'pipe' })
+  if (p.status !== 0) {
+    throw new Error(`Command failed: ${command} ${args.join(' ')}`)
+  }
+  return p.stdout.toString()
+}
