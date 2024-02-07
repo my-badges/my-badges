@@ -37,9 +37,9 @@ runs:
     - shell: bash
       run: >-
         update-my-badges --token ${{ inputs.token }} --user ${{ inputs.user }
-        $([ "${{ inputs.repo }}" ]           && echo --repo "${{ inputs.repo}}")
-        $([ "${{ inputs.size }}" ]           && echo --size "${{inputs.size }}")
+        $([ "${{ inputs.repo }}" ]           && echo --repo "${{ inputs.repo }}")
+        $([ "${{ inputs.size }}" ]           && echo --size "${{ inputs.size }}")
         $([ "${{ inputs.dryrun }}" = true ]  && echo --dryrun)
-        $([ "${{ inputs.omit }}" ]           && echo --omit "${{ inputs.omit}}")
+        $([ "${{ inputs.omit }}" ]           && echo --omit "${{ inputs.omit }}")
         $([ "${{ inputs.pick }}" ]           && echo --pick "${{ inputs.pick }}")
         $([ "${{ inputs.compact }}" = true ] && echo --compact)
