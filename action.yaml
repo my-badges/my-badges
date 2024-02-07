@@ -7,28 +7,22 @@ branding:
 inputs:
   token:
     description: Auth token
-    default: '${{ github.token }}'
+    default: ${{ github.token }}
   user:
     description: Username
-    default: '${{ github.repository_owner }}'
+    default: ${{ github.repository_owner }}
   repo:
     description: Repository name to push badges
   size:
-    description: 'Badge size for README.md, px'
+    description: Badge size for README.md, px
   dryrun:
-    description: 'Generate badges, but skip pushing them to git'
+    description: Generate badges, but skip pushing them to git
   omit:
-    description: >-
-      List of badges to exclude. For example, if you're too shy to flex your
-      stars: omit: stars-100,stars-500,stars-1000 or even shorter omit: stars-*
+    description: "List of badges to exclude. For example, if you're too shy to flex your stars: omit: stars-100,stars-500,stars-1000 or even shorter omit: stars-*"
   pick:
-    desciption: >-
-      list of badges to pick. Pass pick: a-commit,ab-commit,revert-revert-commit
-      to generate only the specified entries. If empty gets all of them
+    description: 'list of badges to pick. Pass pick: a-commit,ab-commit,revert-revert-commit to generate only the specified entries. If empty gets all of them'
   compact:
-    description: >-
-      Represent the highest tier badges in README.md. For example, If you have
-      both stars-100 and stars-500 achievements, only the last one will be shown
+    description: 'Represent the highest tier badges in README.md. For example, If you have both stars-100 and stars-500 achievements, only the last one will be shown'
 runs:
   using: composite
   steps:
