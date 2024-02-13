@@ -11,7 +11,7 @@ export default new (class implements BadgePresenter {
         const words = msg
           .split(/\s+/)
           .map((w) => w.trim())
-          .filter((w) => w.length > 0)
+          .filter((w) => w.length > 1)
           .map((w) => w.toLowerCase())
         for (const word of words) {
           counts[word] = (counts[word] || 0) + 1
