@@ -1,4 +1,5 @@
 import { BadgePresenter, Present } from '../../badges.js'
+import { removeStopwords } from 'stopword'
 
 export default new (class implements BadgePresenter {
   url = new URL(import.meta.url)
@@ -8,9 +9,7 @@ export default new (class implements BadgePresenter {
     for (const repo of data.repos) {
       for (const commit of repo.commits) {
         const msg = commit.message + '\n' + commit.messageBody
-        const words = msg
-          .split(/\s+/)
-          .map((w) => w.trim())
+        const words = removeStopwords(msg.split(/\s+/).map((w) => w.trim()))
           .filter((w) => w.length > 1)
           .map((w) => w.toLowerCase())
         for (const word of words) {
