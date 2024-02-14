@@ -17,7 +17,7 @@ export default new (class implements BadgePresenter {
 
         date.setUTCHours(date.getUTCHours() + timezoneOffset)
 
-        if (date.getUTCHours() >= 4 && date.getUTCHours() < 6) {
+        if (date.getUTCHours() >= 4 && date.getUTCHours() < 8) {
           morningCommits.push(commit)
         }
         if (date.getUTCHours() >= 21) {
