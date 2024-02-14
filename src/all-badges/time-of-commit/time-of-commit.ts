@@ -15,7 +15,7 @@ export default new (class implements BadgePresenter {
       for (const commit of repo.commits) {
         const date = new Date(commit.committedDate)
 
-        date.setHours(date.getUTCHours() + timezoneOffset)
+        date.setUTCHours(date.getUTCHours() + timezoneOffset)
 
         if (date.getUTCHours() >= 4 && date.getUTCHours() < 6) {
           morningCommits.push(commit)
