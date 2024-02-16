@@ -30,7 +30,7 @@ runs:
       run: npm install -g update-my-badges
     - shell: bash
       run: >-
-        update-my-badges --token ${{ inputs.token }} --user ${{ inputs.user }
+        update-my-badges --token "${{ inputs.token }}" --user "${{ inputs.user }}"
         $([ "${{ inputs.repo }}" ]           && echo --repo "${{ inputs.repo }}")
         $([ "${{ inputs.size }}" ]           && echo --size "${{ inputs.size }}")
         $([ "${{ inputs.dryrun }}" = true ]  && echo --dryrun)
