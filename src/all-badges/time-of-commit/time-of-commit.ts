@@ -3,11 +3,17 @@ import { Commit, User } from '../../collect/collect.js'
 
 export default new (class implements BadgePresenter {
   url = new URL(import.meta.url)
-  badges = ['midnight-commits', 'morning-commits', 'evening-commits'] as const
+  badges = [
+    'midnight-commits',
+    'morning-commits',
+    'evening-commits',
+    'sleepy-coder',
+  ] as const
   present: Present = (data, grant) => {
     const morningCommits: Commit[] = []
     const eveningCommits: Commit[] = []
     const midnightCommits: Commit[] = []
+    const sleepycoderCommits: Commit[] = []
 
     const timezoneOffset = guessTimezone(data.user)
 
@@ -18,6 +24,9 @@ export default new (class implements BadgePresenter {
         date.setUTCHours(date.getUTCHours() + timezoneOffset)
 
         if (date.getUTCHours() >= 4 && date.getUTCHours() < 6) {
+          sleepycoderCommits.push(commit)
+        }
+        if (date.getUTCHours() >= 6 && date.getUTCHours() < 8) {
           morningCommits.push(commit)
         }
         if (date.getUTCHours() >= 21) {
@@ -29,6 +38,11 @@ export default new (class implements BadgePresenter {
       }
     }
 
+    if (sleepycoderCommits.length > 0) {
+      grant('sleepy-coder', 'I am a sleepy coder.').evidenceCommits(
+        ...sleepycoderCommits.sort(latest).slice(0, 6),
+      )
+    }
     if (morningCommits.length > 0) {
       grant('morning-commits', 'I commit in the morning.').evidenceCommits(
         ...morningCommits.sort(latest).slice(0, 6),
