@@ -75,5 +75,4 @@ Feel free to grab any of these ideas and implement them:
 - **first-timer** - Celebrating someone's first commit to a project.
 - **no-tests** - No tests added or changed in the commit.
 - **ancient-code** - For updating or working with very old code repositories.
-- **sleepy-coder** - For commits made in the very early hours of the morning.
 - **streaker** - For users with long daily commit streaks.
