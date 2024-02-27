@@ -17,7 +17,7 @@ export default new (class implements BadgePresenter {
 
     if (commits.length > 0) {
       grant(
-        'delorean-coder',
+        'delorean',
         'I committed on the day Doctor Emmett Brown invented the flux capacitor!').evidenceCommits(
         ...commits.sort(latest).slice(0, 6),
       )
