@@ -1,4 +1,5 @@
 import { BadgePresenter, Present } from '../../badges.js'
+import { Commit } from '../../collect/collect.js'
 
 export default new (class implements BadgePresenter {
   url = new URL(import.meta.url)
@@ -18,7 +19,8 @@ export default new (class implements BadgePresenter {
     if (commits.length > 0) {
       grant(
         'delorean',
-        'I committed on the day Doctor Emmett Brown invented the flux capacitor!').evidenceCommits(
+        'I committed on the day Doctor Emmett Brown invented the flux capacitor!'
+      ).evidenceCommits(
         ...commits.sort(latest).slice(0, 6),
       )
     }
