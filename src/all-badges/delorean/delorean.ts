@@ -26,3 +26,9 @@ export default new (class implements BadgePresenter {
     }
   }
 })()
+
+function latest(a: Commit, b: Commit) {
+  return (
+    new Date(b.committedDate).getTime() - new Date(a.committedDate).getTime()
+  )
+}
