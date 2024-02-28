@@ -6,7 +6,7 @@ export default new (class implements BadgePresenter {
   badges = ['delorean'] as const
   present: Present = (data, grant) => {
     const commits: Commit[] = []
-    
+
     for (const repo of data.repos) {
       for (const commit of repo.commits) {
         const data = new Date(commit.committedDate)
@@ -19,10 +19,8 @@ export default new (class implements BadgePresenter {
     if (commits.length > 0) {
       grant(
         'delorean',
-        'I committed on the day Doctor Emmett Brown invented the flux capacitor!'
-      ).evidenceCommits(
-        ...commits.sort(latest).slice(0, 6),
-      )
+        'I committed on the day Doctor Emmett Brown invented the flux capacitor!',
+      ).evidenceCommits(...commits.sort(latest).slice(0, 6))
     }
   }
 })()
