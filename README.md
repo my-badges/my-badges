@@ -13,6 +13,7 @@ as community adds new badges. **Yes, you can [add your own badges](CONTRIBUTING.
 But how does those badges look like? Take a look [here](https://github.com/antonmedv),
 or [here](https://github.com/antongolub).
 
+<p>
 <img src="src/all-badges/abc-commit/a-commit.png" alt="a-commit" width="42">
 <img src="src/all-badges/abc-commit/ab-commit.png" alt="ab-commit" width="42">
 <img src="src/all-badges/abc-commit/abc-commit.png" alt="abc-commit" width="42">
@@ -75,6 +76,7 @@ or [here](https://github.com/antongolub).
 <img src="src/all-badges/favorite-word/favorite-word.png" alt="favorite-word" width="42">
 <img src="src/all-badges/polite-coder/polite-coder.png" alt="polite-coder" width="42">
 <img src="src/all-badges/polite-coder/rebel-coder.png" alt="rebel-coder" width="42">
+</p>
 
 ## Installation
 
