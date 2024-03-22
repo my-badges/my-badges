@@ -14,10 +14,6 @@ But how does those badges look like? Take a look [here](https://github.com/anton
 or [here](https://github.com/antongolub).
 
 <p>
-
-> update-my-badges@1.0.136 check-images
-> node dist/check-images.js
-
 <img src="src/all-badges/abc-commit/a-commit.png" alt="a-commit" width="42">
 <img src="src/all-badges/abc-commit/ab-commit.png" alt="ab-commit" width="42">
 <img src="src/all-badges/abc-commit/abc-commit.png" alt="abc-commit" width="42">
