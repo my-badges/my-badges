@@ -22,4 +22,5 @@ export const allBadges = [
   await import('./favorite-word/favorite-word.js'),
   await import('./polite-coder/polite-coder.js'),
   await import('./emoji-only-commit/emoji-only-commit.js'),
+  await import('./spooky-commit/spooky-commit.js'),
 ] as const
