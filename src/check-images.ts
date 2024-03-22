@@ -16,7 +16,7 @@ void (async function main() {
         console.error(`Missing image for badge "${id}" at ${rootPath}`)
         foundMissing = true
       } else {
-        console.log(`<img src="${imagePath}" alt="${id}" width="64">`)
+        console.log(`<img src="${imagePath}" alt="${id}" width="42">`)
       }
     }
   }
