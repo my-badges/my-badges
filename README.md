@@ -14,6 +14,10 @@ But how does those badges look like? Take a look [here](https://github.com/anton
 or [here](https://github.com/antongolub).
 
 <p>
+
+> update-my-badges@1.0.136 check-images
+> node dist/check-images.js
+
 <img src="src/all-badges/abc-commit/a-commit.png" alt="a-commit" width="42">
 <img src="src/all-badges/abc-commit/ab-commit.png" alt="ab-commit" width="42">
 <img src="src/all-badges/abc-commit/abc-commit.png" alt="abc-commit" width="42">
@@ -30,6 +34,7 @@ or [here](https://github.com/antongolub).
 <img src="src/all-badges/time-of-commit/midnight-commits.png" alt="midnight-commits" width="42">
 <img src="src/all-badges/time-of-commit/morning-commits.png" alt="morning-commits" width="42">
 <img src="src/all-badges/time-of-commit/evening-commits.png" alt="evening-commits" width="42">
+<img src="src/all-badges/time-of-commit/sleepy-coder.png" alt="sleepy-coder" width="42">
 <img src="src/all-badges/github-anniversary/github-anniversary-5.png" alt="github-anniversary-5" width="42">
 <img src="src/all-badges/github-anniversary/github-anniversary-10.png" alt="github-anniversary-10" width="42">
 <img src="src/all-badges/github-anniversary/github-anniversary-15.png" alt="github-anniversary-15" width="42">
@@ -76,6 +81,8 @@ or [here](https://github.com/antongolub).
 <img src="src/all-badges/favorite-word/favorite-word.png" alt="favorite-word" width="42">
 <img src="src/all-badges/polite-coder/polite-coder.png" alt="polite-coder" width="42">
 <img src="src/all-badges/polite-coder/rebel-coder.png" alt="rebel-coder" width="42">
+<img src="src/all-badges/emoji-only-commit/emoji-only-commit.png" alt="emoji-only-commit" width="42">
+<img src="src/all-badges/spooky-commit/spooky-commit.png" alt="spooky-commit" width="42">
 </p>
 
 ## Installation
