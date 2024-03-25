@@ -9,7 +9,10 @@ export default new (class implements BadgePresenter {
 
     for (const repo of data.repos) {
       for (const commit of repo.commits) {
-        if (/cosmetic/i.test(commit.message)) {
+        if (
+          /cosmetic/i.test(commit.message) ||
+          /^(style|lint)\b/.test(commit.message)
+        ) {
           commits.push(commit)
         }
       }
