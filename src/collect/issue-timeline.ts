@@ -13,6 +13,10 @@ query IssueTimelineQuery($owner: String!, $name: String!, $number: Int!, $num: I
             }
           }
         }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
       }
     }
   }
@@ -37,6 +41,10 @@ export type IssueTimelineQuery = {
             login: string
           }
         }>
+        pageInfo: {
+          hasNextPage: boolean
+          endCursor: string
+        }
       }
     }
   }
