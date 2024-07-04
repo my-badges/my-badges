@@ -83,21 +83,16 @@ or [here](https://github.com/antongolub).
 
 ## Installation
 
-Here is how to add my badges to your profile:
-
-- Star this repository.
--
-
 Create `your-username/your-username` [GH profile repository](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme).
 
-- In `README.md` add the following code:
+Add the following code somewhere in `README.md`:
 
 ```html
 <!-- my-badges start -->
 <!-- my-badges end -->
 ```
 
-- Add the following workflow `.github/workflows/my-badges.yml` to your repository.
+Add the following workflow `.github/workflows/my-badges.yml` to your repository:
 
 ```yaml
 name: my-badges
@@ -120,7 +115,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-- Start **my-badges** workflow, or wait for it to run automatically.
+> [!NOTE]
+> You don't need to create a `GITHUB_TOKEN` in repository. The workflow will use a default runner token.
+
+Start **my-badges** workflow, or wait for it to run automatically.
 
 ## Configuration
 
