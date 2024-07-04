@@ -54,6 +54,14 @@ export async function collect(
       for await (const resp of commits) {
         const { totalCount, nodes } =
           resp.repository.defaultBranchRef.target.history
+
+        if (totalCount >= 10_000) {
+          console.error(
+            `Too many commits for ${repo.owner.login}/${repo.name}: ${totalCount} commits; My-Badges will skip repos with more than 10k commits.`,
+          )
+          break
+        }
+
         console.log(
           `| commits ${nodes.length}/${totalCount} (cost: ${resp.rateLimit.cost}, remaining: ${resp.rateLimit.remaining})`,
         )
