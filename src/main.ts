@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
+import allBadges from '#badges'
 import minimist from 'minimist'
 import { Octokit } from 'octokit'
 import { retry } from '@octokit/plugin-retry'
 import { throttling } from '@octokit/plugin-throttling'
 import { presentBadges } from './present-badges.js'
 import { getData } from './get-data.js'
-import { allBadges } from './all-badges/index.js'
 import { getUserBadges, gitClone, gitPush, thereAreChanges } from './repo.js'
 import { updateBadges } from './update-badges.js'
 import { updateReadme } from './update-readme.js'

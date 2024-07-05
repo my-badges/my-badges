@@ -1,12 +1,11 @@
-import { Badge, badgeCollection, BadgePresenter, ID } from './badges.js'
-import { allBadges } from './all-badges/index.js'
+import { Badge, Evidence, ID, List, Presenter } from './badges.js'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseMask } from './utils.js'
 import { Data } from './collect/types.js'
 
-export const presentBadges = (
-  presenters: BadgePresenter[],
+export const presentBadges = <P extends Presenter<List>>(
+  presenters: P[],
   data: Data,
   userBadges: Badge[],
   pickBadges: string[],
@@ -16,6 +15,8 @@ export const presentBadges = (
   for (const presenter of presenters) {
     const newBadges: Badge[] = []
     const grant = badgeCollection(newBadges)
+
+    // @ts-ignore As `id: string` is not assignable to `id: ID`.
     presenter.present(data, grant)
 
     if (newBadges.length === 0) {
@@ -25,11 +26,10 @@ export const presentBadges = (
     // Enhance badges with image URLs.
     for (const b of newBadges) {
       const baseDir = path.basename(path.dirname(fileURLToPath(presenter.url)))
-      b.image = `https://github.com/my-badges/my-badges/blob/master/src/all-badges/${baseDir}/${b.id}.png?raw=true`
+      b.image = `https://github.com/my-badges/my-badges/blob/master/badges/${baseDir}/${b.id}.png?raw=true`
     }
 
-    const badgeFromPresenter = (x: Badge) =>
-      (presenter.badges as ID[]).includes(x.id)
+    const badgeFromPresenter = (x: Badge) => presenter.badges.includes(x.id)
 
     // Merge existing userBadges with newBadges.
     if (compact && presenter.tiers) {
@@ -75,4 +75,20 @@ export const presentBadges = (
   }
 
   return userBadges
+}
+
+export function badgeCollection(newBadges: Badge[]) {
+  return function grant(id: ID, desc: string) {
+    const badge: Badge = {
+      id,
+      tier: 0,
+      desc,
+      body: '',
+      image: '',
+    }
+    if (!newBadges.some((x) => x.id === id)) {
+      newBadges.push(badge)
+    }
+    return new Evidence(badge)
+  }
 }

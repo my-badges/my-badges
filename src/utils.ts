@@ -26,8 +26,6 @@ export function quoteAttr(s: string) {
     .replace(/[\r\n]/g, '&#13;')
 }
 
-export const expectType = <T>(expression: T) => void 0
-
 export function parseMask(value: string): RegExp {
   return new RegExp(`^${value}$`.replace('*', '.+'))
 }

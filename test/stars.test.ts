@@ -1,9 +1,9 @@
 import * as assert from 'node:assert'
 import { describe, it } from 'node:test'
-import starsPresenter from '../src/all-badges/stars/stars.js'
-import { Badge, badgeCollection } from '../src/badges.js'
-
+import starsPresenter from '#badges/stars/stars.js'
+import { badgeCollection } from '../src/present-badges.js'
 import { Data } from '../src/collect/types.js'
+import { Badge } from '../src/badges.js'
 
 describe('stars', () => {
   it('counts and renders as expected', () => {

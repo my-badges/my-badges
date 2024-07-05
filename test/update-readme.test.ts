@@ -2,8 +2,8 @@ import * as assert from 'node:assert'
 import { describe, it } from 'node:test'
 import { generateReadme } from '../src/update-readme.js'
 import type { Badge } from '../src/badges.js'
-import abcPresenter from '../src/all-badges/abc-commit/abc-commit.js'
-import { badgeCollection } from '../src/badges.js'
+import abcPresenter from '#badges/abc-commit/abc-commit.js'
+import { badgeCollection } from '../src/present-badges.js'
 
 describe('generateReadme()', () => {
   it('injects badges to md contents', () => {

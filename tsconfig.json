@@ -7,7 +7,12 @@
     "strict": true,
     "outDir": "./dist",
     "declaration": false,
-    "allowJs": true
+    "allowJs": true,
+    "paths": {
+      "#src": ["./src/index.ts"],
+      "#badges": ["./badges/index.ts"],
+      "#badges/*": ["./badges/*"]
+    }
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "./badges/**/*"]
 }
