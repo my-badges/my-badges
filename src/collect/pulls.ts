@@ -19,6 +19,12 @@ query PullsQuery($username: String!, $num: Int = 100, $cursor: String) {
             login
           }
           name
+          languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
+            totalCount
+            nodes {
+              name
+            }
+          }
         }
         participants(first: 20) {
           totalCount
@@ -91,6 +97,12 @@ export type PullsQuery = {
             login: string
           }
           name: string
+          languages: {
+            totalCount: number
+            nodes: Array<{
+              name: string
+            }>
+          }
         }
         participants: {
           totalCount: number

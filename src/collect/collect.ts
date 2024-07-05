@@ -62,12 +62,12 @@ export async function collect(
           break
         }
 
-        console.log(
-          `| commits ${nodes.length}/${totalCount} (cost: ${resp.rateLimit.cost}, remaining: ${resp.rateLimit.remaining})`,
-        )
         for (const commit of nodes) {
           repo.commits.push(commit)
         }
+        console.log(
+          `| commits ${repo.commits.length}/${totalCount} (cost: ${resp.rateLimit.cost}, remaining: ${resp.rateLimit.remaining})`,
+        )
       }
     } catch (err) {
       console.error(
