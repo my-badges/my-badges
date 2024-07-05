@@ -1,4 +1,4 @@
-import { Commit, define, Repo } from '#src'
+import { Commit, define, Repo, plural } from '#src'
 
 export default define({
   url: import.meta.url,
@@ -24,7 +24,11 @@ export default define({
     if (commits.length >= 1) {
       grant(
         'dead-commit',
-        `I pushed a commit with "dead" ${commits.length} times.`,
+        `I pushed a commit with "dead" ${plural(
+          commits.length,
+          'once',
+          '%d times',
+        )}.`,
       ).evidence(text)
     }
   },

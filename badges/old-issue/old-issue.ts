@@ -1,4 +1,4 @@
-import { define, Issue } from '#src'
+import { define, Issue, plural } from '#src'
 
 export default define({
   url: import.meta.url,
@@ -34,7 +34,11 @@ export default define({
       if (!buckets[years]) continue
       grant(
         `old-issue-${years}` as (typeof this.badges)[number],
-        `I closed an issue that was open for ${years} years`,
+        `I closed an issue that was open for ${plural(
+          years,
+          'a year',
+          '%d years',
+        )}`,
       )
         .evidenceIssuesWithTitles(...buckets[years])
         .tier(years)

@@ -50,3 +50,7 @@ export function latest(a: Commit, b: Commit) {
     new Date(b.committedDate).getTime() - new Date(a.committedDate).getTime()
   )
 }
+
+export function plural(count: number, singular: string, plural: string) {
+  return (count === 1 ? singular : plural).replace('%d', count.toString())
+}

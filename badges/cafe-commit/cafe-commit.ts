@@ -1,4 +1,4 @@
-import { Commit, define, Repo } from '#src'
+import { Commit, define, plural, Repo } from '#src'
 
 export default define({
   url: import.meta.url,
@@ -24,7 +24,11 @@ export default define({
     if (commits.length >= 1) {
       grant(
         'cafe-commit',
-        `I pushed a commit with "cafe" ${commits.length} times.`,
+        `I pushed a commit with "cafe" ${plural(
+          commits.length,
+          'once',
+          '%d times',
+        )}.`,
       ).evidence(text)
     }
   },

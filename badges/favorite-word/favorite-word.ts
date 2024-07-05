@@ -1,4 +1,4 @@
-import { define } from '#src'
+import { define, plural } from '#src'
 
 export default define({
   url: import.meta.url,
@@ -25,7 +25,10 @@ export default define({
     grant('favorite-word', `My favorite word is "${topWords[0][0]}".`).evidence(
       `My favorite commit message words are:\n\n` +
         topWords
-          .map((p, i) => `${i + 1}. ${p[0]} (used ${p[1]} times)`)
+          .map(
+            (p, i) =>
+              `${i + 1}. ${p[0]} (used ${plural(p[1], 'once', '%d times')})`,
+          )
           .join('\n'),
     )
   },

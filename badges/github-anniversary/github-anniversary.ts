@@ -1,4 +1,4 @@
-import { define } from '#src'
+import { define, plural } from '#src'
 
 export default define({
   url: import.meta.url,
@@ -23,7 +23,10 @@ export default define({
           createdAt.getDay(),
         ).valueOf()
       ) {
-        grant(badge, `I joined GitHub ${years} years ago.`)
+        grant(
+          badge,
+          `I joined GitHub ${plural(years, 'a year', '%d years')} ago.`,
+        )
       }
     })
   },
