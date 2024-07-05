@@ -1,10 +1,9 @@
-import { BadgePresenter, Present } from '../../badges.js'
-import { Commit, Repo } from '../../collect/types.js'
+import { Commit, define, Repo } from '#src'
 
-export default new (class implements BadgePresenter {
-  url = new URL(import.meta.url)
-  badges = ['cafe-commit'] as const
-  present: Present = (data, grant) => {
+export default define({
+  url: import.meta.url,
+  badges: ['cafe-commit'] as const,
+  present(data, grant) {
     const commits: { repo: Repo; commit: Commit }[] = []
 
     for (const repo of data.repos) {
@@ -28,5 +27,5 @@ export default new (class implements BadgePresenter {
         `I pushed a commit with "cafe" ${commits.length} times.`,
       ).evidence(text)
     }
-  }
-})()
+  },
+})
