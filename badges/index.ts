@@ -8,6 +8,7 @@ export default [
   await import('./dead-commit/dead-commit.js'),
   await import('./delorean/delorean.js'),
   await import('./emoji-only-commit/emoji-only-commit.js'),
+  await import('./epic-commit/epic-commit.js'),
   await import('./favorite-word/favorite-word.js'),
   await import('./fix-commit/fix-commit.js'),
   await import('./github-anniversary/github-anniversary.js'),
@@ -25,4 +26,4 @@ export default [
   await import('./this-is-fine/this-is-fine.js'),
   await import('./time-of-commit/time-of-commit.js'),
   await import('./yeti/yeti.js'),
-] as const
+] as const // keep sorted
