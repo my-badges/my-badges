@@ -14,14 +14,11 @@ But how does those badges look like? Take a look [here](https://github.com/anton
 or [here](https://github.com/antongolub).
 
 <p>
-<img src="badges/abc-commit/a-commit.png" alt="a-commit" width="64">
 <img src="badges/stars/stars-20000.png" alt="stars-20000" width="64">
 <img src="badges/time-of-commit/morning-commits.png" alt="morning-commits" width="64">
-<img src="badges/github-anniversary/github-anniversary-5.png" alt="github-anniversary-5" width="64">
 <img src="badges/dead-commit/dead-commit.png" alt="dead-commit" width="64">
 <img src="badges/bad-words/bad-words.png" alt="bad-words" width="64">
 <img src="badges/delorean/delorean.png" alt="delorean" width="64">
-<img src="badges/covid-19/covid-19.png" alt="covid-19" width="64">
 <img src="badges/public-keys/public-keys-1.png" alt="public-keys-1" width="64">
 <img src="badges/old-issue/old-issue-1.png" alt="old-issue-1" width="64">
 <img src="badges/this-is-fine/this-is-fine.png" alt="this-is-fine" width="64">
