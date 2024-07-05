@@ -20,9 +20,13 @@ for (const { default: b } of allBadges) {
       console.error(`Missing image for badge "${id}" at ${rootPath}`)
       ok = false
     }
-    const { width, height } = await imageDimensionsFromStream(fs.createReadStream(rootPath))
+    const { width, height } = await imageDimensionsFromStream(
+      fs.createReadStream(rootPath),
+    )
     if (width !== expectedDimensions || height !== expectedDimensions) {
-      console.error(`Bad image dimensions for badge ${id}.png: ${width}x${height} (expected: ${expectedDimensions}x${expectedDimensions})`)
+      console.error(
+        `Bad image dimensions for badge ${id}.png: ${width}x${height} (expected: ${expectedDimensions}x${expectedDimensions})`,
+      )
       ok = false
     }
   }
