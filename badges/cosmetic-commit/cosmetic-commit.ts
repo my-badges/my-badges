@@ -1,4 +1,4 @@
-import { Commit, define } from '#src'
+import { Commit, define, latest } from '#src'
 
 export default define({
   url: import.meta.url,
@@ -24,9 +24,3 @@ export default define({
     }
   },
 })
-
-function latest(a: Commit, b: Commit) {
-  return (
-    new Date(b.committedDate).getTime() - new Date(a.committedDate).getTime()
-  )
-}

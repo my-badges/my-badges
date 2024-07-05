@@ -44,3 +44,9 @@ export function execWithOutput(command: string, args: string[]): string {
   }
   return p.stdout.toString()
 }
+
+export function latest(a: Commit, b: Commit) {
+  return (
+    new Date(b.committedDate).getTime() - new Date(a.committedDate).getTime()
+  )
+}
