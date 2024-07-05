@@ -1,13 +1,30 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2022", "DOM"],
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
     "moduleResolution": "NodeNext",
     "module": "NodeNext",
     "strict": true,
     "outDir": "./dist",
     "declaration": false,
-    "allowJs": true
+    "allowJs": true,
+    "paths": {
+      "#src": [
+        "./src/index.ts"
+      ],
+      "#badges": [
+        "./badges/index.ts"
+      ],
+      "#badges/*": [
+        "./badges/*"
+      ]
+    }
   },
-  "include": ["./src/**/*"]
+  "include": [
+    "./src/**/*",
+    "./badges/**/*"
+  ]
 }

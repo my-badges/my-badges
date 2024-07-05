@@ -1,7 +1,7 @@
 import * as assert from 'node:assert'
 import { describe, it } from 'node:test'
 import { presentBadges } from '../src/present-badges.js'
-import { Badge, BadgePresenter } from '../src/badges.js'
+import { Badge, define, List, Presenter } from '../src/badges.js'
 import { Data } from '../src/collect/types.js'
 
 describe('present-badges', () => {
@@ -35,7 +35,7 @@ describe('present-badges', () => {
 
   it('presentBadges() applies `pick`', async () => {
     const userBadges = presentBadges(
-      [await import('../src/all-badges/stars/stars.js')].map((m) => m.default),
+      [await import('#badges/stars/stars.js')].map((m) => m.default),
       data,
       [],
       ['stars-100', 'stars-500'],
@@ -55,7 +55,7 @@ describe('present-badges', () => {
           '\n' +
           "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
         image:
-          'https://github.com/my-badges/my-badges/blob/master/src/all-badges/stars/stars-100.png?raw=true',
+          'https://github.com/my-badges/my-badges/blob/master/badges/stars/stars-100.png?raw=true',
       },
       {
         id: 'stars-500',
@@ -68,14 +68,14 @@ describe('present-badges', () => {
           '\n' +
           "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
         image:
-          'https://github.com/my-badges/my-badges/blob/master/src/all-badges/stars/stars-500.png?raw=true',
+          'https://github.com/my-badges/my-badges/blob/master/badges/stars/stars-500.png?raw=true',
       },
     ])
   })
 
   it('presentBadges() applies `omit`', async () => {
     const userBadges = presentBadges(
-      [await import('../src/all-badges/stars/stars.js')].map((m) => m.default),
+      [await import('#badges/stars/stars.js')].map((m) => m.default),
       data,
       [],
       ['stars-100', 'stars-500'],
@@ -95,14 +95,14 @@ describe('present-badges', () => {
           '\n' +
           "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
         image:
-          'https://github.com/my-badges/my-badges/blob/master/src/all-badges/stars/stars-100.png?raw=true',
+          'https://github.com/my-badges/my-badges/blob/master/badges/stars/stars-100.png?raw=true',
       },
     ])
   })
 
   it('presentBadges() supports masks for `omit` && `pick`', async () => {
     const userBadges = presentBadges(
-      [await import('../src/all-badges/stars/stars.js')].map((m) => m.default),
+      [await import('#badges/stars/stars.js')].map((m) => m.default),
       data,
       [],
       ['stars-*'],
@@ -122,7 +122,7 @@ describe('present-badges', () => {
           '\n' +
           "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
         image:
-          'https://github.com/my-badges/my-badges/blob/master/src/all-badges/stars/stars-100.png?raw=true',
+          'https://github.com/my-badges/my-badges/blob/master/badges/stars/stars-100.png?raw=true',
       },
       {
         id: 'stars-500',
@@ -135,14 +135,14 @@ describe('present-badges', () => {
           '\n' +
           "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
         image:
-          'https://github.com/my-badges/my-badges/blob/master/src/all-badges/stars/stars-500.png?raw=true',
+          'https://github.com/my-badges/my-badges/blob/master/badges/stars/stars-500.png?raw=true',
       },
     ])
   })
 
   it('presentBadges() applies `compact`', async () => {
     const userBadges = presentBadges(
-      [await import('../src/all-badges/stars/stars.js')].map((m) => m.default),
+      [await import('#badges/stars/stars.js')].map((m) => m.default),
       data,
       [],
       ['stars-1000', 'stars-2000', 'stars-5000'],
@@ -163,28 +163,28 @@ describe('present-badges', () => {
           '\n' +
           "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
         image:
-          'https://github.com/my-badges/my-badges/blob/master/src/all-badges/stars/stars-2000.png?raw=true',
+          'https://github.com/my-badges/my-badges/blob/master/badges/stars/stars-2000.png?raw=true',
       },
     ])
   })
 
   it('presentBadges() keeps existing order of badges', async () => {
-    const dumpPresenter1: BadgePresenter = {
-      url: new URL('file:///tmp/dump.js'),
-      badges: ['a-commit', 'ab-commit', 'abc-commit'],
+    const dumpPresenter1 = define({
+      url: 'file:///tmp/dump.js',
+      badges: ['a-commit', 'ab-commit', 'abc-commit'] as const,
       present: (_, grant) => {
         grant('a-commit', 'a')
         grant('ab-commit', 'ab')
         grant('abc-commit', 'abc')
       },
-    }
-    const dumpPresenter2: BadgePresenter = {
-      url: new URL('file:///tmp/dump.js'),
-      badges: ['this-is-fine'],
+    })
+    const dumpPresenter2 = define({
+      url: 'file:///tmp/dump.js',
+      badges: ['this-is-fine'] as const,
       present: (_, grant) => {
         grant('this-is-fine', 'this is fine')
       },
-    }
+    })
 
     const oldUserBadges: Badge[] = [
       {

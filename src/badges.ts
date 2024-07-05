@@ -1,25 +1,26 @@
-import { allBadges } from './all-badges/index.js'
-import { expectType, linkCommit, linkIssue, linkPull } from './utils.js'
+import allBadges from '#badges'
+import { linkCommit, linkIssue, linkPull } from './utils.js'
 import { Commit, Data, Issue, Pull } from './collect/types.js'
 
-for (const {
-  default: { badges },
-} of allBadges) {
-  expectType<readonly [string, ...string[]]>(badges)
-}
+export type Presenters = (typeof allBadges)[number]['default']
 
-export type ID = (typeof allBadges)[number]['default']['badges'][number]
+export type ID = Presenters['badges'][number]
 
-export interface BadgePresenter {
-  url: URL
+export type List = readonly [string, ...string[]]
+
+export type Presenter<B extends List> = {
+  url: string
+  badges: B
   tiers?: boolean
-  badges: unknown
-  present: Present
+  present: (
+    data: Data,
+    grant: (id: B[number], desc: string) => Evidence,
+  ) => void
 }
 
-export type Grant = ReturnType<typeof badgeCollection>
-
-export type Present = (data: Data, grant: Grant) => void
+export function define<B extends List>(presenter: Presenter<B>): Presenter<B> {
+  return presenter
+}
 
 export type Badge = {
   id: ID
@@ -29,23 +30,7 @@ export type Badge = {
   image: string
 }
 
-export function badgeCollection(newBadges: Badge[]) {
-  return function grant(id: ID, desc: string) {
-    const badge: Badge = {
-      id,
-      tier: 0,
-      desc,
-      body: '',
-      image: '',
-    }
-    if (!newBadges.some((x) => x.id === id)) {
-      newBadges.push(badge)
-    }
-    return new Evidence(badge)
-  }
-}
-
-class Evidence {
+export class Evidence {
   constructor(private badge: Badge) {}
 
   tier(tier: number) {

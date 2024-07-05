@@ -1,16 +1,16 @@
-import { allBadges } from './all-badges/index.js'
+import allBadges from '#badges'
 import fs from 'node:fs'
 import { fileURLToPath } from 'url'
 import * as path from 'path'
 
 void (async function main() {
-  const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
+  const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
   let foundMissing = false
   for (const { default: b } of allBadges) {
     const dirname = path.basename(path.dirname(fileURLToPath(b.url)))
     for (const id of b.badges) {
-      const imagePath = path.join('src/all-badges', dirname, `${id}.png`)
+      const imagePath = path.join('badges', dirname, `${id}.png`)
       const rootPath = path.join(root, imagePath)
       if (!fs.existsSync(rootPath)) {
         console.error(`Missing image for badge "${id}" at ${rootPath}`)

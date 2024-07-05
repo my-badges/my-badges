@@ -4,7 +4,12 @@
   "description": "Generate badges for your GitHub projects",
   "type": "module",
   "bin": {
-    "update-my-badges": "dist/main.js"
+    "update-my-badges": "dist/src/main.js"
+  },
+  "imports": {
+    "#src": "./dist/src/index.js",
+    "#badges": "./dist/badges/index.js",
+    "#badges/*": "./dist/badges/*"
   },
   "scripts": {
     "fmt": "prettier --write .",
@@ -12,7 +17,7 @@
     "start": "tsc --watch",
     "tsc": "tsc",
     "build": "tsc",
-    "check-images": "node dist/check-images.js",
+    "check-images": "node dist/src/check-images.js",
     "test": "npm run test:unit",
     "test:unit": "c8 -r lcov -r text -o coverage -x scripts -x test node --loader ts-node/esm --experimental-specifier-resolution=node scripts/test.mjs"
   },

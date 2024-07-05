@@ -2,11 +2,11 @@
 
 If you want to contribute a badge:
 
-- Add your badge to the [all-badges](./src/all-badges) folder.
-- Add your badge to the [index.ts](./src/all-badges/index.ts) file.
+- Add your badge to the [badges](./badges) folder.
+- Add your badge to the [index.ts](./badges/index.ts) file.
 - Any badge images are welcome (png, 256x256px).
 
-Here is an [example of a pull request](https://github.com/my-badges/my-badges/pull/1) adding a new badge.
+Example of a simple badge: [yeti.ts](./badges/yeti/yeti.ts).
 
 ## How to test locally?
 
@@ -19,14 +19,14 @@ npm run build
 Run main.js with next command:
 
 ```sh
-node dist/main.js your-username
+node dist/src/main.js your-username
 ```
 
 This command will collect your data and save it to `data/your-username.json` file.
 You can skip recollecting the data with `--data` flag.
 
 ```sh
-node dist/main.js --data data/your-username.json
+node dist/src/main.js --data data/your-username.json
 ```
 
 ## How to create a badge image?
