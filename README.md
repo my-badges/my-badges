@@ -91,10 +91,9 @@ Start **my-badges** workflow, or wait for it to run automatically.
 
 ### Manual Run
 
-- Go to `username/username` local repo.
-- Run `npx update-my-badges --user <username> --token=<token> --dryrun`.
-- Verify `my-badges` and `readme.md` changes.
-- Push a commit: `git add -- . ':!data' && git commit -m "chore: update my-bagdes"`.
+```sh
+npx update-my-badges <username>
+```
 
 ## License
 
