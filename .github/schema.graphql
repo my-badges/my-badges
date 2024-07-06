@@ -950,17 +950,17 @@ union Closer = Commit | PullRequest
 
 "Represents either a issue the viewer can access or a restricted contribution."
 union CreatedIssueOrRestrictedContribution =
-    CreatedIssueContribution
+  | CreatedIssueContribution
   | RestrictedContribution
 
 "Represents either a pull request the viewer can access or a restricted contribution."
 union CreatedPullRequestOrRestrictedContribution =
-    CreatedPullRequestContribution
+  | CreatedPullRequestContribution
   | RestrictedContribution
 
 "Represents either a repository the viewer can access or a restricted contribution."
 union CreatedRepositoryOrRestrictedContribution =
-    CreatedRepositoryContribution
+  | CreatedRepositoryContribution
   | RestrictedContribution
 
 "Users and teams."
@@ -977,7 +977,7 @@ union IssueOrPullRequest = Issue | PullRequest
 
 "An item in an issue timeline"
 union IssueTimelineItem =
-    AssignedEvent
+  | AssignedEvent
   | ClosedEvent
   | Commit
   | CrossReferencedEvent
@@ -999,7 +999,7 @@ union IssueTimelineItem =
 
 "An item in an issue timeline"
 union IssueTimelineItems =
-    AddedToProjectEvent
+  | AddedToProjectEvent
   | AssignedEvent
   | ClosedEvent
   | CommentDeletedEvent
@@ -1036,13 +1036,13 @@ union MilestoneItem = Issue | PullRequest
 
 "Types of memberships that can be restored for an Organization member."
 union OrgRestoreMemberAuditEntryMembership =
-    OrgRestoreMemberMembershipOrganizationAuditEntryData
+  | OrgRestoreMemberMembershipOrganizationAuditEntryData
   | OrgRestoreMemberMembershipRepositoryAuditEntryData
   | OrgRestoreMemberMembershipTeamAuditEntryData
 
 "An audit entry in an organization audit log."
 union OrganizationAuditEntry =
-    MembersCanDeleteReposClearAuditEntry
+  | MembersCanDeleteReposClearAuditEntry
   | MembersCanDeleteReposDisableAuditEntry
   | MembersCanDeleteReposEnableAuditEntry
   | OauthApplicationCreateAuditEntry
@@ -1120,7 +1120,7 @@ union ProjectV2Actor = Team | User
 
 "Configurations for project fields."
 union ProjectV2FieldConfiguration =
-    ProjectV2Field
+  | ProjectV2Field
   | ProjectV2IterationField
   | ProjectV2SingleSelectField
 
@@ -1129,7 +1129,7 @@ union ProjectV2ItemContent = DraftIssue | Issue | PullRequest
 
 "Project field values"
 union ProjectV2ItemFieldValue =
-    ProjectV2ItemFieldDateValue
+  | ProjectV2ItemFieldDateValue
   | ProjectV2ItemFieldIterationValue
   | ProjectV2ItemFieldLabelValue
   | ProjectV2ItemFieldMilestoneValue
@@ -1143,7 +1143,7 @@ union ProjectV2ItemFieldValue =
 
 "An item in a pull request timeline"
 union PullRequestTimelineItem =
-    AssignedEvent
+  | AssignedEvent
   | BaseRefDeletedEvent
   | BaseRefForcePushedEvent
   | ClosedEvent
@@ -1179,7 +1179,7 @@ union PullRequestTimelineItem =
 
 "An item in a pull request timeline"
 union PullRequestTimelineItems =
-    AddedToMergeQueueEvent
+  | AddedToMergeQueueEvent
   | AddedToProjectEvent
   | AssignedEvent
   | AutoMergeDisabledEvent
@@ -1258,7 +1258,7 @@ union ReviewDismissalAllowanceActor = App | Team | User
 
 "Types which can be parameters for `RepositoryRule` objects."
 union RuleParameters =
-    BranchNamePatternParameters
+  | BranchNamePatternParameters
   | CommitAuthorEmailPatternParameters
   | CommitMessagePatternParameters
   | CommitterEmailPatternParameters
@@ -1273,7 +1273,7 @@ union RuleSource = Organization | Repository
 
 "The results of a search."
 union SearchResultItem =
-    App
+  | App
   | Discussion
   | Issue
   | MarketplaceListing
