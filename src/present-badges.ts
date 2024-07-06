@@ -25,8 +25,7 @@ export const presentBadges = <P extends Presenter<List>>(
 
     // Enhance badges with image URLs.
     for (const b of newBadges) {
-      const baseDir = path.basename(path.dirname(fileURLToPath(presenter.url)))
-      b.image = `https://github.com/my-badges/my-badges/blob/master/badges/${baseDir}/${b.id}.png?raw=true`
+      b.image = `https://my-badges.github.io/my-badges/${b.id}.png`
     }
 
     const badgeFromPresenter = (x: Badge) => presenter.badges.includes(x.id)
