@@ -25,6 +25,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      - name: Generate index.html
+        run: npm run generate-gh-pages
       - name: Find & copy badges
         run: mkdir .pages && find ./badges -type f -name "*.png" -exec cp {} .pages \;
       - name: Upload artifact

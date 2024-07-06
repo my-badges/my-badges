@@ -3,5 +3,6 @@
 /dist/
 /my-badges/
 /repo/
+/.pages/
 yarn.lock
 coverage

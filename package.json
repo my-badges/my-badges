@@ -18,6 +18,7 @@
     "tsc": "tsc",
     "build": "tsc",
     "check-images": "node scripts/check-images.mjs",
+    "generate-gh-pages": "node scripts/generate-gh-pages.mjs",
     "test": "npm run test:unit",
     "test:unit": "c8 -r lcov -r text -o coverage -x scripts -x test node --loader ts-node/esm --experimental-specifier-resolution=node scripts/test.mjs"
   },
