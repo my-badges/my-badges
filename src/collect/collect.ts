@@ -5,6 +5,7 @@ import { issuesQuery, IssuesQuery } from './issues.js'
 import { userQuery, UserQuery } from './user.js'
 import { IssueTimelineQuery, issueTimelineQuery } from './issue-timeline.js'
 import { Data } from './types.js'
+import { issueCommentsQuery, IssueCommentsQuery } from './issue-comments.js'
 
 export async function collect(
   octokit: Octokit,
@@ -19,6 +20,7 @@ export async function collect(
     repos: [],
     pulls: [],
     issues: [],
+    issueComments: [],
   }
 
   const repos = octokit.paginate.iterator('GET /users/{username}/repos', {
@@ -149,6 +151,26 @@ export async function collect(
       )
       console.error(err)
     }
+  }
+
+  const issueComments = octokit.graphql.paginate.iterator<IssueCommentsQuery>(
+    issueCommentsQuery,
+    {
+      login: username,
+    },
+  )
+  try {
+    for await (const resp of issueComments) {
+      for (const comment of resp.user.issueComments.nodes) {
+        data.issueComments.push(comment)
+      }
+      console.log(
+        `| issue comments ${data.issueComments.length}/${resp.user.issueComments.totalCount} (cost: ${resp.rateLimit.cost}, remaining: ${resp.rateLimit.remaining})`,
+      )
+    }
+  } catch (err) {
+    console.error(`Failed to load issue comments`)
+    console.error(err)
   }
 
   return data
