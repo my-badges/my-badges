@@ -19,6 +19,16 @@ query CommitsQuery(
               messageBody
               additions
               deletions
+              author {
+                user {
+                  login
+                }
+              }
+              committer {
+                user {
+                  login
+                }
+              }
               repository {
                 owner {
                   login
@@ -57,6 +67,16 @@ export type CommitsQuery = {
             messageBody: string
             additions: number
             deletions: number
+            author: {
+              user: {
+                login: string
+              }
+            }
+            committer: {
+              user: {
+                login: string
+              }
+            }
             repository: {
               owner: {
                 login: string
