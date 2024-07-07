@@ -1,17 +1,17 @@
-export const issueCommentsQuery = `#graphql
-query IssueCommentsQuery($login: String!, $num: Int = 100, $cursor: String) {
+export const discussionCommentsQuery = `#graphql
+query DiscussionCommentsQuery($login: String!, $num: Int = 100, $cursor: String) {
   user(login: $login) {
-    issueComments(first: $num, after: $cursor) {
+    repositoryDiscussionComments(first: $num, after: $cursor) {
       totalCount
       nodes {
         author {
           login
         }
-        repository {
-          nameWithOwner
-        }
-        issue {
+        discussion {
           number
+          repository {
+            nameWithOwner
+          }
           author {
             login
           }
@@ -47,19 +47,19 @@ query IssueCommentsQuery($login: String!, $num: Int = 100, $cursor: String) {
 }
 `
 
-export type IssueCommentsQuery = {
+export type DiscussionCommentsQuery = {
   user: {
-    issueComments: {
+    repositoryDiscussionComments: {
       totalCount: number
       nodes: Array<{
         author: {
           login: string
         }
-        repository: {
-          nameWithOwner: string
-        }
-        issue: {
+        discussion: {
           number: number
+          repository: {
+            nameWithOwner: string
+          }
           author: {
             login: string
           }

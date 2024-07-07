@@ -6,6 +6,10 @@ import { userQuery, UserQuery } from './user.js'
 import { IssueTimelineQuery, issueTimelineQuery } from './issue-timeline.js'
 import { Data } from './types.js'
 import { issueCommentsQuery, IssueCommentsQuery } from './issue-comments.js'
+import {
+  discussionCommentsQuery,
+  DiscussionCommentsQuery,
+} from './discussion-comments.js'
 
 export async function collect(
   octokit: Octokit,
@@ -21,6 +25,7 @@ export async function collect(
     pulls: [],
     issues: [],
     issueComments: [],
+    discussionComments: [],
   }
 
   const repos = octokit.paginate.iterator('GET /users/{username}/repos', {
@@ -170,6 +175,27 @@ export async function collect(
     }
   } catch (err) {
     console.error(`Failed to load issue comments`)
+    console.error(err)
+  }
+
+  const discussionComments =
+    octokit.graphql.paginate.iterator<DiscussionCommentsQuery>(
+      discussionCommentsQuery,
+      {
+        login: username,
+      },
+    )
+  try {
+    for await (const resp of discussionComments) {
+      for (const comment of resp.user.repositoryDiscussionComments.nodes) {
+        data.discussionComments.push(comment)
+      }
+      console.log(
+        `| discussion comments ${data.discussionComments.length}/${resp.user.repositoryDiscussionComments.totalCount} (cost: ${resp.rateLimit.cost}, remaining: ${resp.rateLimit.remaining})`,
+      )
+    }
+  } catch (err) {
+    console.error(`Failed to load discussion comments`)
     console.error(err)
   }
 

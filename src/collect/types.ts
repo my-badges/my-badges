@@ -4,6 +4,7 @@ import { IssuesQuery } from './issues.js'
 import { UserQuery } from './user.js'
 import { PullsQuery } from './pulls.js'
 import { IssueCommentsQuery } from './issue-comments.js'
+import { DiscussionCommentsQuery } from './discussion-comments.js'
 
 // Extra<T> represents additional data that is not returned by the GraphQL API,
 // but enriched by some other means (e.g., separate queries).
@@ -15,6 +16,7 @@ export type Data = {
   pulls: Pull[]
   issues: Issue[]
   issueComments: IssueComment[]
+  discussionComments: DiscussionComment[]
 }
 
 export type User = UserQuery['user']
@@ -33,3 +35,6 @@ export type Issue = IssuesQuery['user']['issues']['nodes'][0]
 
 export type IssueComment =
   IssueCommentsQuery['user']['issueComments']['nodes'][0]
+
+export type DiscussionComment =
+  DiscussionCommentsQuery['user']['repositoryDiscussionComments']['nodes'][0]
