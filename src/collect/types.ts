@@ -5,6 +5,7 @@ import { UserQuery } from './user.js'
 import { PullsQuery } from './pulls.js'
 import { IssueCommentsQuery } from './issue-comments.js'
 import { DiscussionCommentsQuery } from './discussion-comments.js'
+import { StarsQuery } from './stars.js'
 
 // Extra<T> represents additional data that is not returned by the GraphQL API,
 // but enriched by some other means (e.g., separate queries).
@@ -12,6 +13,7 @@ export type Extra<T> = T | undefined
 
 export type Data = {
   user: User
+  starredRepositories: StarredRepo[]
   repos: Repo[]
   pulls: Pull[]
   issues: Issue[]
@@ -38,3 +40,5 @@ export type IssueComment =
 
 export type DiscussionComment =
   DiscussionCommentsQuery['user']['repositoryDiscussionComments']['nodes'][0]
+
+export type StarredRepo = StarsQuery['user']['starredRepositories']['nodes'][0]

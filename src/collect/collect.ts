@@ -10,6 +10,7 @@ import {
   discussionCommentsQuery,
   DiscussionCommentsQuery,
 } from './discussion-comments.js'
+import { starsQuery, StarsQuery } from './stars.js'
 
 export async function collect(
   octokit: Octokit,
@@ -21,6 +22,7 @@ export async function collect(
 
   const data: Data = {
     user: user,
+    starredRepositories: [],
     repos: [],
     pulls: [],
     issues: [],
@@ -196,6 +198,23 @@ export async function collect(
     }
   } catch (err) {
     console.error(`Failed to load discussion comments`)
+    console.error(err)
+  }
+
+  const stars = octokit.graphql.paginate.iterator<StarsQuery>(starsQuery, {
+    login: username,
+  })
+  try {
+    for await (const resp of stars) {
+      for (const repo of resp.user.starredRepositories.nodes) {
+        data.starredRepositories.push(repo)
+      }
+      console.log(
+        `| stars ${data.starredRepositories.length}/${resp.user.starredRepositories.totalCount} (cost: ${resp.rateLimit.cost}, remaining: ${resp.rateLimit.remaining})`,
+      )
+    }
+  } catch (err) {
+    console.error(`Failed to load stars`)
     console.error(err)
   }
 
