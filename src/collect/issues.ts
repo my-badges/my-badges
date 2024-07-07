@@ -1,4 +1,4 @@
-import { Extra } from './types.js'
+import { Extra, Reactions } from './types.js'
 
 export const issuesQuery = `#graphql
 query IssuesQuery($username: String!, $num: Int = 100, $cursor: String) {
@@ -12,6 +12,7 @@ query IssuesQuery($username: String!, $num: Int = 100, $cursor: String) {
         author {
           login
         }
+        url
         number
         title
         labels(first: 10) {
@@ -24,13 +25,20 @@ query IssuesQuery($username: String!, $num: Int = 100, $cursor: String) {
         comments(first: 1) {
           totalCount
         }
-        reactions(first: 10) {
+        reactions(first: 100) {
           totalCount
+          nodes {
+            content
+            user {
+              login
+            }
+          }
         }
         assignees(first: 3) {
           totalCount
         }
         repository {
+          nameWithOwner
           owner {
             login
           }
@@ -64,6 +72,7 @@ export type IssuesQuery = {
         author: {
           login: string
         }
+        url: string
         number: number
         title: string
         labels: {
@@ -76,13 +85,12 @@ export type IssuesQuery = {
         comments: {
           totalCount: number
         }
-        reactions: {
-          totalCount: number
-        }
+        reactions: Reactions
         assignees: {
           totalCount: number
         }
         repository: {
+          nameWithOwner: string
           owner: {
             login: string
           }

@@ -1,3 +1,5 @@
+import { Reactions } from './types.js'
+
 export const pullsQuery = `#graphql
 query PullsQuery($username: String!, $num: Int = 100, $cursor: String) {
   user(login: $username) {
@@ -5,6 +7,7 @@ query PullsQuery($username: String!, $num: Int = 100, $cursor: String) {
       totalCount
       nodes {
         createdAt
+        url
         number
         title
         body
@@ -15,6 +18,7 @@ query PullsQuery($username: String!, $num: Int = 100, $cursor: String) {
           login
         }
         repository {
+          nameWithOwner
           owner {
             login
           }
@@ -61,6 +65,15 @@ query PullsQuery($username: String!, $num: Int = 100, $cursor: String) {
             }
           }
         }
+        reactions(first: 100) {
+          totalCount
+          nodes {
+            content
+            user {
+              login
+            }
+          }
+        }
       }
       pageInfo {
         hasNextPage
@@ -83,6 +96,7 @@ export type PullsQuery = {
       totalCount: number
       nodes: Array<{
         createdAt: string
+        url: string
         number: number
         title: string
         body: string
@@ -93,6 +107,7 @@ export type PullsQuery = {
           login: string
         }
         repository: {
+          nameWithOwner: string
           owner: {
             login: string
           }
@@ -154,6 +169,7 @@ export type PullsQuery = {
             }
           }>
         }
+        reactions: Reactions
       }>
     }
     pageInfo: {

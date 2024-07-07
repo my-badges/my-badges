@@ -1,9 +1,12 @@
+import { Reactions } from './types.js'
+
 export const discussionCommentsQuery = `#graphql
 query DiscussionCommentsQuery($login: String!, $num: Int = 100, $cursor: String) {
   user(login: $login) {
     repositoryDiscussionComments(first: $num, after: $cursor) {
       totalCount
       nodes {
+        url
         author {
           login
         }
@@ -52,6 +55,7 @@ export type DiscussionCommentsQuery = {
     repositoryDiscussionComments: {
       totalCount: number
       nodes: Array<{
+        url: string
         author: {
           login: string
         }
@@ -70,23 +74,7 @@ export type DiscussionCommentsQuery = {
         editor: {
           login: string
         } | null
-        reactions: {
-          totalCount: number
-          nodes: Array<{
-            content:
-              | 'CONFUSED'
-              | 'EYES'
-              | 'HEART'
-              | 'HOORAY'
-              | 'LAUGH'
-              | 'ROCKET'
-              | 'THUMBS_DOWN'
-              | 'THUMBS_UP'
-            user: {
-              login: string
-            }
-          }>
-        }
+        reactions: Reactions
       }>
       pageInfo: {
         hasNextPage: boolean

@@ -42,3 +42,21 @@ export type DiscussionComment =
   DiscussionCommentsQuery['user']['repositoryDiscussionComments']['nodes'][0]
 
 export type StarredRepo = StarsQuery['user']['starredRepositories']['nodes'][0]
+
+export type Reactions = {
+  totalCount: number
+  nodes: Array<{
+    content:
+      | 'CONFUSED'
+      | 'EYES'
+      | 'HEART'
+      | 'HOORAY'
+      | 'LAUGH'
+      | 'ROCKET'
+      | 'THUMBS_DOWN'
+      | 'THUMBS_UP'
+    user: {
+      login: string
+    }
+  }>
+}
