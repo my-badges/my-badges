@@ -34,10 +34,10 @@ export default define({
     }
 
     for (const discussion of data.discussionComments) {
-      if (discussion.reactions.totalCount > 0) {
+      if (discussion.reactions.totalCount > 0 && discussion.discussion) {
         reactions[discussion.discussion.repository.nameWithOwner] = {
           count: discussion.reactions.totalCount,
-          repository: discussion.discussion.repository.nameWithOwner,
+          repository: discussion.discussion?.repository.nameWithOwner,
         }
       }
     }

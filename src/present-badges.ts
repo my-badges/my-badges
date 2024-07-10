@@ -2,7 +2,7 @@ import { Badge, Evidence, ID, List, Presenter } from './badges.js'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseMask } from './utils.js'
-import { Data } from './collect/types.js'
+import { Data } from './collect/index.js'
 
 export const presentBadges = <P extends Presenter<List>>(
   presenters: P[],

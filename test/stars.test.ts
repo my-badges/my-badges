@@ -2,7 +2,7 @@ import * as assert from 'node:assert'
 import { describe, it } from 'node:test'
 import starsPresenter from '#badges/stars/stars.js'
 import { badgeCollection } from '../src/present-badges.js'
-import { Data } from '../src/collect/types.js'
+import { Data } from '../src/collect/index.js'
 import { Badge } from '../src/badges.js'
 
 describe('stars', () => {
@@ -31,7 +31,7 @@ describe('stars', () => {
           commits: [] as any[],
         },
       ] as Data['repos'],
-    }
+    } as Data
 
     starsPresenter.present(data, grant)
 

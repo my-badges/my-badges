@@ -1,4 +1,4 @@
-import { define, Pull } from '#src'
+import { define, PullRequest } from '#src'
 
 export default define({
   url: import.meta.url,
@@ -56,6 +56,6 @@ export default define({
   },
 })
 
-function byParticipantsCount(a: Pull, b: Pull) {
+function byParticipantsCount(a: PullRequest, b: PullRequest) {
   return a.participants.totalCount - b.participants.totalCount
 }

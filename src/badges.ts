@@ -1,6 +1,9 @@
 import allBadges from '#badges'
 import { linkCommit, linkIssue, linkPull } from './utils.js'
-import { Commit, Data, Issue, Pull } from './collect/types.js'
+import { Data } from './collect/index.js'
+import { Commit } from './collect/commits.graphql.js'
+import { PullRequest } from './collect/pulls.graphql.js'
+import { Issue } from './collect/issues.graphql.js'
 
 export type Presenters = (typeof allBadges)[number]['default']
 
@@ -58,7 +61,7 @@ export class Evidence {
     return this
   }
 
-  evidencePRs(...pulls: Pull[]) {
+  evidencePRs(...pulls: PullRequest[]) {
     this.evidence(
       'Pull requests:\n\n' +
         pulls
@@ -69,7 +72,7 @@ export class Evidence {
     return this
   }
 
-  evidencePRsWithTitle(...pulls: Pull[]) {
+  evidencePRsWithTitle(...pulls: PullRequest[]) {
     this.evidence(
       'Pull requests:\n\n' +
         pulls.map((x) => `- ${linkPull(x)}: ${x.title}`).join('\n'),

@@ -25,6 +25,7 @@
   "dependencies": {
     "@octokit/plugin-retry": "^7.1.1",
     "@octokit/plugin-throttling": "^9.3.0",
+    "megaera": "^0.0.2",
     "minimist": "^1.2.8",
     "octokit": "^4.0.2"
   },

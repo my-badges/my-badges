@@ -1,10 +1,10 @@
-import { define, Issue, Pull } from '#src'
+import { define, Issue, PullRequest } from '#src'
 
 export default define({
   url: import.meta.url,
   badges: ['the-ultimate-question'] as const,
   present(data, grant) {
-    const list: (Issue | Pull)[] = []
+    const list: (Issue | PullRequest)[] = []
 
     for (const issue of data.issues) {
       if (issue.number == 42) list.push(issue)
@@ -22,6 +22,6 @@ export default define({
   },
 })
 
-function link(x: Issue | Pull): string {
+function link(x: Issue | PullRequest): string {
   return `<a href="https://github.com/${x.repository.owner.login}/${x.repository.name}/issues/${x.number}">#${x.number}</a>`
 }

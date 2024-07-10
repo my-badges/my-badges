@@ -1,0 +1,61 @@
+fragment Issue on Issue {
+  createdAt
+  closedAt
+  closed
+  author {
+    login
+  }
+  url
+  number
+  title
+  labels(first: 10) {
+    totalCount
+    nodes {
+      name
+    }
+  }
+  body
+  comments(first: 1) {
+    totalCount
+  }
+  reactions(first: 100) {
+    totalCount
+    nodes {
+      content
+      user {
+        login
+      }
+    }
+  }
+  assignees(first: 3) {
+    totalCount
+  }
+  repository {
+    nameWithOwner
+    owner {
+      login
+    }
+    name
+  }
+}
+
+query IssuesQuery($username: String!, $num: Int = 100, $cursor: String) {
+  user(login: $username) {
+    issues(first: $num, after: $cursor, filterBy: { createdBy: $username }) {
+      totalCount
+      nodes {
+        ...Issue
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+  rateLimit {
+    limit
+    cost
+    remaining
+    resetAt
+  }
+}

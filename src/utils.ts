@@ -1,5 +1,7 @@
 import { spawnSync } from 'node:child_process'
-import { Commit, Issue, Pull } from './collect/types.js'
+import { Commit } from './collect/commits.graphql.js'
+import { PullRequest } from './collect/pulls.graphql.js'
+import { Issue } from './collect/issues.graphql.js'
 
 export function linkCommit(commit: Commit): string {
   return `<a href="https://github.com/${commit.repository.owner.login}/${
@@ -7,7 +9,7 @@ export function linkCommit(commit: Commit): string {
   }/commit/${commit.sha}">${commit.sha.slice(0, 7)}</a>`
 }
 
-export function linkPull(pull: Pull): string {
+export function linkPull(pull: PullRequest): string {
   return `<a href="https://github.com/${pull.repository.owner.login}/${pull.repository.name}/pull/${pull.number}">#${pull.number}</a>`
 }
 

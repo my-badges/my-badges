@@ -1,10 +1,10 @@
-import { define, Pull } from '#src'
+import { define, PullRequest } from '#src'
 
 export default define({
   url: import.meta.url,
   badges: ['my-badges-contributor'] as const,
   present(data, grant) {
-    const pulls: Pull[] = []
+    const pulls: PullRequest[] = []
     for (const pull of data.pulls) {
       if (
         pull.repository.name === 'my-badges' &&

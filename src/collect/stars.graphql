@@ -1,0 +1,43 @@
+fragment StarredRepo on Repository {
+  nameWithOwner
+  description
+  stargazers {
+    totalCount
+  }
+  languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
+    totalCount
+    edges {
+      size
+      node {
+        name
+      }
+    }
+  }
+  licenseInfo {
+    name
+    nickname
+  }
+}
+
+query StarsQuery($login: String!, $num: Int = 100, $cursor: String) {
+  user(login: $login) {
+    starredRepositories(first: $num, after: $cursor) {
+      totalCount
+      isOverLimit
+      nodes {
+        ...StarredRepo
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+  rateLimit {
+    limit
+    cost
+    remaining
+    resetAt
+  }
+}
+

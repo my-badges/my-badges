@@ -21,7 +21,7 @@ export default define({
     for (const issue of data.issues.sort(age)) {
       if (!issue.closed) continue
       const createdAt = new Date(issue.createdAt)
-      const closedAt = new Date(issue.closedAt)
+      const closedAt = new Date(issue.closedAt!)
       let years = Math.floor(
         (closedAt.getTime() - createdAt.getTime()) / 1000 / 60 / 60 / 24 / 365,
       )
@@ -47,5 +47,5 @@ export default define({
 })
 
 function age(a: Issue, b: Issue) {
-  return new Date(a.closedAt).getTime() - new Date(b.closedAt).getTime()
+  return new Date(a.closedAt!).getTime() - new Date(b.closedAt!).getTime()
 }

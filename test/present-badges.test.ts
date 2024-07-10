@@ -1,8 +1,8 @@
 import * as assert from 'node:assert'
 import { describe, it } from 'node:test'
 import { presentBadges } from '../src/present-badges.js'
-import { Badge, define, List, Presenter } from '../src/badges.js'
-import { Data } from '../src/collect/types.js'
+import { Badge, define } from '../src/badges.js'
+import { Data } from '../src/collect/index.js'
 
 describe('present-badges', () => {
   const data: Data = {
@@ -31,7 +31,7 @@ describe('present-badges', () => {
         commits: [] as any[],
       },
     ] as Data['repos'],
-  }
+  } as Data
 
   it('presentBadges() applies `pick`', async () => {
     const userBadges = presentBadges(
