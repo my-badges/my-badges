@@ -27,12 +27,14 @@
     "@octokit/plugin-throttling": "^9.3.0",
     "megaera": "^0.0.2",
     "minimist": "^1.2.8",
-    "octokit": "^4.0.2"
+    "octokit": "^4.0.2",
+    "stopword": "^3.1.1"
   },
   "devDependencies": {
     "@octokit/graphql-schema": "^15.24.0",
     "@types/minimist": "^1.2.5",
     "@types/node": "^20.14.10",
+    "@types/stopword": "^2.0.3",
     "c8": "^10.1.2",
     "fast-glob": "^3.3.2",
     "image-dimensions": "^2.3.0",
