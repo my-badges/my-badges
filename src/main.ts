@@ -16,7 +16,7 @@ void (async function main() {
     const { env } = process
     const argv = minimist(process.argv.slice(2), {
       string: ['data', 'repo', 'token', 'size', 'user', 'pick', 'omit'],
-      boolean: ['dryrun', 'compact'],
+      boolean: ['dryrun', 'compact', 'noheader'],
     })
     const {
       token = env.GITHUB_TOKEN,
@@ -28,6 +28,7 @@ void (async function main() {
       pick,
       omit,
       compact,
+      noheader,
     } = argv
     const [owner, repo]: [string | undefined, string | undefined] =
       repository?.split('/', 2) || [username, username]
@@ -74,7 +75,7 @@ void (async function main() {
 
     if (owner && repo) {
       updateBadges(userBadges)
-      updateReadme(userBadges, size)
+      updateReadme(userBadges, size, noheader)
       if (!dryrun && thereAreChanges()) {
         gitPush()
       }

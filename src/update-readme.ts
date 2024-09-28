@@ -3,13 +3,13 @@ import { chdir } from 'node:process'
 import { Badge } from './badges.js'
 import { quoteAttr } from './utils.js'
 
-export function updateReadme(badges: Badge[], size: number | string) {
+export function updateReadme(badges: Badge[], size: number | string, noHeader: boolean = false) {
   chdir('repo')
 
   const readmeFilename = detectReadmeFilename()
   const readmeContent = fs.readFileSync(readmeFilename, 'utf8')
 
-  const content = generateReadme(readmeContent, badges, size)
+  const content = generateReadme(readmeContent, badges, size, noHeader)
   fs.writeFileSync(readmeFilename, content)
 
   chdir('..')
@@ -25,6 +25,7 @@ export function generateReadme(
   readmeContent: string,
   badges: Badge[],
   size: number | string = 64,
+  noHeader: boolean = false,
 ) {
   const startString = '<!-- my-badges start -->'
   const endString = '<!-- my-badges end -->'
@@ -46,10 +47,12 @@ export function generateReadme(
       })
       .join('\n')
 
+    const headerHtml = noHeader ? '' : '<h4><a href="https://github.com/my-badges/my-badges">My Badges</a></h4>\n\n'
+
     content =
       content.slice(0, start) +
       `${startString}\n` +
-      '<h4><a href="https://github.com/my-badges/my-badges">My Badges</a></h4>\n\n' +
+      headerHtml +
       badgesHtml +
       `\n${endString}` +
       (needToAddNewLine ? '\n' : '') +

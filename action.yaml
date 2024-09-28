@@ -17,6 +17,8 @@ inputs:
     description: Badge size for README.md, px
   dryrun:
     description: Generate badges, but skip pushing them to git
+  noheader:
+    description: Do not add header before badges
   omit:
     description: "List of badges to exclude. For example, if you're too shy to flex your stars: omit: stars-100,stars-500,stars-1000 or even shorter omit: stars-*"
   pick:
