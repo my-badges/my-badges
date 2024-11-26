@@ -178,6 +178,7 @@ function guessTimezone(user: User) {
     { pattern: /\bwarsaw\b|\bpoland\b/, offset: 2 },
     { pattern: /\bzagreb\b|\bcroatia\b/, offset: 2 },
     { pattern: /\bzurich\b|\bswitzerland\b/, offset: 2 },
+    { pattern: /\bturkey\b|\bistanbul\b|\bankara\b/, offset: 3 },
   ]
 
   for (const mapping of regexMapping) {
