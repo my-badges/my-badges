@@ -9,7 +9,6 @@ export default define({
     for (const repo of data.repos) {
       for (const commit of repo.commits) {
         const data = new Date(commit.committedDate)
-        console.log('Date:', data, 'Month:', data.getMonth(), 'Day:', data.getDate())
         if (data.getMonth() === 9 && data.getDate() === 31) {
           commits.push(commit)
         }
