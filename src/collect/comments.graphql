@@ -56,7 +56,11 @@ fragment Reactions on Reactable {
   }
 }
 
-query DiscussionCommentsQuery($login: String!, $num: Int = 100, $cursor: String) {
+query DiscussionCommentsQuery(
+  $login: String!
+  $num: Int = 100
+  $cursor: String
+) {
   user(login: $login) {
     repositoryDiscussionComments(first: $num, after: $cursor) {
       totalCount

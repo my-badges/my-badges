@@ -16,7 +16,7 @@ fragment PullRequest on PullRequest {
       login
     }
     name
-    languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
+    languages(first: 10, orderBy: { field: SIZE, direction: DESC }) {
       totalCount
       nodes {
         name

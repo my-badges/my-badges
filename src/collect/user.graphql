@@ -61,4 +61,3 @@ query UserQuery($login: String!) {
     resetAt
   }
 }
-

@@ -4,7 +4,7 @@ fragment StarredRepo on Repository {
   stargazers {
     totalCount
   }
-  languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
+  languages(first: 10, orderBy: { field: SIZE, direction: DESC }) {
     totalCount
     edges {
       size
@@ -40,4 +40,3 @@ query StarsQuery($login: String!, $num: Int = 100, $cursor: String) {
     resetAt
   }
 }
-

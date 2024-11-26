@@ -40,5 +40,7 @@ for (const { default: b } of allBadges) {
 if (!ok) {
   process.exit(1)
 } else {
-  console.log('✅ All images exist, have the expected dimensions, and have unique ids.')
+  console.log(
+    '✅ All images exist, have the expected dimensions, and have unique ids.',
+  )
 }

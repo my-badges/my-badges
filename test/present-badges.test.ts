@@ -54,8 +54,7 @@ describe('present-badges', () => {
           '* <a href="https://github.com/foo/bar">foo/bar: ★1000</a>\n' +
           '\n' +
           "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
-        image:
-          'https://github.com/my-badges/my-badges/blob/master/badges/stars/stars-100.png?raw=true',
+        image: 'https://my-badges.github.io/my-badges/stars-100.png',
       },
       {
         id: 'stars-500',
@@ -67,8 +66,7 @@ describe('present-badges', () => {
           '* <a href="https://github.com/foo/bar">foo/bar: ★1000</a>\n' +
           '\n' +
           "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
-        image:
-          'https://github.com/my-badges/my-badges/blob/master/badges/stars/stars-500.png?raw=true',
+        image: 'https://my-badges.github.io/my-badges/stars-500.png',
       },
     ])
   })
@@ -94,8 +92,7 @@ describe('present-badges', () => {
           '* <a href="https://github.com/foo/bar">foo/bar: ★1000</a>\n' +
           '\n' +
           "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
-        image:
-          'https://github.com/my-badges/my-badges/blob/master/badges/stars/stars-100.png?raw=true',
+        image: 'https://my-badges.github.io/my-badges/stars-100.png',
       },
     ])
   })
@@ -121,8 +118,7 @@ describe('present-badges', () => {
           '* <a href="https://github.com/foo/bar">foo/bar: ★1000</a>\n' +
           '\n' +
           "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
-        image:
-          'https://github.com/my-badges/my-badges/blob/master/badges/stars/stars-100.png?raw=true',
+        image: 'https://my-badges.github.io/my-badges/stars-100.png',
       },
       {
         id: 'stars-500',
@@ -134,8 +130,7 @@ describe('present-badges', () => {
           '* <a href="https://github.com/foo/bar">foo/bar: ★1000</a>\n' +
           '\n' +
           "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
-        image:
-          'https://github.com/my-badges/my-badges/blob/master/badges/stars/stars-500.png?raw=true',
+        image: 'https://my-badges.github.io/my-badges/stars-500.png',
       },
     ])
   })
@@ -162,8 +157,7 @@ describe('present-badges', () => {
           '* <a href="https://github.com/foo/bar">foo/bar: ★1000</a>\n' +
           '\n' +
           "<sup>I have push, maintainer or admin permissions, so I'm definitely an author.<sup>\n",
-        image:
-          'https://github.com/my-badges/my-badges/blob/master/badges/stars/stars-2000.png?raw=true',
+        image: 'https://my-badges.github.io/my-badges/stars-2000.png',
       },
     ])
   })
