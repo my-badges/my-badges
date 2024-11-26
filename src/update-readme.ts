@@ -49,7 +49,6 @@ export function generateReadme(
     content =
       content.slice(0, start) +
       `${startString}\n` +
-      '<h4><a href="https://github.com/my-badges/my-badges">My Badges</a></h4>\n\n' +
       badgesHtml +
       `\n${endString}` +
       (needToAddNewLine ? '\n' : '') +
