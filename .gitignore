@@ -6,3 +6,4 @@
 /.pages/
 yarn.lock
 coverage
+.idea/
