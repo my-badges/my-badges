@@ -12,7 +12,9 @@ for (const { default: b } of allBadges) {
   const dirname = path.basename(path.dirname(url))
   const filename = path.basename(url).replace('.js', '.ts')
   for (const id of b.badges) {
-    badgesHtml.push(`<a href="https://github.com/my-badges/my-badges/tree/master/badges/${dirname}/${filename}"><img src="https://my-badges.github.io/my-badges/${id}.png" alt="${b.desc}" title="${b.desc}" width="128"></a>`)
+    badgesHtml.push(
+      `<a href="https://github.com/my-badges/my-badges/tree/master/badges/${dirname}/${filename}"><img src="https://my-badges.github.io/my-badges/${id}.png" alt="${b.desc}" title="${b.desc}" width="128"></a>`,
+    )
   }
 }
 

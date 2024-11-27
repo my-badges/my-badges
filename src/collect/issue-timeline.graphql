@@ -1,4 +1,10 @@
-query IssueTimelineQuery($owner: String!, $name: String!, $number: Int!, $num: Int = 100, $cursor: String) {
+query IssueTimelineQuery(
+  $owner: String!
+  $name: String!
+  $number: Int!
+  $num: Int = 100
+  $cursor: String
+) {
   repository(owner: $owner, name: $name) {
     issue(number: $number) {
       timelineItems(first: $num, after: $cursor) {
