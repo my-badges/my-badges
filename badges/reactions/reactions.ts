@@ -85,8 +85,9 @@ export default define({
         'thumbs-up',
         `I have received a lot of thumbs up 👍 reactions!\n\n` +
           up
+            .filter((p) => p.counts.THUMBS_UP > 0)
             .slice(0, 10)
-            .map((p) => `- [${p.totalCount} reactions](${p.where})`)
+            .map((p) => `- [${p.counts.THUMBS_UP} thumbs ups](${p.where})`)
             .join('\n'),
       )
     }
@@ -98,8 +99,9 @@ export default define({
         'thumbs-down',
         `I have received a lot of thumbs down 👎 reactions!\n\n` +
           down
+            .filter((p) => p.counts.THUMBS_DOWN > 0)
             .slice(0, 10)
-            .map((p) => `- [${p.totalCount} reactions](${p.where})`)
+            .map((p) => `- [${p.counts.THUMBS_DOWN} thumbs downs](${p.where})`)
             .join('\n'),
       )
     }
@@ -111,8 +113,11 @@ export default define({
         'confused',
         `I have received a lot of confused 😕 reactions!\n\n` +
           confused
+            .filter((p) => p.counts.CONFUSED > 0)
             .slice(0, 10)
-            .map((p) => `- [${p.totalCount} reactions](${p.where})`)
+            .map(
+              (p) => `- [${p.counts.CONFUSED} confused reactions](${p.where})`,
+            )
             .join('\n'),
       )
     }
