@@ -24,22 +24,22 @@
     "test:unit": "c8 -r lcov -r text -o coverage -x scripts -x test node --loader ts-node/esm --experimental-specifier-resolution=node scripts/test.mjs"
   },
   "dependencies": {
-    "@octokit/plugin-retry": "^7.1.1",
-    "@octokit/plugin-throttling": "^9.3.0",
-    "megaera": "^1.0.0",
+    "@octokit/plugin-retry": "^7.1.2",
+    "@octokit/plugin-throttling": "^9.3.2",
+    "megaera": "^1.0.1",
     "minimist": "^1.2.8",
     "octokit": "^4.0.2"
   },
   "devDependencies": {
-    "@octokit/graphql-schema": "^15.24.0",
+    "@octokit/graphql-schema": "^15.25.0",
     "@types/minimist": "^1.2.5",
-    "@types/node": "^20.14.10",
+    "@types/node": "^22.10.1",
     "c8": "^10.1.2",
     "fast-glob": "^3.3.2",
     "image-dimensions": "^2.3.0",
-    "prettier": "^3.3.2",
+    "prettier": "^3.4.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.3"
+    "typescript": "^5.7.2"
   },
   "files": [
     "dist"

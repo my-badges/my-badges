@@ -127,7 +127,6 @@ export type Reactions = {
 
 export const DiscussionCommentsQuery = `#graphql
 ${Reactions}
-${IssueComment}
 ${DiscussionComment}
 query DiscussionCommentsQuery($login: String!, $num: Int = 100, $cursor: String) {
   user(login: $login) {
@@ -176,7 +175,6 @@ export type DiscussionCommentsQuery = (vars: {
 export const IssueCommentsQuery = `#graphql
 ${Reactions}
 ${IssueComment}
-${DiscussionComment}
 query IssueCommentsQuery($login: String!, $num: Int = 100, $cursor: String) {
   user(login: $login) {
     issueComments(first: $num, after: $cursor) {
