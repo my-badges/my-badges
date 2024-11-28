@@ -22,8 +22,6 @@ describe('generateReadme()', () => {
       contents,
       `
 <!-- my-badges start -->
-<h4><a href="https://github.com/my-badges/my-badges">My Badges</a></h4>
-
 <a href="my-badges/a-commit.md"><img src="" alt="test" title="test" width="64"></a>
 <a href="my-badges/ab-commit.md"><img src="" alt="test" title="test" width="64"></a>
 <a href="my-badges/abc-commit.md"><img src="" alt="test" title="test" width="64"></a>
