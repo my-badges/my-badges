@@ -13,7 +13,7 @@ export default [
   await import('./fix-commit/fix-commit.js'),
   await import('./github-anniversary/github-anniversary.js'),
   await import('./mass-delete-commit/mass-delete-commit.js'),
-  // TODO: await import('./most-reactions/most-reactions.js'),
+  await import('./reactions/reactions.js'),
   await import('./my-badges-contributor/my-badges-contributor.js'),
   await import('./old-issue/old-issue.js'),
   await import('./polite-coder/polite-coder.js'),
