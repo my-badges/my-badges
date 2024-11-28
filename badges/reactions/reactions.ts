@@ -83,12 +83,13 @@ export default define({
     if (up.length > 0 && up[0].counts.THUMBS_UP > 10) {
       grant(
         'thumbs-up',
-        `I have received a lot of thumbs up 👍 reactions!\n\n` +
-          up
-            .filter((p) => p.counts.THUMBS_UP > 0)
-            .slice(0, 10)
-            .map((p) => `- [${p.counts.THUMBS_UP} thumbs ups](${p.where})`)
-            .join('\n'),
+        `I have received a lot of thumbs up 👍 reactions!`,
+      ).evidence(
+        up
+          .filter((p) => p.counts.THUMBS_UP > 0)
+          .slice(0, 10)
+          .map((p) => `- [${p.counts.THUMBS_UP} thumbs ups](${p.where})`)
+          .join('\n'),
       )
     }
 
@@ -97,12 +98,13 @@ export default define({
     if (down.length > 0 && down[0].counts.THUMBS_DOWN > 10) {
       grant(
         'thumbs-down',
-        `I have received a lot of thumbs down 👎 reactions!\n\n` +
-          down
-            .filter((p) => p.counts.THUMBS_DOWN > 0)
-            .slice(0, 10)
-            .map((p) => `- [${p.counts.THUMBS_DOWN} thumbs downs](${p.where})`)
-            .join('\n'),
+        `I have received a lot of thumbs down 👎 reactions!`,
+      ).evidence(
+        down
+          .filter((p) => p.counts.THUMBS_DOWN > 0)
+          .slice(0, 10)
+          .map((p) => `- [${p.counts.THUMBS_DOWN} thumbs downs](${p.where})`)
+          .join('\n'),
       )
     }
 
@@ -111,14 +113,13 @@ export default define({
     if (confused.length > 0 && confused[0].counts.CONFUSED > 10) {
       grant(
         'confused',
-        `I have received a lot of confused 😕 reactions!\n\n` +
-          confused
-            .filter((p) => p.counts.CONFUSED > 0)
-            .slice(0, 10)
-            .map(
-              (p) => `- [${p.counts.CONFUSED} confused reactions](${p.where})`,
-            )
-            .join('\n'),
+        `I have received a lot of confused 😕 reactions!`,
+      ).evidence(
+        confused
+          .filter((p) => p.counts.CONFUSED > 0)
+          .slice(0, 10)
+          .map((p) => `- [${p.counts.CONFUSED} confused reactions](${p.where})`)
+          .join('\n'),
       )
     }
   },
