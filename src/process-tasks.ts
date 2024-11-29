@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import { Octokit } from 'octokit'
+import { GraphqlResponseError } from '@octokit/graphql'
 import { Data } from './data.js'
 import { TaskName } from './task.js'
 import allTasks from './task/index.js'
@@ -67,7 +68,12 @@ export async function processTasks(
     try {
       await task.run({ octokit, data, next }, params)
     } catch (e) {
-      if (attempts >= 3) {
+      let retry = true
+      if (e instanceof GraphqlResponseError) {
+        retry = e.errors?.some((error) => error.type == 'NOT_FOUND') ?? true
+      }
+
+      if (attempts >= 3 || !retry) {
         console.error(
           `!!! Failed to run task ${taskName}`,
           params,
