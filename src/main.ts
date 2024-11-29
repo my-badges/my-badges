@@ -7,7 +7,7 @@ import { retry } from '@octokit/plugin-retry'
 import { throttling } from '@octokit/plugin-throttling'
 import { presentBadges } from './present-badges.js'
 import { getData } from './get-data.js'
-import { getUserBadges, gitClone, gitPush, thereAreChanges } from './repo.js'
+import { getUserBadges, syncRepo, gitPush, thereAreChanges } from './repo.js'
 import { updateBadges } from './update-badges.js'
 import { updateReadme } from './update-readme.js'
 
@@ -66,7 +66,7 @@ void (async function main() {
       retry: { doNotRetry: ['429'] },
     })
 
-    if (owner && repo) gitClone(owner, repo, token)
+    if (owner && repo) syncRepo(owner, repo, token)
     const data = await getData(octokit, dataPath, username)
 
     let userBadges = getUserBadges()

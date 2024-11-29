@@ -3,7 +3,13 @@ import { chdir } from 'node:process'
 import { Badge } from './badges.js'
 import { exec, execWithOutput } from './utils.js'
 
-export function gitClone(owner: string, repo: string, token: string) {
+export function syncRepo(owner: string, repo: string, token: string) {
+  if (fs.existsSync('repo')) {
+    chdir('repo')
+    exec('git', ['pull'])
+    return
+  }
+
   exec('git', [
     'clone',
     '--depth=1',
