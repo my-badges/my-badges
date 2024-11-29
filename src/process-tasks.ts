@@ -28,29 +28,31 @@ export async function processTasks(
     data = JSON.parse(fs.readFileSync(dataPath, 'utf8')) as Data
   }
 
-  let todo: [TaskName, any][] = [
-    ['user', { username }],
-    ['repos', { username }],
-    ['pulls', { username }],
-    ['issues', { username }],
-    ['issue-timeline', { username, name: 'my-badges', number: 42 }],
-    ['issue-comments', { username }],
-    ['discussion-comments', { username }],
-    ['stars', { username }],
+  type Todo = {
+    taskName: TaskName
+    params: any
+    attempts: number
+  }
+
+  let todo: Todo[] = [
+    { taskName: 'user', params: { username }, attempts: 0 },
+    { taskName: 'repos', params: { username }, attempts: 0 },
+    { taskName: 'pulls', params: { username }, attempts: 0 },
+    { taskName: 'issues', params: { username }, attempts: 0 },
+    { taskName: 'issue-comments', params: { username }, attempts: 0 },
+    { taskName: 'discussion-comments', params: { username }, attempts: 0 },
+    { taskName: 'stars', params: { username }, attempts: 0 },
   ]
 
   if (fs.existsSync(tasksPath)) {
-    const savedTodo = JSON.parse(fs.readFileSync(tasksPath, 'utf8')) as [
-      TaskName,
-      any,
-    ][]
+    const savedTodo = JSON.parse(fs.readFileSync(tasksPath, 'utf8')) as Todo[]
     if (savedTodo.length > 0) {
       todo = savedTodo
     }
   }
 
   while (todo.length > 0) {
-    const [taskName, params] = todo.shift()!
+    const { taskName, params, attempts } = todo.shift()!
 
     const task = allTasks.find(({ default: t }) => t.name === taskName)?.default
     if (!task) {
@@ -58,15 +60,29 @@ export async function processTasks(
     }
 
     const next = (taskName: TaskName, params: any) => {
-      todo.push([taskName, params])
+      todo.push({ taskName, params, attempts: 0 })
     }
 
     console.log(`==> Running task ${taskName}`, params)
     try {
       await task.run({ octokit, data, next }, params)
     } catch (e) {
-      console.error(`!!! Failed to run task ${taskName}`, params)
-      console.error(e)
+      if (attempts >= 3) {
+        console.error(
+          `!!! Failed to run task ${taskName}`,
+          params,
+          `after ${attempts} attempts`,
+        )
+        console.error(e)
+      } else {
+        console.error(
+          `!!! Failed to run task ${taskName}`,
+          params,
+          `, retrying... (attempts: ${attempts + 1})`,
+        )
+        console.error(e)
+        todo.push({ taskName, params, attempts: attempts + 1 })
+      }
     }
     console.log(`<== Finished ${taskName} (${todo.length} tasks left)`)
 
