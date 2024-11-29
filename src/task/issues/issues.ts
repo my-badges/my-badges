@@ -9,6 +9,7 @@ export default task({
       username,
     })
 
+    data.issues = []
     for await (const resp of issues) {
       if (!resp.user?.issues.nodes) {
         throw new Error('Failed to load issues')

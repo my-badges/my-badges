@@ -9,6 +9,7 @@ export default task({
       login: username,
     })
 
+    data.issueComments = []
     for await (const resp of issueComments) {
       if (!resp.user?.issueComments.nodes) {
         throw new Error('Failed to load issue comments')

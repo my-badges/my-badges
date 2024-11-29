@@ -9,6 +9,7 @@ export default task({
       per_page: 100,
     })
 
+    data.repos = []
     for await (const resp of repos) {
       for (const repo of resp.data) {
         if (repo.name == '-') {

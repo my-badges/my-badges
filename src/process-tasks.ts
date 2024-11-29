@@ -74,5 +74,5 @@ export async function processTasks(
     fs.writeFileSync(tasksPath, JSON.stringify(todo, null, 2))
   }
 
-  return [false, data]
+  return [true, data]
 }

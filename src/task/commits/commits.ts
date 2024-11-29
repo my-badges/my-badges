@@ -15,6 +15,14 @@ export default task({
       author: data.user.id,
     })
 
+    const repo = data.repos.find(
+      (repo) => repo.owner.login == owner && repo.name == name,
+    )
+    if (!repo) {
+      throw new Error(`Repo not found: ${owner}/${name}`)
+    }
+    repo.commits = []
+
     for await (const resp of commits) {
       const { totalCount, nodes } =
         resp.repository?.defaultBranchRef?.target?.history!
@@ -38,9 +46,7 @@ export default task({
       }
 
       for (const commit of nodes) {
-        data.repos
-          .find((repo) => repo.owner.login == owner && repo.name == name)
-          ?.commits.push(commit)
+        repo.commits.push(commit)
       }
       console.log(
         `| commits ${repo.commits.length}/${totalCount} (cost: ${resp.rateLimit?.cost}, remaining: ${resp.rateLimit?.remaining})`,
