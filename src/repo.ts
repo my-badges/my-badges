@@ -7,6 +7,7 @@ export function syncRepo(owner: string, repo: string, token: string) {
   if (fs.existsSync('repo')) {
     chdir('repo')
     exec('git', ['pull'])
+    chdir('..')
     return
   }
 

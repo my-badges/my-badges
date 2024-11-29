@@ -1,5 +1,5 @@
 import { define } from '#src'
-import { Reactions } from '../../src/collect/comments.graphql.js'
+import { Reactions } from '../../src/task/user-comments/comments.graphql.js'
 
 export default define({
   url: import.meta.url,
