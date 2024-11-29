@@ -1,7 +1,25 @@
 import { spawnSync } from 'node:child_process'
-import { Commit } from './collect/commits.graphql.js'
-import { PullRequest } from './collect/pulls.graphql.js'
-import { Issue } from './collect/issues.graphql.js'
+import { Octokit } from 'octokit'
+import { Query, Variables } from 'megaera'
+import { Commit } from './task/commits/commits.graphql.js'
+import { PullRequest } from './task/pulls/pulls.graphql.js'
+import { Issue } from './task/issues/issues.graphql.js'
+
+export function query<T extends Query>(
+  octokit: Octokit,
+  query: T,
+  variables: Variables<T>,
+) {
+  return octokit.graphql<ReturnType<T>>(query, variables)
+}
+
+export function paginate<T extends Query>(
+  octokit: Octokit,
+  query: T,
+  variables: Variables<T>,
+) {
+  return octokit.graphql.paginate.iterator<ReturnType<T>>(query, variables)
+}
 
 export function linkCommit(commit: Commit): string {
   return `<a href="https://github.com/${commit.repository.owner.login}/${

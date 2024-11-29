@@ -6,10 +6,12 @@ import { Octokit } from 'octokit'
 import { retry } from '@octokit/plugin-retry'
 import { throttling } from '@octokit/plugin-throttling'
 import { presentBadges } from './present-badges.js'
-import { getData } from './get-data.js'
-import { getUserBadges, syncRepo, gitPush, thereAreChanges } from './repo.js'
+import { getUserBadges, gitPush, syncRepo, thereAreChanges } from './repo.js'
 import { updateBadges } from './update-badges.js'
 import { updateReadme } from './update-readme.js'
+import { processTasks } from './process-tasks.js'
+import fs from 'node:fs'
+import { Data } from './data.js'
 
 void (async function main() {
   try {
@@ -67,7 +69,17 @@ void (async function main() {
     })
 
     if (owner && repo) syncRepo(owner, repo, token)
-    const data = await getData(octokit, dataPath, username)
+
+    let data: Data
+    if (dataPath !== '') {
+      data = JSON.parse(fs.readFileSync(dataPath, 'utf8')) as Data
+    } else {
+      let ok: boolean
+      ;[ok, data] = await processTasks(octokit, username)
+      if (!ok) {
+        return
+      }
+    }
 
     let userBadges = getUserBadges()
     userBadges = presentBadges(

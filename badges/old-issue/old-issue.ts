@@ -20,6 +20,7 @@ export default define({
 
     for (const issue of data.issues.sort(age)) {
       if (!issue.closed) continue
+      if (issue.closedBy != data.user.login) continue
       const createdAt = new Date(issue.createdAt)
       const closedAt = new Date(issue.closedAt!)
       let years = Math.floor(

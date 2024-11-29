@@ -1,9 +1,9 @@
 import allBadges from '#badges'
 import { linkCommit, linkIssue, linkPull } from './utils.js'
-import { Data } from './collect/index.js'
-import { Commit } from './collect/commits.graphql.js'
-import { PullRequest } from './collect/pulls.graphql.js'
-import { Issue } from './collect/issues.graphql.js'
+import { Data } from './data.js'
+import { Commit } from './task/commits/commits.graphql.js'
+import { PullRequest } from './task/pulls/pulls.graphql.js'
+import { Issue } from './task/issues/issues.graphql.js'
 
 export type Presenters = (typeof allBadges)[number]['default']
 
