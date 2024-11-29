@@ -5,6 +5,8 @@ import { Commit } from './task/commits/commits.graphql.js'
 import { PullRequest } from './task/pulls/pulls.graphql.js'
 import { Issue } from './task/issues/issues.graphql.js'
 
+export { $, type TShellSync } from 'zurk'
+
 export function query<T extends Query>(
   octokit: Octokit,
   query: T,
