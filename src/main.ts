@@ -48,10 +48,19 @@ void (async function main() {
             return true
           }
         },
-        onSecondaryRateLimit: (retryAfter, options: any, octokit) => {
+        onSecondaryRateLimit: (
+          retryAfter,
+          options: any,
+          octokit,
+          retryCount,
+        ) => {
           octokit.log.warn(
             `SecondaryRateLimit detected for request ${options.method} ${options.url}`,
           )
+          if (retryCount <= 3) {
+            octokit.log.info(`Retrying after ${retryAfter} seconds!`)
+            return true
+          }
         },
       },
       retry: { doNotRetry: ['429'] },
