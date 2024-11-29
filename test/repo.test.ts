@@ -9,8 +9,8 @@ const temp = `${os.tmpdir()}/${Math.random().toString(36).slice(2)}`
 fs.mkdirSync(temp)
 
 describe('repo API', () => {
-  before(() => __internal__.cwd = path.resolve(temp))
-  after(() => __internal__.cwd = process.cwd())
+  before(() => (__internal__.cwd = path.resolve(temp)))
+  after(() => (__internal__.cwd = process.cwd()))
 
   describe('syncRepo()', () => {
     it('should sync the repo', () => {
@@ -18,7 +18,9 @@ describe('repo API', () => {
       const repo = 'zurk'
 
       syncRepo(owner, repo)
-      const pkgJson = JSON.parse(fs.readFileSync(path.resolve(temp, 'repo/package.json'), 'utf-8'))
+      const pkgJson = JSON.parse(
+        fs.readFileSync(path.resolve(temp, 'repo/package.json'), 'utf-8'),
+      )
       assert.equal(pkgJson.name, repo)
     })
   })
