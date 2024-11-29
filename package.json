@@ -24,6 +24,7 @@
     "test:unit": "c8 -r lcov -r text -o coverage -x scripts -x test node --loader ts-node/esm --experimental-specifier-resolution=node scripts/test.mjs"
   },
   "dependencies": {
+    "@octokit/plugin-paginate-graphql": "^5.2.4",
     "@octokit/plugin-retry": "^7.1.2",
     "@octokit/plugin-throttling": "^9.3.2",
     "megaera": "^1.0.1",
