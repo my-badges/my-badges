@@ -29,7 +29,8 @@
     "@octokit/plugin-throttling": "^9.3.2",
     "megaera": "^1.0.1",
     "minimist": "^1.2.8",
-    "octokit": "^4.0.2"
+    "octokit": "^4.0.2",
+    "zurk": "^0.6.3"
   },
   "devDependencies": {
     "@octokit/graphql-schema": "^15.25.0",
