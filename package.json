@@ -19,7 +19,7 @@
     "build": "tsc",
     "check-images": "node scripts/check-images.mjs",
     "generate-gh-pages": "node scripts/generate-gh-pages.mjs",
-    "megaera": "megaera --schema .github/schema.graphql src/**/*.graphql && prettier --write src/**/*.graphql.ts",
+    "megaera": "zx scripts/megaera.mjs",
     "test": "npm run test:unit",
     "test:unit": "c8 -r lcov -r text -o coverage -x scripts -x test node --loader ts-node/esm --experimental-specifier-resolution=node scripts/test.mjs"
   },
@@ -39,7 +39,8 @@
     "image-dimensions": "^2.3.0",
     "prettier": "^3.4.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "zx": "^8.2.4"
   },
   "files": [
     "dist"
