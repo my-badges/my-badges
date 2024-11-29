@@ -9,6 +9,7 @@ export default task({
       username,
     })
 
+    data.pulls = []
     for await (const resp of pulls) {
       if (!resp.user?.pullRequests.nodes) {
         throw new Error('Failed to load pull requests')

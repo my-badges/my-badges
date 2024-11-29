@@ -8,6 +8,8 @@ export default task({
     const stars = paginate(octokit, StarsQuery, {
       login: username,
     })
+
+    data.starredRepositories = []
     for await (const resp of stars) {
       if (!resp.user?.starredRepositories.nodes) {
         throw new Error('Failed to load stars')

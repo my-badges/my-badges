@@ -12,6 +12,7 @@ export default task({
       login: username,
     })
 
+    data.discussionComments = []
     for await (const resp of discussionComments) {
       if (!resp.user?.repositoryDiscussionComments.nodes) {
         throw new Error('Failed to load discussion comments')
