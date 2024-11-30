@@ -9,46 +9,66 @@ const MY_BADGES_FILE = 'my-badges/my-badges.json'
 const CWD = process.cwd()
 const DIR = 'repo'
 
-export const __internal__ = { cwd: CWD }
-const getRepoDir = () => path.resolve(__internal__.cwd, DIR)
-const $ = _$({
-  get cwd() {
-    return getRepoDir()
-  },
-  sync: true,
-})
+type RepoOpts = {
+  name?: string
+  owner?: string
+  token?: string
+  cwd?: string
+  gitname?: string
+  gitemail?: string
+  badgesfile?: string
+  dryrun?: boolean
+}
 
-export function syncRepo(owner: string, repo: string, token?: string) {
-  const repoDir = getRepoDir()
-  if (fs.existsSync(repoDir)) {
-    $`git pull`
-    return
+export function getRepo(opts: RepoOpts) {
+  let ready = false
+
+  const cwd = path.resolve(opts.cwd || CWD, DIR)
+  const name = opts.name
+  const owner = opts.owner
+  const dryrun = opts.dryrun || !name || !owner
+  const auth = opts.token ? `${owner}:${opts.token}@` : ''
+  const giturl = `https://${auth}github.com/${owner}/${name}.git`
+  const gitname = opts.gitname || MY_BADGES_NAME
+  const gitemail = opts.gitemail || MY_BADGES_EMAIL
+  const badgesfile = path.resolve(cwd, opts.badgesfile || MY_BADGES_FILE)
+  const $ = _$({
+    cwd,
+    sync: true,
+  })
+  return {
+    get ready() {
+      return ready
+    },
+    pull() {
+      if (dryrun) return
+      if (fs.existsSync(cwd)) {
+        $`git pull`
+        return
+      }
+      fs.mkdirSync(cwd, { recursive: true })
+
+      $`git clone --depth=1 ${giturl} .`
+      $`git config user.name ${gitname}`
+      $`git config user.email ${gitemail}`
+      ready = true
+    },
+    push() {
+      if (!ready) return
+      $`git add .`
+      $`git status`
+      $`git commit -m Update badges`
+      $`git push`
+    },
+    hasChanges(): boolean {
+      if (!ready) return false
+      return $`git status --porcelain`.stdout.trim() !== ''
+    },
+    getUserBadges(): Badge[] {
+      if (!fs.existsSync(badgesfile)) return []
+
+      const data = fs.readFileSync(badgesfile, 'utf8')
+      return JSON.parse(data)
+    },
   }
-  fs.mkdirSync(repoDir, { recursive: true })
-
-  const auth = token ? `${owner}:${token}@` : ''
-
-  $`git clone --depth=1 https://${auth}github.com/${owner}/${repo}.git .`
-  $`git config user.name ${MY_BADGES_NAME}`
-  $`git config user.email ${MY_BADGES_EMAIL}`
-}
-
-export function thereAreChanges(): boolean {
-  return $`git status --porcelain`.stdout.trim() !== ''
-}
-
-export function gitPush() {
-  $`git add .`
-  $`git status`
-  $`git commit -m Update badges`
-  $`git push`
-}
-
-export function getUserBadges(): Badge[] {
-  const file = path.resolve(getRepoDir(), MY_BADGES_FILE)
-  if (!fs.existsSync(file)) {
-    return []
-  }
-  const data = fs.readFileSync(file, 'utf8')
-  return JSON.parse(data)
 }
