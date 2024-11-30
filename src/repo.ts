@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { Badge } from './badges.js'
-import { $ as _, type TShellSync } from './utils.js'
+import { $ as _$ } from './utils.js'
 
 const MY_BADGES_NAME = 'My Badges'
 const MY_BADGES_EMAIL = 'my-badges@users.noreply.github.com'
@@ -10,23 +10,25 @@ const CWD = process.cwd()
 const DIR = 'repo'
 
 export const __internal__ = { cwd: CWD }
-const $ = ((...args: any) =>
-  _({
-    cwd: path.resolve(__internal__.cwd, DIR),
-    sync: true,
-  })(...args)) as TShellSync
+const getRepoDir = () => path.resolve(__internal__.cwd, DIR)
+const $ = _$({
+  get cwd() {
+    return getRepoDir()
+  },
+  sync: true,
+})
 
 export function syncRepo(owner: string, repo: string, token?: string) {
-  const { cwd } = __internal__
-  if (fs.existsSync(path.resolve(cwd, DIR))) {
+  const repoDir = getRepoDir()
+  if (fs.existsSync(repoDir)) {
     $`git pull`
     return
   }
+  fs.mkdirSync(repoDir, { recursive: true })
+
   const auth = token ? `${owner}:${token}@` : ''
 
-  $({
-    cwd,
-  })`git clone --depth=1 https://${auth}github.com/${owner}/${repo}.git ${DIR}`
+  $`git clone --depth=1 https://${auth}github.com/${owner}/${repo}.git .`
   $`git config user.name ${MY_BADGES_NAME}`
   $`git config user.email ${MY_BADGES_EMAIL}`
 }
@@ -43,7 +45,7 @@ export function gitPush() {
 }
 
 export function getUserBadges(): Badge[] {
-  const file = path.resolve(__internal__.cwd, DIR, MY_BADGES_FILE)
+  const file = path.resolve(getRepoDir(), MY_BADGES_FILE)
   if (!fs.existsSync(file)) {
     return []
   }
