@@ -6,7 +6,7 @@ import { Octokit } from 'octokit'
 import { retry } from '@octokit/plugin-retry'
 import { throttling } from '@octokit/plugin-throttling'
 import { presentBadges } from './present-badges.js'
-import { getUserBadges, gitPush, syncRepo, thereAreChanges } from './repo.js'
+import { getRepo } from './repo.js'
 import { updateBadges } from './update-badges.js'
 import { updateReadme } from './update-readme.js'
 import { processTasks } from './process-tasks.js'
@@ -31,11 +31,12 @@ void (async function main() {
       omit,
       compact,
     } = argv
-    const [owner, repo]: [string | undefined, string | undefined] =
+    const [owner, name]: [string | undefined, string | undefined] =
       repository?.split('/', 2) || [username, username]
     const pickBadges = pick ? pick.split(',') : []
     const omitBadges = omit ? omit.split(',') : []
 
+    const repo = getRepo({ owner, name, token })
     const MyOctokit = Octokit.plugin(retry, throttling)
     const octokit = new MyOctokit({
       auth: token,
@@ -68,7 +69,7 @@ void (async function main() {
       retry: { doNotRetry: ['429'] },
     })
 
-    if (owner && repo) syncRepo(owner, repo, token)
+    repo.pull()
 
     let data: Data
     if (dataPath !== '') {
@@ -81,7 +82,7 @@ void (async function main() {
       }
     }
 
-    let userBadges = getUserBadges()
+    let userBadges = repo.getUserBadges()
     userBadges = presentBadges(
       allBadges.map((m) => m.default),
       data,
@@ -93,11 +94,11 @@ void (async function main() {
 
     console.log(JSON.stringify(userBadges, null, 2))
 
-    if (owner && repo) {
+    if (repo.ready) {
       updateBadges(userBadges)
       updateReadme(userBadges, size)
-      if (!dryrun && thereAreChanges()) {
-        gitPush()
+      if (!dryrun && repo.hasChanges()) {
+        repo.push()
       }
     }
   } catch (e) {
