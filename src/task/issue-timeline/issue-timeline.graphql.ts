@@ -24,9 +24,9 @@ export type IssueTimelineItem =
 
 export const IssueTimelineQuery = `#graphql
 ${IssueTimelineItem}
-query IssueTimelineQuery($owner: String!, $name: String!, $number: Int!, $num: Int = 100, $cursor: String) {
-  repository(owner: $owner, name: $name) {
-    issue(number: $number) {
+query IssueTimelineQuery($id: ID!, $num: Int = 100, $cursor: String) {
+  node(id: $id) {
+    ... on Issue {
       timelineItems(first: $num, after: $cursor) {
         totalCount
         nodes {
@@ -48,24 +48,23 @@ query IssueTimelineQuery($owner: String!, $name: String!, $number: Int!, $num: I
 }` as string & IssueTimelineQuery
 
 export type IssueTimelineQuery = (vars: {
-  owner: string
-  name: string
-  number: number
+  id: string
   num?: number | null
   cursor?: string | null
 }) => {
-  repository: {
-    issue: {
-      timelineItems: {
-        totalCount: number
-        nodes: Array<{} & IssueTimelineItem> | null
-        pageInfo: {
-          hasNextPage: boolean
-          endCursor: string | null
+  node:
+    | ({} & {
+        timelineItems: {
+          totalCount: number
+          nodes: Array<{} & IssueTimelineItem> | null
+          pageInfo: {
+            hasNextPage: boolean
+            endCursor: string | null
+          }
         }
-      }
-    } | null
-  } | null
+      })
+    | null
+    | null
   rateLimit: {
     limit: number
     cost: number

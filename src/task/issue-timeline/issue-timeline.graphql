@@ -8,15 +8,9 @@ fragment IssueTimelineItem on IssueTimelineItem {
   }
 }
 
-query IssueTimelineQuery(
-  $owner: String!
-  $name: String!
-  $number: Int!
-  $num: Int = 100
-  $cursor: String
-) {
-  repository(owner: $owner, name: $name) {
-    issue(number: $number) {
+query IssueTimelineQuery($id: ID!, $num: Int = 100, $cursor: String) {
+  node(id: $id) {
+    ... on Issue {
       timelineItems(first: $num, after: $cursor) {
         totalCount
         nodes {

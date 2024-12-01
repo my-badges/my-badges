@@ -28,12 +28,6 @@ export default task({
       )
       for (const issue of resp.user.issues.nodes) {
         data.issues.push(issue)
-        next('issue-timeline', {
-          owner: issue.repository.owner.login,
-          name: issue.repository.name,
-          number: issue.number,
-        })
-
         if (issue.reactionsTotal.totalCount > 0) {
           if (reactionsBatch.length > 100) {
             next('reactions-issue', {
@@ -52,8 +46,8 @@ export default task({
 
         if (issue.timelineItemsTotal.totalCount > 0) {
           if (issue.timelineItemsTotal.totalCount > 100) {
-            next('issue-timeline-batch', {
-              ids: issueTimelineBatch,
+            next('issue-timeline', {
+              id: issue.id,
             })
           } else {
             issueTimelineBatch.push(issue.id)
