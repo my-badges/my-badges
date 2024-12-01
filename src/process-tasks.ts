@@ -1,5 +1,4 @@
 import fs from 'node:fs'
-import { Octokit } from 'octokit'
 import { GraphqlResponseError } from '@octokit/graphql'
 import { Data } from './data.js'
 import { TaskName } from './task.js'
@@ -12,7 +11,7 @@ export async function processTasks(
     'octokit' | 'ghUser' | 'dataDir' | 'dataFile' | 'dataTasks'
   >,
 ): Promise<[boolean, Data]> {
-  const { octokit, ghUser: username, dataDir, dataFile, dataTasks } = ctx
+  const { octokit, ghUser: username, dataFile, dataTasks } = ctx
 
   let data: Data = {
     user: null!,

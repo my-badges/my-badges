@@ -41,8 +41,8 @@ void (async function main() {
     console.log(JSON.stringify(userBadges, null, 2))
 
     if (repo.ready) {
-      updateBadges(userBadges)
-      updateReadme(userBadges, ctx.badgesSize)
+      updateBadges(userBadges, ctx.badgesDir, ctx.badgesDatafile)
+      updateReadme(userBadges, ctx.badgesSize, ctx.gitDir)
       if (!ctx.dryrun && repo.hasChanges()) {
         repo.push()
       }
