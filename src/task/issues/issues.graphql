@@ -18,15 +18,6 @@ fragment Issue on Issue {
   comments(first: 1) {
     totalCount
   }
-  reactions(first: 100) {
-    totalCount
-    nodes {
-      content
-      user {
-        login
-      }
-    }
-  }
   assignees(first: 3) {
     totalCount
   }

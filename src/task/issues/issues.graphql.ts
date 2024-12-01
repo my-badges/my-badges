@@ -21,15 +21,6 @@ fragment Issue on Issue {
   comments(first: 1) {
     totalCount
   }
-  reactions(first: 100) {
-    totalCount
-    nodes {
-      content
-      user {
-        login
-      }
-    }
-  }
   assignees(first: 3) {
     totalCount
   }
@@ -61,23 +52,6 @@ export type Issue = {
   body: string
   comments: {
     totalCount: number
-  }
-  reactions: {
-    totalCount: number
-    nodes: Array<{
-      content:
-        | 'CONFUSED'
-        | 'EYES'
-        | 'HEART'
-        | 'HOORAY'
-        | 'LAUGH'
-        | 'ROCKET'
-        | 'THUMBS_DOWN'
-        | 'THUMBS_UP'
-      user: {
-        login: string
-      } | null
-    }> | null
   }
   assignees: {
     totalCount: number

@@ -29,6 +29,11 @@ export default task({
           name: issue.repository.name,
           number: issue.number,
         })
+        next('issue-reactions', {
+          owner: issue.repository.owner.login,
+          name: issue.repository.name,
+          number: issue.number,
+        })
       }
     }
   },

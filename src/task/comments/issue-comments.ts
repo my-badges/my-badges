@@ -10,6 +10,7 @@ export default task({
     })
 
     data.issueComments = []
+
     for await (const resp of issueComments) {
       if (!resp.user?.issueComments.nodes) {
         throw new Error('Failed to load issue comments')
@@ -17,7 +18,11 @@ export default task({
 
       for (const comment of resp.user.issueComments.nodes) {
         data.issueComments.push(comment)
+        next('issue-comments-reactions', {
+          id: comment.id,
+        })
       }
+
       console.log(
         `| issue comments ${data.issueComments.length}/${resp.user.issueComments.totalCount} (cost: ${resp.rateLimit?.cost}, remaining: ${resp.rateLimit?.remaining})`,
       )
