@@ -37,10 +37,10 @@ export type Context = {
 }
 
 export function createCtx(
-  args: string[] = process.argv,
+  args: string[] = process.argv.slice(2),
   env: Record<string, string | undefined> = process.env,
 ): Context {
-  const argv = minimist(args.slice(2), {
+  const argv = minimist(args, {
     string: ['data', 'repo', 'token', 'size', 'user', 'pick', 'omit'],
     boolean: ['dryrun', 'compact'],
   })

@@ -33,6 +33,7 @@ export function getRepo({
         $`git pull`
         return
       }
+
       $`git clone --depth=1 ${gitUrl} .`
       $`git config user.name ${gitName}`
       $`git config user.email ${gitEmail}`

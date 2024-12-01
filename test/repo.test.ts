@@ -15,11 +15,10 @@ describe('repo API', () => {
   describe('syncRepo()', () => {
     it('should sync the repo', () => {
       repo.pull()
-      console.log('!!!', ctx.cwd)
-      // const pkgJson = JSON.parse(
-      //   fs.readFileSync(path.resolve(temp, 'repo/package.json'), 'utf-8'),
-      // )
-      // assert.equal(pkgJson.name, 'zurk')
+      const pkgJson = JSON.parse(
+        fs.readFileSync(path.resolve(temp, 'repo/package.json'), 'utf-8'),
+      )
+      assert.equal(pkgJson.name, 'zurk')
     })
   })
 })
