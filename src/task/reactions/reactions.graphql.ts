@@ -87,7 +87,7 @@ export type ReactionsQuery = (vars: {
 export const ReactionsBatchQuery = `#graphql
 ${Reaction}
 ${Reactions}
-query ReactionsBatchQuery($ids: [ID!]!, $num: Int = 100) {
+query ReactionsBatchQuery($ids: [ID!]!, $num: Int = 100, $cursor: String) {
   nodes(ids: $ids) {
     __typename
     id
@@ -104,6 +104,7 @@ query ReactionsBatchQuery($ids: [ID!]!, $num: Int = 100) {
 export type ReactionsBatchQuery = (vars: {
   ids: string[]
   num?: number | null
+  cursor?: string | null
 }) => {
   nodes: Array<
     {
