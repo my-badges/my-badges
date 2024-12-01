@@ -19,14 +19,10 @@ fragment Reactions on Reactable {
   }
 }
 
-query ReactionsQuery(
-  $id: ID!,
-  $num: Int = 100,
-  $cursor: String,
-) {
+query ReactionsQuery($id: ID!, $num: Int = 100, $cursor: String) {
   node(id: $id) {
     __typename
-    ... Reactions
+    ...Reactions
   }
   rateLimit {
     limit
