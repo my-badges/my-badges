@@ -1,4 +1,5 @@
 fragment DiscussionComment on DiscussionComment {
+  id
   url
   author {
     login
@@ -18,10 +19,10 @@ fragment DiscussionComment on DiscussionComment {
   editor {
     login
   }
-  ...Reactions
 }
 
 fragment IssueComment on IssueComment {
+  id
   url
   author {
     login
@@ -40,19 +41,6 @@ fragment IssueComment on IssueComment {
   updatedAt
   editor {
     login
-  }
-  ...Reactions
-}
-
-fragment Reactions on Reactable {
-  reactions(first: 100) {
-    totalCount
-    nodes {
-      content
-      user {
-        login
-      }
-    }
   }
 }
 
