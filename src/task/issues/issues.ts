@@ -51,7 +51,7 @@ export default task({
         }
 
         if (issue.timelineItemsTotal.totalCount > 0) {
-          if (issueTimelineBatch.length > 100) {
+          if (issue.timelineItemsTotal.totalCount > 100) {
             next('issue-timeline-batch', {
               ids: issueTimelineBatch,
             })
