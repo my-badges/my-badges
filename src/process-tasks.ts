@@ -8,6 +8,7 @@ import allTasks from './task/index.js'
 export async function processTasks(
   octokit: Octokit,
   username: string,
+  { task, params }: { task?: string; params?: string } = {},
 ): Promise<[boolean, Data]> {
   if (!fs.existsSync('data')) {
     fs.mkdirSync('data')
@@ -45,7 +46,15 @@ export async function processTasks(
     { taskName: 'stars', params: { username }, attempts: 0 },
   ]
 
-  if (fs.existsSync(tasksPath)) {
+  if (task && params) {
+    todo = [
+      {
+        taskName: task as TaskName,
+        params: Object.fromEntries(new URLSearchParams(params).entries()),
+        attempts: 0,
+      },
+    ]
+  } else if (fs.existsSync(tasksPath)) {
     const savedTodo = JSON.parse(fs.readFileSync(tasksPath, 'utf8')) as Todo[]
     if (savedTodo.length > 0) {
       todo = savedTodo
@@ -64,7 +73,10 @@ export async function processTasks(
       todo.push({ taskName, params, attempts: 0 })
     }
 
-    console.log(`==> Running task ${taskName}`, params)
+    console.log(
+      `==> Running task ${taskName}`,
+      new URLSearchParams(params).toString(),
+    )
     try {
       await task.run({ octokit, data, next }, params)
     } catch (e) {

@@ -13,7 +13,6 @@ query IssueReactionsQuery(
   $num: Int = 100,
   $cursor: String,
 ) {
-
   repository(owner: $owner, name: $name) {
     issue(number: $number) {
       reactions(first: $num, after: $cursor) {

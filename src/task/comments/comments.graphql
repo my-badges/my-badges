@@ -19,6 +19,9 @@ fragment DiscussionComment on DiscussionComment {
   editor {
     login
   }
+  reactionsTotal: reactions {
+    totalCount
+  }
 }
 
 fragment IssueComment on IssueComment {
@@ -41,6 +44,9 @@ fragment IssueComment on IssueComment {
   updatedAt
   editor {
     login
+  }
+  reactionsTotal: reactions {
+    totalCount
   }
 }
 

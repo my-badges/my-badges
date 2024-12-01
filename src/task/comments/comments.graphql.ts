@@ -22,6 +22,9 @@ fragment DiscussionComment on DiscussionComment {
   editor {
     login
   }
+  reactionsTotal: reactions {
+    totalCount
+  }
 }`
 
 export type DiscussionComment = {
@@ -45,6 +48,9 @@ export type DiscussionComment = {
   editor: {
     login: string
   } | null
+  reactionsTotal: {
+    totalCount: number
+  }
 }
 
 const IssueComment = `#graphql
@@ -69,6 +75,9 @@ fragment IssueComment on IssueComment {
   editor {
     login
   }
+  reactionsTotal: reactions {
+    totalCount
+  }
 }`
 
 export type IssueComment = {
@@ -92,6 +101,9 @@ export type IssueComment = {
   editor: {
     login: string
   } | null
+  reactionsTotal: {
+    totalCount: number
+  }
 }
 
 export const DiscussionCommentsQuery = `#graphql
@@ -117,11 +129,7 @@ query DiscussionCommentsQuery($login: String!, $num: Int = 100, $cursor: String)
   }
 }` as string & DiscussionCommentsQuery
 
-export type DiscussionCommentsQuery = (vars: {
-  login: string
-  num?: number | null
-  cursor?: string | null
-}) => {
+export type DiscussionCommentsQuery = (vars: { login: string, num?: number | null, cursor?: string | null }) => {
   user: {
     repositoryDiscussionComments: {
       totalCount: number
@@ -163,11 +171,7 @@ query IssueCommentsQuery($login: String!, $num: Int = 100, $cursor: String) {
   }
 }` as string & IssueCommentsQuery
 
-export type IssueCommentsQuery = (vars: {
-  login: string
-  num?: number | null
-  cursor?: string | null
-}) => {
+export type IssueCommentsQuery = (vars: { login: string, num?: number | null, cursor?: string | null }) => {
   user: {
     issueComments: {
       totalCount: number

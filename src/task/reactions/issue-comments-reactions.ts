@@ -20,6 +20,8 @@ export default task({
     issueComment.reactions = []
 
     for await (const resp of issueReactions) {
+      console.log(resp)
+
       if (!resp.nodes?.reactions.nodes) {
         throw new Error('Failed to load issue comment reactions')
       }
