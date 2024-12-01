@@ -4,16 +4,16 @@ import { GraphqlResponseError } from '@octokit/graphql'
 import { Data } from './data.js'
 import { TaskName } from './task.js'
 import allTasks from './task/index.js'
+import { type Context } from './context.js'
 
-export async function processTasks(
-  octokit: Octokit,
-  username: string,
-): Promise<[boolean, Data]> {
-  if (!fs.existsSync('data')) {
-    fs.mkdirSync('data')
-  }
-  const dataPath = `data/${username}.json`
-  const tasksPath = `data/${username}.tasks.json`
+export async function processTasks(ctx: Pick<Context, 'octokit' | 'ghUser' | 'dataDir' | 'dataFile' | 'dataTasks'>): Promise<[boolean, Data]> {
+  const {
+    octokit,
+    ghUser: username,
+    dataDir,
+    dataFile,
+    dataTasks
+  } = ctx
 
   let data: Data = {
     user: null!,
@@ -25,8 +25,8 @@ export async function processTasks(
     discussionComments: [],
   }
 
-  if (fs.existsSync(dataPath)) {
-    data = JSON.parse(fs.readFileSync(dataPath, 'utf8')) as Data
+  if (fs.existsSync(dataFile)) {
+    data = JSON.parse(fs.readFileSync(dataFile, 'utf8')) as Data
   }
 
   type Todo = {
@@ -45,8 +45,8 @@ export async function processTasks(
     { taskName: 'stars', params: { username }, attempts: 0 },
   ]
 
-  if (fs.existsSync(tasksPath)) {
-    const savedTodo = JSON.parse(fs.readFileSync(tasksPath, 'utf8')) as Todo[]
+  if (fs.existsSync(dataTasks)) {
+    const savedTodo = JSON.parse(fs.readFileSync(dataTasks, 'utf8')) as Todo[]
     if (savedTodo.length > 0) {
       todo = savedTodo
     }
@@ -92,8 +92,8 @@ export async function processTasks(
     }
     console.log(`<== Finished ${taskName} (${todo.length} tasks left)`)
 
-    fs.writeFileSync(dataPath, JSON.stringify(data, null, 2))
-    fs.writeFileSync(tasksPath, JSON.stringify(todo, null, 2))
+    fs.writeFileSync(dataFile, JSON.stringify(data, null, 2))
+    fs.writeFileSync(dataTasks, JSON.stringify(todo, null, 2))
   }
 
   return [true, data]
