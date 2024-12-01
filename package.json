@@ -27,7 +27,7 @@
     "@octokit/plugin-paginate-graphql": "^5.2.4",
     "@octokit/plugin-retry": "^7.1.2",
     "@octokit/plugin-throttling": "^9.3.2",
-    "megaera": "^1.0.1",
+    "megaera": "^1.0.2",
     "minimist": "^1.2.8",
     "octokit": "^4.0.2"
   },

@@ -88,14 +88,14 @@ export async function processTasks(
       if (attempts >= 3 || !retry) {
         console.error(
           `!!! Failed to run task ${taskName}`,
-          params,
+          new URLSearchParams(params).toString(),
           `after ${attempts} attempts`,
         )
         console.error(e)
       } else {
         console.error(
           `!!! Failed to run task ${taskName}`,
-          params,
+          new URLSearchParams(params).toString(),
           `, retrying... (attempts: ${attempts + 1})`,
         )
         console.error(e)

@@ -79,8 +79,8 @@ export type IssueReactionsQuery = (vars: {
 
 export const IssueCommentsReactionsQuery = `#graphql
 ${Reaction}
-query IssueCommentsReactionsQuery($ids: [ID!]!, $num: Int = 100, $cursor: String) {
-  nodes(ids: $ids) {
+query IssueCommentsReactionsQuery($id: ID!, $num: Int = 100, $cursor: String) {
+  node(id: $id) {
     __typename
     ... on IssueComment {
       reactions(first: $num, after: $cursor) {
@@ -104,11 +104,11 @@ query IssueCommentsReactionsQuery($ids: [ID!]!, $num: Int = 100, $cursor: String
 }` as string & IssueCommentsReactionsQuery
 
 export type IssueCommentsReactionsQuery = (vars: {
-  ids: string[]
+  id: string
   num?: number | null
   cursor?: string | null
 }) => {
-  nodes:
+  node:
     | ({
         __typename: string
       } & {
@@ -121,6 +121,7 @@ export type IssueCommentsReactionsQuery = (vars: {
           }
         }
       })
+    | null
     | null
   rateLimit: {
     limit: number

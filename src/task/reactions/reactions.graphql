@@ -36,11 +36,11 @@ query IssueReactionsQuery(
 }
 
 query IssueCommentsReactionsQuery(
-  $ids: [ID!]!,
+  $id: ID!,
   $num: Int = 100,
   $cursor: String,
 ) {
-  nodes(ids: $ids) {
+  node(id: $id) {
     __typename
     ... on IssueComment {
       reactions(first: $num, after: $cursor) {
