@@ -1,24 +1,27 @@
 import fs from 'node:fs'
-import { chdir } from 'node:process'
+import path from 'node:path'
 import { Badge } from './badges.js'
 import { quoteAttr } from './utils.js'
 
-export function updateReadme(badges: Badge[], size: number | string) {
-  chdir('repo')
-
-  const readmeFilename = detectReadmeFilename()
+export function updateReadme(
+  badges: Badge[],
+  size: number | string,
+  repoDir: string,
+) {
+  const readmeFilename = detectReadmeFilename(repoDir)
   const readmeContent = fs.readFileSync(readmeFilename, 'utf8')
 
   const content = generateReadme(readmeContent, badges, size)
   fs.writeFileSync(readmeFilename, content)
-
-  chdir('..')
 }
 
-function detectReadmeFilename(): string {
-  if (fs.existsSync('README.md')) return 'README.md'
-  if (fs.existsSync('readme.md')) return 'readme.md'
-  throw new Error('Cannot find README.md')
+function detectReadmeFilename(cwd: string): string {
+  const file = ['README.md', 'readme.md']
+    .map((f) => path.resolve(cwd, f))
+    .find((f) => fs.existsSync(f))
+  if (!file) throw new Error('Cannot find README.md')
+
+  return file
 }
 
 export function generateReadme(
