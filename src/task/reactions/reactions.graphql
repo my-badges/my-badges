@@ -6,54 +6,27 @@ fragment Reaction on Reaction {
   createdAt
 }
 
-query IssueReactionsQuery(
-  $owner: String!,
-  $name: String!,
-  $number: Int!,
-  $num: Int = 100,
-  $cursor: String,
-) {
-  repository(owner: $owner, name: $name) {
-    issue(number: $number) {
-      reactions(first: $num, after: $cursor) {
-        totalCount
-        nodes {
-          ...Reaction
-        }
-        pageInfo {
-          hasNextPage
-          endCursor
-        }
-      }
+fragment Reactions on Reactable {
+  reactions(first: $num, after: $cursor) {
+    totalCount
+    nodes {
+      ...Reaction
     }
-  }
-  rateLimit {
-    limit
-    cost
-    remaining
-    resetAt
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
   }
 }
 
-query IssueCommentsReactionsQuery(
+query ReactionsQuery(
   $id: ID!,
   $num: Int = 100,
   $cursor: String,
 ) {
   node(id: $id) {
     __typename
-    ... on IssueComment {
-      reactions(first: $num, after: $cursor) {
-        totalCount
-        nodes {
-          ...Reaction
-        }
-        pageInfo {
-          hasNextPage
-          endCursor
-        }
-      }
-    }
+    ... Reactions
   }
   rateLimit {
     limit

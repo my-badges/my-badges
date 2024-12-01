@@ -1,4 +1,5 @@
 fragment PullRequest on PullRequest {
+  id
   createdAt
   url
   number
@@ -58,14 +59,8 @@ fragment PullRequest on PullRequest {
       }
     }
   }
-  reactions(first: 100) {
+  reactionsTotal: reactions {
     totalCount
-    nodes {
-      content
-      user {
-        login
-      }
-    }
   }
 }
 

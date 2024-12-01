@@ -1,4 +1,5 @@
 fragment Issue on Issue {
+  id
   createdAt
   closedAt
   closed
@@ -27,6 +28,9 @@ fragment Issue on Issue {
       login
     }
     name
+  }
+  reactionsTotal: reactions {
+    totalCount
   }
 }
 

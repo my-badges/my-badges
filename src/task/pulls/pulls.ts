@@ -24,6 +24,11 @@ export default task({
       )
       for (const pull of resp.user.pullRequests.nodes) {
         data.pulls.push(pull)
+        if (pull.reactionsTotal.totalCount > 0) {
+          next('reactions-pull', {
+            id: pull.id,
+          })
+        }
       }
     }
   },

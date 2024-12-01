@@ -1,14 +1,11 @@
 import { task } from '../../task.js'
 import { paginate } from '../../utils.js'
-import {
-  IssueCommentsReactionsQuery,
-  IssueReactionsQuery,
-} from './reactions.graphql.js'
+import { ReactionsQuery } from './reactions.graphql.js'
 
 export default task({
-  name: 'issue-comments-reactions' as const,
+  name: 'reactions-issue-comments' as const,
   run: async ({ octokit, data }, { id }: { id: string }) => {
-    const issueReactions = paginate(octokit, IssueCommentsReactionsQuery, {
+    const issueReactions = paginate(octokit, ReactionsQuery, {
       id: id,
     })
 

@@ -19,7 +19,7 @@ export default task({
       for (const comment of resp.user.issueComments.nodes) {
         data.issueComments.push(comment)
         if (comment.reactionsTotal.totalCount > 0) {
-          next('issue-comments-reactions', {
+          next('reactions-issue-comments', {
             id: comment.id,
           })
         }

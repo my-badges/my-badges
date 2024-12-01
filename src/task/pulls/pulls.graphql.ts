@@ -2,6 +2,7 @@
 
 const PullRequest = `#graphql
 fragment PullRequest on PullRequest {
+  id
   createdAt
   url
   number
@@ -61,18 +62,13 @@ fragment PullRequest on PullRequest {
       }
     }
   }
-  reactions(first: 100) {
+  reactionsTotal: reactions {
     totalCount
-    nodes {
-      content
-      user {
-        login
-      }
-    }
   }
 }`
 
 export type PullRequest = {
+  id: string
   createdAt: string
   url: string
   number: number
@@ -147,22 +143,8 @@ export type PullRequest = {
       }
     }> | null
   }
-  reactions: {
+  reactionsTotal: {
     totalCount: number
-    nodes: Array<{
-      content:
-        | 'CONFUSED'
-        | 'EYES'
-        | 'HEART'
-        | 'HOORAY'
-        | 'LAUGH'
-        | 'ROCKET'
-        | 'THUMBS_DOWN'
-        | 'THUMBS_UP'
-      user: {
-        login: string
-      } | null
-    }> | null
   }
 }
 

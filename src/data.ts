@@ -1,9 +1,9 @@
 import { Endpoints } from '@octokit/types'
 import { User } from './task/user/user.graphql.js'
-import { PullRequest } from './task/pulls/pulls.graphql.js'
+import { PullRequest as PullRequestType } from './task/pulls/pulls.graphql.js'
 import { Issue as IssueType } from './task/issues/issues.graphql.js'
 import {
-  DiscussionComment,
+  DiscussionComment as DiscussionCommentType,
   IssueComment as IssueCommentType,
 } from './task/comments/comments.graphql.js'
 import { StarredRepo } from './task/stars/stars.graphql.js'
@@ -32,6 +32,14 @@ export type Issue = {
   reactions?: Reaction[]
 } & IssueType
 
+export type PullRequest = {
+  reactions?: Reaction[]
+} & PullRequestType
+
 export type IssueComment = {
   reactions?: Reaction[]
 } & IssueCommentType
+
+export type DiscussionComment = {
+  reactions?: Reaction[]
+} & DiscussionCommentType
