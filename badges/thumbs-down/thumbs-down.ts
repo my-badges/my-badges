@@ -74,7 +74,7 @@ function count(reactions: Reaction[] | undefined) {
 function text(entries: Where[]): string {
   const lines: string[] = []
   for (const where of entries) {
-    lines.push(`* <a href="${where.url}">${where.count} 👍</a>`)
+    lines.push(`* <a href="${where.url}">${where.count} 👎</a>`)
   }
   return lines.join('\n')
 }
