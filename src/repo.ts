@@ -2,36 +2,15 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { Badge } from './badges.js'
 import { $ as _$ } from './utils.js'
+import { Context } from './context.js'
 
-const MY_BADGES_NAME = 'My Badges'
-const MY_BADGES_EMAIL = 'my-badges@users.noreply.github.com'
-const MY_BADGES_FILE = 'my-badges/my-badges.json'
-const CWD = process.cwd()
-const DIR = 'repo'
-
-type RepoOpts = {
-  name?: string
-  owner?: string
-  token?: string
-  cwd?: string
-  gitname?: string
-  gitemail?: string
-  badgesfile?: string
-  dryrun?: boolean
-}
-
-export function getRepo(opts: RepoOpts) {
+export function getRepo({ gitDir, ghToken, ghRepoOwner, ghRepoName, gitName, gitEmail, badgesDatafile }: Context) {
   let ready = false
 
-  const cwd = path.resolve(opts.cwd || CWD, DIR)
-  const name = opts.name
-  const owner = opts.owner
-  const dryrun = opts.dryrun || !name || !owner
-  const auth = opts.token ? `${owner}:${opts.token}@` : ''
-  const giturl = `https://${auth}github.com/${owner}/${name}.git`
-  const gitname = opts.gitname || MY_BADGES_NAME
-  const gitemail = opts.gitemail || MY_BADGES_EMAIL
-  const badgesfile = path.resolve(cwd, opts.badgesfile || MY_BADGES_FILE)
+  const cwd = gitDir
+  const dryrun = !ghRepoOwner || !ghRepoName
+  const basicAuth = ghToken ? `${ghRepoOwner}:${ghToken}@` : ''
+  const gitUrl = `https://${basicAuth}github.com/${ghRepoOwner}/${ghRepoName}.git`
   const $ = _$({
     cwd,
     sync: true,
@@ -42,15 +21,13 @@ export function getRepo(opts: RepoOpts) {
     },
     pull() {
       if (dryrun) return
-      if (fs.existsSync(cwd)) {
+      if (fs.existsSync(path.resolve(cwd, '.git'))) {
         $`git pull`
         return
       }
-      fs.mkdirSync(cwd, { recursive: true })
-
-      $`git clone --depth=1 ${giturl} .`
-      $`git config user.name ${gitname}`
-      $`git config user.email ${gitemail}`
+      $`git clone --depth=1 ${gitUrl} .`
+      $`git config user.name ${gitName}`
+      $`git config user.email ${gitEmail}`
       ready = true
     },
     push() {
@@ -65,9 +42,9 @@ export function getRepo(opts: RepoOpts) {
       return $`git status --porcelain`.stdout.trim() !== ''
     },
     getUserBadges(): Badge[] {
-      if (!fs.existsSync(badgesfile)) return []
+      if (!fs.existsSync(badgesDatafile)) return []
 
-      const data = fs.readFileSync(badgesfile, 'utf8')
+      const data = fs.readFileSync(badgesDatafile, 'utf8')
       return JSON.parse(data)
     },
   }
