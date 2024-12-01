@@ -10,6 +10,7 @@ export default [
   await import('./stars/stars.js'),
   await import('./reactions/reactions-issue.js'),
   await import('./reactions/reactions-issue-comments.js'),
+  await import('./reactions/reactions-discussion-comments.js'),
   await import('./reactions/reactions-pull.js'),
   await import('./reactions/reactions-batch.js'),
 ] as const

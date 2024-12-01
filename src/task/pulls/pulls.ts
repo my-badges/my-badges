@@ -10,6 +10,9 @@ export default task({
     })
 
     data.pulls = []
+
+    let reactionsBatch: string[] = []
+
     for await (const resp of pulls) {
       if (!resp.user?.pullRequests.nodes) {
         throw new Error('Failed to load pull requests')
@@ -25,11 +28,27 @@ export default task({
       for (const pull of resp.user.pullRequests.nodes) {
         data.pulls.push(pull)
         if (pull.reactionsTotal.totalCount > 0) {
-          next('reactions-pull', {
-            id: pull.id,
-          })
+          if (reactionsBatch.length > 100) {
+            next('reactions-pull', {
+              id: pull.id,
+            })
+          } else {
+            reactionsBatch.push(pull.id)
+            if (reactionsBatch.length === 50) {
+              next('reactions-batch', {
+                ids: reactionsBatch,
+              })
+              reactionsBatch = []
+            }
+          }
         }
       }
+    }
+
+    if (reactionsBatch.length > 0) {
+      next('reactions-batch', {
+        ids: reactionsBatch,
+      })
     }
   },
 })
