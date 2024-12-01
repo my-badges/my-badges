@@ -32,6 +32,9 @@ fragment Issue on Issue {
   reactionsTotal: reactions {
     totalCount
   }
+  timelineItemsTotal: timelineItems {
+    totalCount
+  }
 }
 
 query IssuesQuery($username: String!, $num: Int = 100, $cursor: String) {

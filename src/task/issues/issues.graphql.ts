@@ -35,6 +35,9 @@ fragment Issue on Issue {
   reactionsTotal: reactions {
     totalCount
   }
+  timelineItemsTotal: timelineItems {
+    totalCount
+  }
 }`
 
 export type Issue = {
@@ -69,6 +72,9 @@ export type Issue = {
     name: string
   }
   reactionsTotal: {
+    totalCount: number
+  }
+  timelineItemsTotal: {
     totalCount: number
   }
 }

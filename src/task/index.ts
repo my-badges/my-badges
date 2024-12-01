@@ -5,6 +5,7 @@ export default [
   await import('./commits/commits.js'),
   await import('./issues/issues.js'),
   await import('./issue-timeline/issue-timeline.js'),
+  await import('./issue-timeline/issue-timeline-batch.js'),
   await import('./comments/issue-comments.js'),
   await import('./comments/discussion-comments.js'),
   await import('./stars/stars.js'),

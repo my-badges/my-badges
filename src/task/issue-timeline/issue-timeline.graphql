@@ -1,3 +1,13 @@
+fragment IssueTimelineItem on IssueTimelineItem {
+  __typename
+  ... on ClosedEvent {
+    createdAt
+    actor {
+      login
+    }
+  }
+}
+
 query IssueTimelineQuery(
   $owner: String!
   $name: String!
@@ -10,17 +20,32 @@ query IssueTimelineQuery(
       timelineItems(first: $num, after: $cursor) {
         totalCount
         nodes {
-          __typename
-          ... on ClosedEvent {
-            createdAt
-            actor {
-              login
-            }
-          }
+          ...IssueTimelineItem
         }
         pageInfo {
           hasNextPage
           endCursor
+        }
+      }
+    }
+  }
+  rateLimit {
+    limit
+    cost
+    remaining
+    resetAt
+  }
+}
+
+query IssueTimelineBatchQuery($ids: [ID!]!) {
+  nodes(ids: $ids) {
+    __typename
+    ... on Issue {
+      id
+      timelineItems(first: 100) {
+        totalCount
+        nodes {
+          ...IssueTimelineItem
         }
       }
     }
