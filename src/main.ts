@@ -17,7 +17,18 @@ void (async function main() {
   try {
     const { env } = process
     const argv = minimist(process.argv.slice(2), {
-      string: ['data', 'repo', 'token', 'size', 'user', 'pick', 'omit'],
+      string: [
+        'data',
+        'repo',
+        'token',
+        'size',
+        'user',
+        'pick',
+        'omit',
+        'task',
+        'params',
+        'skip-task',
+      ],
       boolean: ['dryrun', 'compact'],
     })
     const {
@@ -30,6 +41,9 @@ void (async function main() {
       pick,
       omit,
       compact,
+      task,
+      params,
+      'skip-task': skipTask,
     } = argv
     const [owner, repo]: [string | undefined, string | undefined] =
       repository?.split('/', 2) || [username, username]
@@ -75,7 +89,11 @@ void (async function main() {
       data = JSON.parse(fs.readFileSync(dataPath, 'utf8')) as Data
     } else {
       let ok: boolean
-      ;[ok, data] = await processTasks(octokit, username)
+      ;[ok, data] = await processTasks(octokit, username, {
+        task,
+        params,
+        skipTask,
+      })
       if (!ok) {
         return
       }

@@ -2,6 +2,7 @@
 
 const DiscussionComment = `#graphql
 fragment DiscussionComment on DiscussionComment {
+  id
   url
   author {
     login
@@ -21,10 +22,13 @@ fragment DiscussionComment on DiscussionComment {
   editor {
     login
   }
-  ...Reactions
+  reactionsTotal: reactions {
+    totalCount
+  }
 }`
 
 export type DiscussionComment = {
+  id: string
   url: string
   author: {
     login: string
@@ -44,10 +48,14 @@ export type DiscussionComment = {
   editor: {
     login: string
   } | null
-} & Reactions
+  reactionsTotal: {
+    totalCount: number
+  }
+}
 
 const IssueComment = `#graphql
 fragment IssueComment on IssueComment {
+  id
   url
   author {
     login
@@ -67,10 +75,13 @@ fragment IssueComment on IssueComment {
   editor {
     login
   }
-  ...Reactions
+  reactionsTotal: reactions {
+    totalCount
+  }
 }`
 
 export type IssueComment = {
+  id: string
   url: string
   author: {
     login: string
@@ -90,43 +101,12 @@ export type IssueComment = {
   editor: {
     login: string
   } | null
-} & Reactions
-
-const Reactions = `#graphql
-fragment Reactions on Reactable {
-  reactions(first: 100) {
-    totalCount
-    nodes {
-      content
-      user {
-        login
-      }
-    }
-  }
-}`
-
-export type Reactions = {
-  reactions: {
+  reactionsTotal: {
     totalCount: number
-    nodes: Array<{
-      content:
-        | 'CONFUSED'
-        | 'EYES'
-        | 'HEART'
-        | 'HOORAY'
-        | 'LAUGH'
-        | 'ROCKET'
-        | 'THUMBS_DOWN'
-        | 'THUMBS_UP'
-      user: {
-        login: string
-      } | null
-    }> | null
   }
 }
 
 export const DiscussionCommentsQuery = `#graphql
-${Reactions}
 ${DiscussionComment}
 query DiscussionCommentsQuery($login: String!, $num: Int = 100, $cursor: String) {
   user(login: $login) {
@@ -173,7 +153,6 @@ export type DiscussionCommentsQuery = (vars: {
 }
 
 export const IssueCommentsQuery = `#graphql
-${Reactions}
 ${IssueComment}
 query IssueCommentsQuery($login: String!, $num: Int = 100, $cursor: String) {
   user(login: $login) {

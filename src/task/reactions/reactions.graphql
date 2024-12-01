@@ -1,0 +1,47 @@
+fragment Reaction on Reaction {
+  user {
+    login
+  }
+  content
+  createdAt
+}
+
+fragment Reactions on Reactable {
+  reactions(first: $num, after: $cursor) {
+    totalCount
+    nodes {
+      ...Reaction
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
+
+query ReactionsQuery($id: ID!, $num: Int = 100, $cursor: String) {
+  node(id: $id) {
+    __typename
+    ...Reactions
+  }
+  rateLimit {
+    limit
+    cost
+    remaining
+    resetAt
+  }
+}
+
+query ReactionsBatchQuery($ids: [ID!]!, $num: Int = 100, $cursor: String) {
+  nodes(ids: $ids) {
+    __typename
+    id
+    ...Reactions
+  }
+  rateLimit {
+    limit
+    cost
+    remaining
+    resetAt
+  }
+}

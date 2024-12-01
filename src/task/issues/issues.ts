@@ -10,6 +10,10 @@ export default task({
     })
 
     data.issues = []
+
+    let reactionsBatch: string[] = []
+    let issueTimelineBatch: string[] = []
+
     for await (const resp of issues) {
       if (!resp.user?.issues.nodes) {
         throw new Error('Failed to load issues')
@@ -24,12 +28,50 @@ export default task({
       )
       for (const issue of resp.user.issues.nodes) {
         data.issues.push(issue)
-        next('issue-timeline', {
-          owner: issue.repository.owner.login,
-          name: issue.repository.name,
-          number: issue.number,
-        })
+        if (issue.reactionsTotal.totalCount > 0) {
+          if (reactionsBatch.length > 100) {
+            next('reactions-issue', {
+              id: issue.id,
+            })
+          } else {
+            reactionsBatch.push(issue.id)
+            if (reactionsBatch.length === 50) {
+              next('reactions-batch', {
+                ids: reactionsBatch,
+              })
+              reactionsBatch = []
+            }
+          }
+        }
+
+        if (issue.timelineItemsTotal.totalCount > 0) {
+          if (issue.timelineItemsTotal.totalCount > 100) {
+            next('issue-timeline', {
+              id: issue.id,
+            })
+          } else {
+            issueTimelineBatch.push(issue.id)
+            if (issueTimelineBatch.length === 50) {
+              next('issue-timeline-batch', {
+                ids: issueTimelineBatch,
+              })
+              issueTimelineBatch = []
+            }
+          }
+        }
       }
+    }
+
+    if (reactionsBatch.length > 0) {
+      next('reactions-batch', {
+        ids: reactionsBatch,
+      })
+    }
+
+    if (issueTimelineBatch.length > 0) {
+      next('issue-timeline-batch', {
+        ids: issueTimelineBatch,
+      })
     }
   },
 })

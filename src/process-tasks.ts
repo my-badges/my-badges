@@ -8,12 +8,18 @@ import allTasks from './task/index.js'
 export async function processTasks(
   octokit: Octokit,
   username: string,
+  {
+    task,
+    params,
+    skipTask,
+  }: { task?: string; params?: string; skipTask?: string } = {},
 ): Promise<[boolean, Data]> {
   if (!fs.existsSync('data')) {
     fs.mkdirSync('data')
   }
   const dataPath = `data/${username}.json`
   const tasksPath = `data/${username}.tasks.json`
+  const skipTasks = new Set(skipTask?.split(',') || [])
 
   let data: Data = {
     user: null!,
@@ -45,7 +51,15 @@ export async function processTasks(
     { taskName: 'stars', params: { username }, attempts: 0 },
   ]
 
-  if (fs.existsSync(tasksPath)) {
+  if (task && params) {
+    todo = [
+      {
+        taskName: task as TaskName,
+        params: Object.fromEntries(new URLSearchParams(params).entries()),
+        attempts: 0,
+      },
+    ]
+  } else if (fs.existsSync(tasksPath)) {
     const savedTodo = JSON.parse(fs.readFileSync(tasksPath, 'utf8')) as Todo[]
     if (savedTodo.length > 0) {
       todo = savedTodo
@@ -54,6 +68,10 @@ export async function processTasks(
 
   while (todo.length > 0) {
     const { taskName, params, attempts } = todo.shift()!
+    if (skipTasks.has(taskName)) {
+      console.log(`Skipping task ${taskName}`)
+      continue
+    }
 
     const task = allTasks.find(({ default: t }) => t.name === taskName)?.default
     if (!task) {
@@ -64,7 +82,10 @@ export async function processTasks(
       todo.push({ taskName, params, attempts: 0 })
     }
 
-    console.log(`==> Running task ${taskName}`, params)
+    console.log(
+      `==> Running task ${taskName}`,
+      new URLSearchParams(params).toString(),
+    )
     try {
       await task.run({ octokit, data, next }, params)
     } catch (e) {
@@ -76,14 +97,14 @@ export async function processTasks(
       if (attempts >= 3 || !retry) {
         console.error(
           `!!! Failed to run task ${taskName}`,
-          params,
+          new URLSearchParams(params).toString(),
           `after ${attempts} attempts`,
         )
         console.error(e)
       } else {
         console.error(
           `!!! Failed to run task ${taskName}`,
-          params,
+          new URLSearchParams(params).toString(),
           `, retrying... (attempts: ${attempts + 1})`,
         )
         console.error(e)
