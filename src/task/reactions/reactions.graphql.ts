@@ -83,3 +83,39 @@ export type ReactionsQuery = (vars: {
     resetAt: string
   } | null
 }
+
+export const ReactionsBatchQuery = `#graphql
+${Reaction}
+${Reactions}
+query ReactionsBatchQuery($ids: [ID!]!, $num: Int = 100, $cursor: String) {
+  nodes(ids: $ids) {
+    __typename
+    id
+    ...Reactions
+  }
+  rateLimit {
+    limit
+    cost
+    remaining
+    resetAt
+  }
+}` as string & ReactionsBatchQuery
+
+export type ReactionsBatchQuery = (vars: {
+  ids: string[]
+  num?: number | null
+  cursor?: string | null
+}) => {
+  nodes: Array<
+    {
+      __typename: string
+      id: string
+    } & Reactions
+  >
+  rateLimit: {
+    limit: number
+    cost: number
+    remaining: number
+    resetAt: string
+  } | null
+}

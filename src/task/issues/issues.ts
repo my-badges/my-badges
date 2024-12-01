@@ -10,6 +10,9 @@ export default task({
     })
 
     data.issues = []
+
+    let reactionsBatch: string[] = []
+
     for await (const resp of issues) {
       if (!resp.user?.issues.nodes) {
         throw new Error('Failed to load issues')
@@ -30,11 +33,27 @@ export default task({
           number: issue.number,
         })
         if (issue.reactionsTotal.totalCount > 0) {
-          next('reactions-issue', {
-            id: issue.id,
-          })
+          if (reactionsBatch.length > 100) {
+            next('reactions-issue', {
+              id: issue.id,
+            })
+          } else {
+            reactionsBatch.push(issue.id)
+            if (reactionsBatch.length === 50) {
+              next('reactions-batch', {
+                ids: reactionsBatch,
+              })
+              reactionsBatch = []
+            }
+          }
         }
       }
+    }
+
+    if (reactionsBatch.length > 0) {
+      next('reactions-batch', {
+        ids: reactionsBatch,
+      })
     }
   },
 })

@@ -8,13 +8,18 @@ import allTasks from './task/index.js'
 export async function processTasks(
   octokit: Octokit,
   username: string,
-  { task, params }: { task?: string; params?: string } = {},
+  {
+    task,
+    params,
+    skipTask,
+  }: { task?: string; params?: string; skipTask?: string } = {},
 ): Promise<[boolean, Data]> {
   if (!fs.existsSync('data')) {
     fs.mkdirSync('data')
   }
   const dataPath = `data/${username}.json`
   const tasksPath = `data/${username}.tasks.json`
+  const skipTasks = new Set(skipTask?.split(',') || [])
 
   let data: Data = {
     user: null!,
@@ -63,6 +68,10 @@ export async function processTasks(
 
   while (todo.length > 0) {
     const { taskName, params, attempts } = todo.shift()!
+    if (skipTasks.has(taskName)) {
+      console.log(`Skipping task ${taskName}`)
+      continue
+    }
 
     const task = allTasks.find(({ default: t }) => t.name === taskName)?.default
     if (!task) {

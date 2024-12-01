@@ -27,6 +27,7 @@ void (async function main() {
         'omit',
         'task',
         'params',
+        'skip-task',
       ],
       boolean: ['dryrun', 'compact'],
     })
@@ -42,6 +43,7 @@ void (async function main() {
       compact,
       task,
       params,
+      'skip-task': skipTask,
     } = argv
     const [owner, repo]: [string | undefined, string | undefined] =
       repository?.split('/', 2) || [username, username]
@@ -87,7 +89,11 @@ void (async function main() {
       data = JSON.parse(fs.readFileSync(dataPath, 'utf8')) as Data
     } else {
       let ok: boolean
-      ;[ok, data] = await processTasks(octokit, username, { task, params })
+      ;[ok, data] = await processTasks(octokit, username, {
+        task,
+        params,
+        skipTask,
+      })
       if (!ok) {
         return
       }
