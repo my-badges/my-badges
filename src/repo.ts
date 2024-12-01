@@ -4,7 +4,15 @@ import { Badge } from './badges.js'
 import { $ as _$ } from './utils.js'
 import { Context } from './context.js'
 
-export function getRepo({ gitDir, ghToken, ghRepoOwner, ghRepoName, gitName, gitEmail, badgesDatafile }: Context) {
+export function getRepo({
+  gitDir,
+  ghToken,
+  ghRepoOwner,
+  ghRepoName,
+  gitName,
+  gitEmail,
+  badgesDatafile,
+}: Context) {
   let ready = false
 
   const cwd = gitDir

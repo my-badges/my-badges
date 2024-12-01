@@ -30,13 +30,16 @@ export type Context = {
   dryrun: boolean
   badgesCompact: boolean
   badgesDatafile: string
-  badgesDir: string  // badges output directory (relative to gitDir)
+  badgesDir: string // badges output directory (relative to gitDir)
   badgesSize: string | number
   badgesPick: string[]
   badgesOmit: string[]
 }
 
-export function createCtx(args: string[] = process.argv, env: Record<string, string | undefined> = process.env): Context {
+export function createCtx(
+  args: string[] = process.argv,
+  env: Record<string, string | undefined> = process.env,
+): Context {
   const argv = minimist(args.slice(2), {
     string: ['data', 'repo', 'token', 'size', 'user', 'pick', 'omit'],
     boolean: ['dryrun', 'compact'],
@@ -61,7 +64,10 @@ export function createCtx(args: string[] = process.argv, env: Record<string, str
   const gitDir = path.resolve(cwd, GIT_DIR)
   const badgesDir = path.resolve(gitDir, BADGES_DIR)
   const badgesDatafile = path.resolve(badgesDir, data || BADGES_DATAFILE)
-  const [ghRepoOwner = '', ghRepoName = ''] = repo?.split('/', 2) || [ghUser, ghUser]
+  const [ghRepoOwner = '', ghRepoName = ''] = repo?.split('/', 2) || [
+    ghUser,
+    ghUser,
+  ]
   const badgesPick = pick ? pick.split(',') : []
   const badgesOmit = omit ? omit.split(',') : []
 
@@ -87,7 +93,7 @@ export function createCtx(args: string[] = process.argv, env: Record<string, str
     badgesPick,
     dataDir,
     dataFile,
-    dataTasks
+    dataTasks,
   }
 }
 
@@ -107,12 +113,7 @@ function getOctokit(token: string) {
           return true
         }
       },
-      onSecondaryRateLimit: (
-        retryAfter,
-        options: any,
-        octokit,
-        retryCount,
-      ) => {
+      onSecondaryRateLimit: (retryAfter, options: any, octokit, retryCount) => {
         octokit.log.warn(
           `SecondaryRateLimit detected for request ${options.method} ${options.url}`,
         )

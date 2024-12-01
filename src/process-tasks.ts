@@ -6,14 +6,13 @@ import { TaskName } from './task.js'
 import allTasks from './task/index.js'
 import { type Context } from './context.js'
 
-export async function processTasks(ctx: Pick<Context, 'octokit' | 'ghUser' | 'dataDir' | 'dataFile' | 'dataTasks'>): Promise<[boolean, Data]> {
-  const {
-    octokit,
-    ghUser: username,
-    dataDir,
-    dataFile,
-    dataTasks
-  } = ctx
+export async function processTasks(
+  ctx: Pick<
+    Context,
+    'octokit' | 'ghUser' | 'dataDir' | 'dataFile' | 'dataTasks'
+  >,
+): Promise<[boolean, Data]> {
+  const { octokit, ghUser: username, dataDir, dataFile, dataTasks } = ctx
 
   let data: Data = {
     user: null!,
