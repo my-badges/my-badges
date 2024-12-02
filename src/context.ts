@@ -34,6 +34,9 @@ export type Context = {
   badgesSize: string | number
   badgesPick: string[]
   badgesOmit: string[]
+  taskName?: string
+  taskSkip: string
+  taskParams?: string
 }
 
 export function createCtx(
@@ -55,6 +58,9 @@ export function createCtx(
     pick,
     omit,
     compact: badgesCompact,
+    task: taskName,
+    params: taskParams,
+    'skip-task': taskSkip = '',
   } = argv
   const octokit = getOctokit(ghToken)
   const cwd = path.resolve(_cwd)
@@ -94,6 +100,9 @@ export function createCtx(
     dataDir,
     dataFile,
     dataTasks,
+    taskName,
+    taskParams,
+    taskSkip,
   }
 }
 

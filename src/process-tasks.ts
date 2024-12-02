@@ -1,5 +1,4 @@
 import fs from 'node:fs'
-import { Octokit } from 'octokit'
 import { GraphqlResponseError } from '@octokit/graphql'
 import { Data } from './data.js'
 import { TaskName } from './task.js'
@@ -13,17 +12,26 @@ const MAX_ATTEMPTS = 3
 export async function processTasks(
   ctx: Pick<
     Context,
-    'octokit' | 'ghUser' | 'dataDir' | 'dataFile' | 'dataTasks'
+    | 'octokit'
+    | 'ghUser'
+    | 'dataDir'
+    | 'dataFile'
+    | 'dataTasks'
+    | 'taskName'
+    | 'taskSkip'
+    | 'taskParams'
   >,
-  {
-    task,
-    params,
-    skipTask,
-  }: { task?: string; params?: string; skipTask?: string } = {},
 ): Promise<[boolean, Data]> {
-
-  const { octokit, ghUser: username, dataDir, dataFile, dataTasks } = ctx
-  const skipTasks = new Set(skipTask?.split(',') || [])
+  const {
+    octokit,
+    ghUser: username,
+    dataFile,
+    dataTasks,
+    taskSkip,
+    taskName,
+    taskParams,
+  } = ctx
+  const taskSkipSet = new Set(taskSkip?.split(',') || [])
 
   let data: Data = {
     user: null!,
@@ -54,15 +62,15 @@ export async function processTasks(
     { taskName: 'stars', params: { username }, attempts: 0 },
   ]
 
-  if (task && params) {
+  if (taskName && taskParams) {
     todo = [
       {
-        taskName: task as TaskName,
-        params: Object.fromEntries(new URLSearchParams(params).entries()),
+        taskName: taskName as TaskName,
+        params: Object.fromEntries(new URLSearchParams(taskParams).entries()),
         attempts: 0,
       },
     ]
-  } else if (fs.existsSync(tasksPath)) {
+  } else if (fs.existsSync(dataTasks)) {
     const savedTodo = JSON.parse(fs.readFileSync(dataTasks, 'utf8')) as Todo[]
     if (savedTodo.length > 0) {
       todo = savedTodo
@@ -71,7 +79,7 @@ export async function processTasks(
 
   while (todo.length > 0) {
     const { taskName, params, attempts } = todo.shift()!
-    if (skipTasks.has(taskName)) {
+    if (taskSkipSet.has(taskName)) {
       console.log(`Skipping task ${taskName}`)
       continue
     }

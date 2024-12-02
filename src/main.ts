@@ -11,6 +11,7 @@ import { Data } from './data.js'
 import { createCtx } from './context.js'
 
 void (async function main() {
+  try {
     const ctx = createCtx()
     const repo = getRepo(ctx)
 
@@ -23,11 +24,6 @@ void (async function main() {
       let ok: boolean
       ;[ok, data] = await processTasks(ctx)
 
-//       ;[ok, data] = await processTasks(octokit, username, {
-//         task,
-//         params,
-//         skipTask,
-//       })
       if (!ok) {
         return
       }

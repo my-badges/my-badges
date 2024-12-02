@@ -18,8 +18,14 @@ export default define({
     }
 
     if (selfStars.length >= 1) {
-      grant('self-star', `I've starred ${selfStars.length} my own repositories.`)
-        .evidence(selfStars.map((x) => `- <a href="${x.url}">${x.nameWithOwner}</a>`).join('\n'))
+      grant(
+        'self-star',
+        `I've starred ${selfStars.length} my own repositories.`,
+      ).evidence(
+        selfStars
+          .map((x) => `- <a href="${x.url}">${x.nameWithOwner}</a>`)
+          .join('\n'),
+      )
     }
   },
 })
