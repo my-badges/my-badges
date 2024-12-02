@@ -1,8 +1,8 @@
 import { describe, test, expect } from 'vitest'
-import { generateReadme } from './update-readme.js'
-import type { Badge } from './badges.js'
-import abcPresenter from '#badges/abc-commit/abc-commit.js'
-import { badgeCollection } from './present-badges.js'
+import { generateReadme } from '../src/update-readme.js'
+import type { Badge } from '../src/badges.js'
+import abcPresenter from '../badges/abc-commit/abc-commit.js'
+import { badgeCollection } from '../src/present-badges.js'
 
 describe('generateReadme()', () => {
   test('injects badges to md contents', () => {

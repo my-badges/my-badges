@@ -1,6 +1,6 @@
 {
   "name": "update-my-badges",
-  "version": "1.0.193",
+  "version": "1.0.191",
   "description": "Generate badges for your GitHub projects",
   "type": "module",
   "bin": {
@@ -28,7 +28,8 @@
     "@octokit/plugin-throttling": "^9.3.2",
     "megaera": "^1.0.2",
     "minimist": "^1.2.8",
-    "octokit": "^4.0.2"
+    "octokit": "^4.0.2",
+    "zurk": "^0.6.3"
   },
   "devDependencies": {
     "@octokit/graphql-schema": "^15.25.0",
