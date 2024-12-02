@@ -2,7 +2,7 @@ import * as assert from 'node:assert'
 import path from 'node:path'
 import fs from 'node:fs'
 import os from 'node:os'
-import { after, describe, it } from 'node:test'
+import { describe, it, expect, afterAll } from 'vitest'
 import { getRepo } from '../src/repo.js'
 import { createCtx } from '../src/context.js'
 
@@ -18,9 +18,9 @@ describe('repo API', () => {
       const pkgJson = JSON.parse(
         fs.readFileSync(path.resolve(temp, 'repo/package.json'), 'utf-8'),
       )
-      assert.equal(pkgJson.name, 'zurk')
+      expect(pkgJson.name).toEqual('zurk')
     })
   })
 })
 
-after(() => fs.rmdirSync(temp, { recursive: true }))
+afterAll(() => fs.rmdirSync(temp, { recursive: true }))
