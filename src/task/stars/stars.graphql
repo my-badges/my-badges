@@ -1,5 +1,10 @@
 fragment StarredRepo on Repository {
+  name
+  owner {
+    login
+  }
   nameWithOwner
+  url
   description
   stargazers {
     totalCount
