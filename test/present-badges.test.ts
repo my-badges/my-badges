@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'vitest'
-import { presentBadges } from './present-badges.js'
-import { Badge, define } from './badges.js'
-import { Data } from './data.js'
+import { presentBadges } from '../src/present-badges.js'
+import { Badge, define } from '../src/badges.js'
+import { Data } from '../src/data.js'
 
 describe('present-badges', () => {
   const data: Data = {
@@ -38,7 +38,7 @@ describe('present-badges', () => {
 
   test('presentBadges() applies `pick`', async () => {
     const userBadges = presentBadges(
-      [await import('#badges/stars/stars.js')].map((m) => m.default),
+      [await import('../badges/stars/stars.js')].map((m) => m.default),
       data,
       [],
       ['stars-100', 'stars-500'],
@@ -76,7 +76,7 @@ describe('present-badges', () => {
 
   test('presentBadges() applies `omit`', async () => {
     const userBadges = presentBadges(
-      [await import('#badges/stars/stars.js')].map((m) => m.default),
+      [await import('../badges/stars/stars.js')].map((m) => m.default),
       data,
       [],
       ['stars-100', 'stars-500'],
@@ -102,7 +102,7 @@ describe('present-badges', () => {
 
   test('presentBadges() supports masks for `omit` && `pick`', async () => {
     const userBadges = presentBadges(
-      [await import('#badges/stars/stars.js')].map((m) => m.default),
+      [await import('../badges/stars/stars.js')].map((m) => m.default),
       data,
       [],
       ['stars-*'],
@@ -140,7 +140,7 @@ describe('present-badges', () => {
 
   test('presentBadges() applies `compact`', async () => {
     const userBadges = presentBadges(
-      [await import('#badges/stars/stars.js')].map((m) => m.default),
+      [await import('../badges/stars/stars.js')].map((m) => m.default),
       data,
       [],
       ['stars-1000', 'stars-2000', 'stars-5000'],
