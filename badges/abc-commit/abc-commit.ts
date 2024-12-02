@@ -1,4 +1,4 @@
-import { Commit, define, Repo } from '#src'
+import { Commit, define, Repository } from '#src'
 
 export default define({
   url: import.meta.url,
@@ -45,7 +45,7 @@ export default define({
   },
 })
 
-function link(re: RegExp, repo: Repo, commit: Commit) {
+function link(re: RegExp, repo: Repository, commit: Commit) {
   const sha = commit.sha.replace(re, '<strong>$1</strong>')
   return `- <a href="https://github.com/${repo.owner.login}/${repo.name}/commit/${commit.sha}">${sha}</a>`
 }

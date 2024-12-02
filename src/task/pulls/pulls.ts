@@ -4,14 +4,14 @@ import { PullsQuery } from './pulls.graphql.js'
 
 export default task({
   name: 'pulls' as const,
-  run: async ({ octokit, data, next }, { username }: { username: string }) => {
+  run: async ({ octokit, data, batch }, { username }: { username: string }) => {
     const pulls = paginate(octokit, PullsQuery, {
       username,
     })
 
     data.pulls = []
 
-    let reactionsBatch: string[] = []
+    const batchReactions = batch('reactions-pull', 'reactions-batch')
 
     for await (const resp of pulls) {
       if (!resp.user?.pullRequests.nodes) {
@@ -27,28 +27,8 @@ export default task({
       )
       for (const pull of resp.user.pullRequests.nodes) {
         data.pulls.push(pull)
-        if (pull.reactionsTotal.totalCount > 0) {
-          if (reactionsBatch.length > 100) {
-            next('reactions-pull', {
-              id: pull.id,
-            })
-          } else {
-            reactionsBatch.push(pull.id)
-            if (reactionsBatch.length === 50) {
-              next('reactions-batch', {
-                ids: reactionsBatch,
-              })
-              reactionsBatch = []
-            }
-          }
-        }
+        batchReactions(pull.reactionsTotal.totalCount, pull.id)
       }
-    }
-
-    if (reactionsBatch.length > 0) {
-      next('reactions-batch', {
-        ids: reactionsBatch,
-      })
     }
   },
 })

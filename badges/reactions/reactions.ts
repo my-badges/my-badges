@@ -20,7 +20,7 @@ export default define({
       if (x.reactions && x.reactions.length > 0) {
         const counts = count(x.reactions)
         if (counts.CONFUSED > 10) {
-          moreThan10.push({ count: counts.THUMBS_UP, url: x.url })
+          moreThan10.push({ count: counts.CONFUSED, url: x.url })
         }
       }
     }

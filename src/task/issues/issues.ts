@@ -4,15 +4,15 @@ import { IssuesQuery } from './issues.graphql.js'
 
 export default task({
   name: 'issues' as const,
-  run: async ({ octokit, data, next }, { username }: { username: string }) => {
+  run: async ({ octokit, data, batch }, { username }: { username: string }) => {
     const issues = paginate(octokit, IssuesQuery, {
       username,
     })
 
     data.issues = []
 
-    let reactionsBatch: string[] = []
-    let issueTimelineBatch: string[] = []
+    const batchReactions = batch('reactions-issue', 'reactions-batch')
+    const batchIssueTimeline = batch('issue-timeline', 'issue-timeline-batch')
 
     for await (const resp of issues) {
       if (!resp.user?.issues.nodes) {
@@ -20,7 +20,7 @@ export default task({
       }
 
       console.log(
-        `Loading issues ${data.issues.length + resp.user.issues.nodes.length}/${
+        `| issues ${data.issues.length + resp.user.issues.nodes.length}/${
           resp.user.issues.totalCount
         } (cost: ${resp.rateLimit?.cost}, remaining: ${
           resp.rateLimit?.remaining
@@ -28,50 +28,9 @@ export default task({
       )
       for (const issue of resp.user.issues.nodes) {
         data.issues.push(issue)
-        if (issue.reactionsTotal.totalCount > 0) {
-          if (reactionsBatch.length > 100) {
-            next('reactions-issue', {
-              id: issue.id,
-            })
-          } else {
-            reactionsBatch.push(issue.id)
-            if (reactionsBatch.length === 50) {
-              next('reactions-batch', {
-                ids: reactionsBatch,
-              })
-              reactionsBatch = []
-            }
-          }
-        }
-
-        if (issue.timelineItemsTotal.totalCount > 0) {
-          if (issue.timelineItemsTotal.totalCount > 100) {
-            next('issue-timeline', {
-              id: issue.id,
-            })
-          } else {
-            issueTimelineBatch.push(issue.id)
-            if (issueTimelineBatch.length === 50) {
-              next('issue-timeline-batch', {
-                ids: issueTimelineBatch,
-              })
-              issueTimelineBatch = []
-            }
-          }
-        }
+        batchReactions(issue.reactionsTotal.totalCount, issue.id)
+        batchIssueTimeline(issue.timelineItemsTotal.totalCount, issue.id)
       }
-    }
-
-    if (reactionsBatch.length > 0) {
-      next('reactions-batch', {
-        ids: reactionsBatch,
-      })
-    }
-
-    if (issueTimelineBatch.length > 0) {
-      next('issue-timeline-batch', {
-        ids: issueTimelineBatch,
-      })
     }
   },
 })

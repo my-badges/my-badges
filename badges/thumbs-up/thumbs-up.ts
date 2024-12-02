@@ -22,12 +22,12 @@ export default define({
     ]) {
       if (x.reactions && x.reactions.length > 0) {
         const counts = count(x.reactions)
-        if (counts.THUMBS_UP > 10) {
-          moreThan10.push({ count: counts.THUMBS_UP, url: x.url })
+        if (counts.THUMBS_UP > 100) {
+          moreThan100.push({ count: counts.THUMBS_UP, url: x.url })
         } else if (counts.THUMBS_UP > 50) {
           moreThan50.push({ count: counts.THUMBS_UP, url: x.url })
-        } else if (counts.THUMBS_UP > 100) {
-          moreThan100.push({ count: counts.THUMBS_UP, url: x.url })
+        } else if (counts.THUMBS_UP > 10) {
+          moreThan10.push({ count: counts.THUMBS_UP, url: x.url })
         }
       }
     }

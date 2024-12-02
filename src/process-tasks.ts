@@ -4,6 +4,9 @@ import { GraphqlResponseError } from '@octokit/graphql'
 import { Data } from './data.js'
 import { TaskName } from './task.js'
 import allTasks from './task/index.js'
+import { createBatcher } from './batch.js'
+
+const MAX_ATTEMPTS = 3
 
 export async function processTasks(
   octokit: Octokit,
@@ -43,7 +46,6 @@ export async function processTasks(
 
   let todo: Todo[] = [
     { taskName: 'user', params: { username }, attempts: 0 },
-    { taskName: 'repos', params: { username }, attempts: 0 },
     { taskName: 'pulls', params: { username }, attempts: 0 },
     { taskName: 'issues', params: { username }, attempts: 0 },
     { taskName: 'issue-comments', params: { username }, attempts: 0 },
@@ -81,20 +83,22 @@ export async function processTasks(
     const next = (taskName: TaskName, params: any) => {
       todo.push({ taskName, params, attempts: 0 })
     }
+    const { batch, flush } = createBatcher(next)
 
     console.log(
       `==> Running task ${taskName}`,
       new URLSearchParams(params).toString(),
+      attempts > 0 ? `(attempt: ${attempts + 1})` : '',
     )
     try {
-      await task.run({ octokit, data, next }, params)
+      await task.run({ octokit, data, next, batch }, params)
     } catch (e) {
       let retry = true
       if (e instanceof GraphqlResponseError) {
         retry = e.errors?.some((error) => error.type == 'NOT_FOUND') ?? true
       }
 
-      if (attempts >= 3 || !retry) {
+      if (attempts >= MAX_ATTEMPTS || !retry) {
         console.error(
           `!!! Failed to run task ${taskName}`,
           new URLSearchParams(params).toString(),
@@ -105,13 +109,16 @@ export async function processTasks(
         console.error(
           `!!! Failed to run task ${taskName}`,
           new URLSearchParams(params).toString(),
-          `, retrying... (attempts: ${attempts + 1})`,
+          `retrying`,
+          `(will try ${MAX_ATTEMPTS - attempts} more times)`,
         )
         console.error(e)
         todo.push({ taskName, params, attempts: attempts + 1 })
       }
     }
     console.log(`<== Finished ${taskName} (${todo.length} tasks left)`)
+
+    flush()
 
     fs.writeFileSync(dataPath, JSON.stringify(data, null, 2))
     fs.writeFileSync(tasksPath, JSON.stringify(todo, null, 2))

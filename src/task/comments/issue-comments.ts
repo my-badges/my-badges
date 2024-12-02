@@ -4,14 +4,14 @@ import { IssueCommentsQuery } from './comments.graphql.js'
 
 export default task({
   name: 'issue-comments' as const,
-  run: async ({ octokit, data, next }, { username }: { username: string }) => {
+  run: async ({ octokit, data, batch }, { username }: { username: string }) => {
     const issueComments = paginate(octokit, IssueCommentsQuery, {
       login: username,
     })
 
     data.issueComments = []
 
-    let reactionsBatch: string[] = []
+    const batchReactions = batch('reactions-issue-comments', 'reactions-batch')
 
     for await (const resp of issueComments) {
       if (!resp.user?.issueComments.nodes) {
@@ -20,32 +20,12 @@ export default task({
 
       for (const comment of resp.user.issueComments.nodes) {
         data.issueComments.push(comment)
-        if (comment.reactionsTotal.totalCount > 0) {
-          if (reactionsBatch.length > 100) {
-            next('reactions-issue-comments', {
-              id: comment.id,
-            })
-          } else {
-            reactionsBatch.push(comment.id)
-            if (reactionsBatch.length === 50) {
-              next('reactions-batch', {
-                ids: reactionsBatch,
-              })
-              reactionsBatch = []
-            }
-          }
-        }
+        batchReactions(comment.reactionsTotal.totalCount, comment.id)
       }
 
       console.log(
         `| issue comments ${data.issueComments.length}/${resp.user.issueComments.totalCount} (cost: ${resp.rateLimit?.cost}, remaining: ${resp.rateLimit?.remaining})`,
       )
-    }
-
-    if (reactionsBatch.length > 0) {
-      next('reactions-batch', {
-        ids: reactionsBatch,
-      })
     }
   },
 })

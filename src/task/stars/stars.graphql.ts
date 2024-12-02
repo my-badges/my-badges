@@ -45,7 +45,7 @@ export type StarredRepo = {
 
 export const StarsQuery = `#graphql
 ${StarredRepo}
-query StarsQuery($login: String!, $num: Int = 100, $cursor: String) {
+query StarsQuery($login: String!, $num: Int = 50, $cursor: String) {
   user(login: $login) {
     starredRepositories(first: $num, after: $cursor) {
       totalCount

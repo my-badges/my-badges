@@ -1,20 +1,20 @@
 import { task } from '../../task.js'
 import { paginate } from '../../utils.js'
-import {
-  DiscussionCommentsQuery,
-  IssueCommentsQuery,
-} from './comments.graphql.js'
+import { DiscussionCommentsQuery } from './comments.graphql.js'
 
 export default task({
   name: 'discussion-comments' as const,
-  run: async ({ octokit, data, next }, { username }: { username: string }) => {
+  run: async ({ octokit, data, batch }, { username }: { username: string }) => {
     const discussionComments = paginate(octokit, DiscussionCommentsQuery, {
       login: username,
     })
 
     data.discussionComments = []
 
-    let reactionsBatch: string[] = []
+    const batchReactions = batch(
+      'reactions-discussion-comments',
+      'reactions-batch',
+    )
 
     for await (const resp of discussionComments) {
       if (!resp.user?.repositoryDiscussionComments.nodes) {
@@ -23,31 +23,11 @@ export default task({
 
       for (const comment of resp.user.repositoryDiscussionComments.nodes) {
         data.discussionComments.push(comment)
-        if (comment.reactionsTotal.totalCount > 0) {
-          if (reactionsBatch.length > 100) {
-            next('reactions-discussion-comments', {
-              id: comment.id,
-            })
-          } else {
-            reactionsBatch.push(comment.id)
-            if (reactionsBatch.length === 50) {
-              next('reactions-batch', {
-                ids: reactionsBatch,
-              })
-              reactionsBatch = []
-            }
-          }
-        }
+        batchReactions(comment.reactionsTotal.totalCount, comment.id)
       }
       console.log(
         `| discussion comments ${data.discussionComments.length}/${resp.user.repositoryDiscussionComments.totalCount} (cost: ${resp.rateLimit?.cost}, remaining: ${resp.rateLimit?.remaining})`,
       )
-    }
-
-    if (reactionsBatch.length > 0) {
-      next('reactions-batch', {
-        ids: reactionsBatch,
-      })
     }
   },
 })

@@ -150,7 +150,7 @@ export type PullRequest = {
 
 export const PullsQuery = `#graphql
 ${PullRequest}
-query PullsQuery($username: String!, $num: Int = 100, $cursor: String) {
+query PullsQuery($username: String!, $num: Int = 30, $cursor: String) {
   user(login: $username) {
     pullRequests(first: $num, after: $cursor) {
       totalCount

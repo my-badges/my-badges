@@ -3,6 +3,7 @@ export default [
   await import('./repos/repos.js'),
   await import('./pulls/pulls.js'),
   await import('./commits/commits.js'),
+  await import('./commits/commits-batch.js'),
   await import('./issues/issues.js'),
   await import('./issue-timeline/issue-timeline.js'),
   await import('./issue-timeline/issue-timeline-batch.js'),

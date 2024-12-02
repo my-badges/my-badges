@@ -1,0 +1,63 @@
+fragment Repository on Repository {
+  id
+  name
+  owner {
+    login
+  }
+  url
+  description
+  createdAt
+  updatedAt
+  languages(first: 10, orderBy: { field: SIZE, direction: DESC }) {
+    totalCount
+    nodes {
+      name
+    }
+  }
+  forks {
+    totalCount
+  }
+  stargazers {
+    totalCount
+  }
+  defaultBranchRef {
+    name
+    target {
+      ... on Commit {
+        history(author: { id: $author }) {
+          totalCount
+        }
+      }
+    }
+  }
+}
+
+query ReposQuery(
+  $login: String!
+  $author: ID!
+  $num: Int = 100
+  $cursor: String
+) {
+  user(login: $login) {
+    repositories(
+      first: $num
+      after: $cursor
+      orderBy: { field: CREATED_AT, direction: DESC }
+    ) {
+      totalCount
+      nodes {
+        ...Repository
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+  rateLimit {
+    cost
+    remaining
+    resetAt
+    limit
+  }
+}
