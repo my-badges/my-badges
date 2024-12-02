@@ -9,47 +9,64 @@ import { updateReadme } from './update-readme.js'
 import { processTasks } from './process-tasks.js'
 import { Data } from './data.js'
 import { createCtx } from './context.js'
+import url from 'node:url'
 
-void (async function main() {
-  try {
-    const ctx = createCtx()
-    const repo = getRepo(ctx)
+isMain() &&
+  main()
+    .then(() => process.exit(0))
+    .catch((err) => {
+      console.error(err)
+      process.exit(1)
+    })
 
-    repo.pull()
+export async function main(
+  argv: string[] = process.argv.slice(2),
+  env: Record<string, string | undefined> = process.env,
+) {
+  const ctx = createCtx(argv, env)
+  const repo = getRepo(ctx)
 
-    let data: Data
-    if (fs.existsSync(ctx.dataFile)) {
-      data = JSON.parse(fs.readFileSync(ctx.dataFile, 'utf8')) as Data
-    } else {
-      let ok: boolean
-      ;[ok, data] = await processTasks(ctx)
+  repo.pull()
 
-      if (!ok) {
-        return
-      }
+  let data: Data
+  if (fs.existsSync(ctx.dataFile)) {
+    data = JSON.parse(fs.readFileSync(ctx.dataFile, 'utf8')) as Data
+  } else {
+    let ok: boolean
+    ;[ok, data] = await processTasks(ctx)
+
+    if (!ok) {
+      return
     }
-
-    let userBadges = repo.getUserBadges()
-    userBadges = presentBadges(
-      allBadges.map((m) => m.default),
-      data,
-      userBadges,
-      ctx.badgesPick,
-      ctx.badgesOmit,
-      ctx.badgesCompact,
-    )
-
-    console.log(JSON.stringify(userBadges, null, 2))
-
-    if (repo.ready) {
-      updateBadges(userBadges)
-      updateReadme(userBadges, ctx.badgesSize)
-      if (!ctx.dryrun && repo.hasChanges()) {
-        repo.push()
-      }
-    }
-  } catch (e) {
-    console.error(e)
-    process.exit(1)
   }
-})()
+
+  let userBadges = repo.getUserBadges()
+  userBadges = presentBadges(
+    allBadges.map((m) => m.default),
+    data,
+    userBadges,
+    ctx.badgesPick,
+    ctx.badgesOmit,
+    ctx.badgesCompact,
+  )
+
+  console.log(JSON.stringify(userBadges, null, 2))
+
+  if (repo.ready) {
+    updateBadges(userBadges)
+    updateReadme(userBadges, ctx.badgesSize)
+    if (!ctx.dryrun && repo.hasChanges()) {
+      // repo.push()
+    }
+  }
+}
+
+function isMain(metaurl = import.meta.url, scriptpath = process.argv[1]) {
+  if (metaurl.startsWith('file:')) {
+    const modulePath = url.fileURLToPath(metaurl).replace(/\.\w+$/, '')
+    const mainPath = fs.realpathSync(scriptpath).replace(/\.\w+$/, '')
+    return mainPath === modulePath
+  }
+
+  return false
+}
