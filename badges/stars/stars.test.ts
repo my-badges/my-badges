@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest'
-import starsPresenter from '#badges/stars/stars.js'
+import starsPresenter from './stars.js'
 import { badgeCollection } from '../../src/present-badges.js'
 import { Data } from '../../src/data.js'
 import { Badge } from '../../src/badges.js'
