@@ -1,28 +1,37 @@
 import fs from 'node:fs'
-import { Octokit } from 'octokit'
 import { GraphqlResponseError } from '@octokit/graphql'
 import { Data } from './data.js'
 import { TaskName } from './task.js'
 import allTasks from './task/index.js'
+
+import { type Context } from './context.js'
 import { createBatcher } from './batch.js'
 
 const MAX_ATTEMPTS = 3
 
 export async function processTasks(
-  octokit: Octokit,
-  username: string,
-  {
-    task,
-    params,
-    skipTask,
-  }: { task?: string; params?: string; skipTask?: string } = {},
+  ctx: Pick<
+    Context,
+    | 'octokit'
+    | 'ghUser'
+    | 'dataDir'
+    | 'dataFile'
+    | 'dataTasks'
+    | 'taskName'
+    | 'taskSkip'
+    | 'taskParams'
+  >,
 ): Promise<[boolean, Data]> {
-  if (!fs.existsSync('data')) {
-    fs.mkdirSync('data')
-  }
-  const dataPath = `data/${username}.json`
-  const tasksPath = `data/${username}.tasks.json`
-  const skipTasks = new Set(skipTask?.split(',') || [])
+  const {
+    octokit,
+    ghUser: username,
+    dataFile,
+    dataTasks,
+    taskSkip,
+    taskName,
+    taskParams,
+  } = ctx
+  const taskSkipSet = new Set(taskSkip?.split(',') || [])
 
   let data: Data = {
     user: null!,
@@ -34,8 +43,8 @@ export async function processTasks(
     discussionComments: [],
   }
 
-  if (fs.existsSync(dataPath)) {
-    data = JSON.parse(fs.readFileSync(dataPath, 'utf8')) as Data
+  if (fs.existsSync(dataFile)) {
+    data = JSON.parse(fs.readFileSync(dataFile, 'utf8')) as Data
   }
 
   type Todo = {
@@ -53,16 +62,16 @@ export async function processTasks(
     { taskName: 'stars', params: { username }, attempts: 0 },
   ]
 
-  if (task && params) {
+  if (taskName && taskParams) {
     todo = [
       {
-        taskName: task as TaskName,
-        params: Object.fromEntries(new URLSearchParams(params).entries()),
+        taskName: taskName as TaskName,
+        params: Object.fromEntries(new URLSearchParams(taskParams).entries()),
         attempts: 0,
       },
     ]
-  } else if (fs.existsSync(tasksPath)) {
-    const savedTodo = JSON.parse(fs.readFileSync(tasksPath, 'utf8')) as Todo[]
+  } else if (fs.existsSync(dataTasks)) {
+    const savedTodo = JSON.parse(fs.readFileSync(dataTasks, 'utf8')) as Todo[]
     if (savedTodo.length > 0) {
       todo = savedTodo
     }
@@ -70,7 +79,7 @@ export async function processTasks(
 
   while (todo.length > 0) {
     const { taskName, params, attempts } = todo.shift()!
-    if (skipTasks.has(taskName)) {
+    if (taskSkipSet.has(taskName)) {
       console.log(`Skipping task ${taskName}`)
       continue
     }
@@ -118,10 +127,10 @@ export async function processTasks(
     }
     console.log(`<== Finished ${taskName} (${todo.length} tasks left)`)
 
-    flush()
+    fs.writeFileSync(dataFile, JSON.stringify(data, null, 2))
+    fs.writeFileSync(dataTasks, JSON.stringify(todo, null, 2))
 
-    fs.writeFileSync(dataPath, JSON.stringify(data, null, 2))
-    fs.writeFileSync(tasksPath, JSON.stringify(todo, null, 2))
+    flush()
   }
 
   return [true, data]
