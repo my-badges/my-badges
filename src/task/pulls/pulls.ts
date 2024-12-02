@@ -19,7 +19,7 @@ export default task({
       }
 
       console.log(
-        `Loading pull requests ${
+        `| pull requests ${
           data.pulls.length + resp.user.pullRequests.nodes.length
         }/${resp.user.pullRequests.totalCount} (cost: ${
           resp.rateLimit?.cost
