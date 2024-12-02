@@ -79,7 +79,7 @@ export const presentBadges = <P extends Presenter<List>>(
   }
 
   // Filter out old badges, keep only granted badges.
-  userBadges = userBadges.filter(b => newlyAddedBadges.has(b.id))
+  userBadges = userBadges.filter((b) => newlyAddedBadges.has(b.id))
 
   return userBadges
 }
