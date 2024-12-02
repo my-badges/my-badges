@@ -4,15 +4,26 @@ import { GraphqlResponseError } from '@octokit/graphql'
 import { Data } from './data.js'
 import { TaskName } from './task.js'
 import allTasks from './task/index.js'
+
 import { type Context } from './context.js'
+import { createBatcher } from './batch.js'
+
+const MAX_ATTEMPTS = 3
 
 export async function processTasks(
   ctx: Pick<
     Context,
     'octokit' | 'ghUser' | 'dataDir' | 'dataFile' | 'dataTasks'
   >,
+  {
+    task,
+    params,
+    skipTask,
+  }: { task?: string; params?: string; skipTask?: string } = {},
 ): Promise<[boolean, Data]> {
+
   const { octokit, ghUser: username, dataDir, dataFile, dataTasks } = ctx
+  const skipTasks = new Set(skipTask?.split(',') || [])
 
   let data: Data = {
     user: null!,
@@ -36,7 +47,6 @@ export async function processTasks(
 
   let todo: Todo[] = [
     { taskName: 'user', params: { username }, attempts: 0 },
-    { taskName: 'repos', params: { username }, attempts: 0 },
     { taskName: 'pulls', params: { username }, attempts: 0 },
     { taskName: 'issues', params: { username }, attempts: 0 },
     { taskName: 'issue-comments', params: { username }, attempts: 0 },
@@ -44,7 +54,15 @@ export async function processTasks(
     { taskName: 'stars', params: { username }, attempts: 0 },
   ]
 
-  if (fs.existsSync(dataTasks)) {
+  if (task && params) {
+    todo = [
+      {
+        taskName: task as TaskName,
+        params: Object.fromEntries(new URLSearchParams(params).entries()),
+        attempts: 0,
+      },
+    ]
+  } else if (fs.existsSync(tasksPath)) {
     const savedTodo = JSON.parse(fs.readFileSync(dataTasks, 'utf8')) as Todo[]
     if (savedTodo.length > 0) {
       todo = savedTodo
@@ -53,6 +71,10 @@ export async function processTasks(
 
   while (todo.length > 0) {
     const { taskName, params, attempts } = todo.shift()!
+    if (skipTasks.has(taskName)) {
+      console.log(`Skipping task ${taskName}`)
+      continue
+    }
 
     const task = allTasks.find(({ default: t }) => t.name === taskName)?.default
     if (!task) {
@@ -62,28 +84,34 @@ export async function processTasks(
     const next = (taskName: TaskName, params: any) => {
       todo.push({ taskName, params, attempts: 0 })
     }
+    const { batch, flush } = createBatcher(next)
 
-    console.log(`==> Running task ${taskName}`, params)
+    console.log(
+      `==> Running task ${taskName}`,
+      new URLSearchParams(params).toString(),
+      attempts > 0 ? `(attempt: ${attempts + 1})` : '',
+    )
     try {
-      await task.run({ octokit, data, next }, params)
+      await task.run({ octokit, data, next, batch }, params)
     } catch (e) {
       let retry = true
       if (e instanceof GraphqlResponseError) {
         retry = e.errors?.some((error) => error.type == 'NOT_FOUND') ?? true
       }
 
-      if (attempts >= 3 || !retry) {
+      if (attempts >= MAX_ATTEMPTS || !retry) {
         console.error(
           `!!! Failed to run task ${taskName}`,
-          params,
+          new URLSearchParams(params).toString(),
           `after ${attempts} attempts`,
         )
         console.error(e)
       } else {
         console.error(
           `!!! Failed to run task ${taskName}`,
-          params,
-          `, retrying... (attempts: ${attempts + 1})`,
+          new URLSearchParams(params).toString(),
+          `retrying`,
+          `(will try ${MAX_ATTEMPTS - attempts} more times)`,
         )
         console.error(e)
         todo.push({ taskName, params, attempts: attempts + 1 })
@@ -93,6 +121,8 @@ export async function processTasks(
 
     fs.writeFileSync(dataFile, JSON.stringify(data, null, 2))
     fs.writeFileSync(dataTasks, JSON.stringify(todo, null, 2))
+
+    flush()
   }
 
   return [true, data]

@@ -25,6 +25,8 @@ export default [
   await import('./stars/stars.js'),
   await import('./the-ultimate-question/the-ultimate-question.js'),
   await import('./this-is-fine/this-is-fine.js'),
+  await import('./thumbs-down/thumbs-down.js'),
+  await import('./thumbs-up/thumbs-up.js'),
   await import('./time-of-commit/time-of-commit.js'),
   await import('./yeti/yeti.js'),
 ] as const // keep sorted

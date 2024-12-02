@@ -4,7 +4,7 @@ import { StarsQuery } from './stars.graphql.js'
 
 export default task({
   name: 'stars' as const,
-  run: async ({ octokit, data, next }, { username }: { username: string }) => {
+  run: async ({ octokit, data }, { username }: { username: string }) => {
     const stars = paginate(octokit, StarsQuery, {
       login: username,
     })

@@ -2,7 +2,12 @@
 
 const StarredRepo = `#graphql
 fragment StarredRepo on Repository {
+  name
+  owner {
+    login
+  }
   nameWithOwner
+  url
   description
   stargazers {
     totalCount
@@ -23,7 +28,12 @@ fragment StarredRepo on Repository {
 }`
 
 export type StarredRepo = {
+  name: string
+  owner: {
+    login: string
+  }
   nameWithOwner: string
+  url: string
   description: string | null
   stargazers: {
     totalCount: number
@@ -45,7 +55,7 @@ export type StarredRepo = {
 
 export const StarsQuery = `#graphql
 ${StarredRepo}
-query StarsQuery($login: String!, $num: Int = 100, $cursor: String) {
+query StarsQuery($login: String!, $num: Int = 50, $cursor: String) {
   user(login: $login) {
     starredRepositories(first: $num, after: $cursor) {
       totalCount

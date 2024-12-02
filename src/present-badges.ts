@@ -10,6 +10,8 @@ export const presentBadges = <P extends Presenter<List>>(
   omitBadges: string[],
   compact: boolean,
 ): Badge[] => {
+  const newlyAddedBadges = new Set<ID>()
+
   for (const presenter of presenters) {
     const newBadges: Badge[] = []
     const grant = badgeCollection(newBadges)
@@ -19,6 +21,11 @@ export const presentBadges = <P extends Presenter<List>>(
 
     if (newBadges.length === 0) {
       continue
+    }
+
+    // Add new badges to the list of badges.
+    for (const b of newBadges) {
+      newlyAddedBadges.add(b.id)
     }
 
     // Enhance badges with image URLs.
@@ -70,6 +77,9 @@ export const presentBadges = <P extends Presenter<List>>(
       omitBadges.map(parseMask).every((r) => !r.test(x.id)),
     )
   }
+
+  // Filter out old badges, keep only granted badges.
+  userBadges = userBadges.filter((b) => newlyAddedBadges.has(b.id))
 
   return userBadges
 }

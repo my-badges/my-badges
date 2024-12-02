@@ -14,5 +14,7 @@ export default task({
     }
 
     data.user = user
+
+    next('repos', { username, author: user.id })
   },
 })

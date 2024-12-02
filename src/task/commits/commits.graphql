@@ -1,4 +1,5 @@
 fragment Commit on Commit {
+  id
   sha: oid
   committedDate
   message
@@ -23,30 +24,46 @@ fragment Commit on Commit {
   }
 }
 
-query CommitsQuery(
-  $owner: String!
-  $name: String!
-  $author: ID!
-  $num: Int = 100
-  $cursor: String
-) {
-  repository(owner: $owner, name: $name) {
-    defaultBranchRef {
-      target {
-        ... on Commit {
-          history(first: $num, after: $cursor, author: { id: $author }) {
-            totalCount
-            nodes {
-              ...Commit
-            }
-            pageInfo {
-              hasNextPage
-              endCursor
-            }
+fragment History on Repository {
+  defaultBranchRef {
+    target {
+      ... on Commit {
+        history(first: $num, after: $cursor, author: { id: $author }) {
+          totalCount
+          nodes {
+            ...Commit
+          }
+          pageInfo {
+            hasNextPage
+            endCursor
           }
         }
       }
     }
+  }
+}
+
+query CommitsQuery($id: ID!, $author: ID!, $num: Int = 100, $cursor: String) {
+  node(id: $id) {
+    ...History
+  }
+  rateLimit {
+    limit
+    cost
+    remaining
+    resetAt
+  }
+}
+
+query CommitsBatchQuery(
+  $ids: [ID!]!
+  $author: ID!
+  $num: Int = 100
+  $cursor: String
+) {
+  nodes(ids: $ids) {
+    id
+    ...History
   }
   rateLimit {
     limit

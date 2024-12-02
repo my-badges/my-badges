@@ -1,8 +1,7 @@
-import * as assert from 'node:assert'
-import { describe, it } from 'node:test'
-import { presentBadges } from '../src/present-badges.js'
-import { Badge, define } from '../src/badges.js'
-import { Data } from '../src/data.js'
+import { describe, test, expect } from 'vitest'
+import { presentBadges } from './present-badges.js'
+import { Badge, define } from './badges.js'
+import { Data } from './data.js'
 
 describe('present-badges', () => {
   const data: Data = {
@@ -15,7 +14,9 @@ describe('present-badges', () => {
     issues: [] as Data['issues'],
     repos: [
       {
-        stargazers_count: 1000,
+        stargazers: {
+          totalCount: 1000,
+        },
         name: 'bar',
         owner: {
           login: 'foo',
@@ -23,7 +24,9 @@ describe('present-badges', () => {
         commits: [],
       },
       {
-        stargazers_count: 2000,
+        stargazers: {
+          totalCount: 2000,
+        },
         name: 'qux',
         owner: {
           login: 'foo',
@@ -33,7 +36,7 @@ describe('present-badges', () => {
     ] as Data['repos'],
   } as Data
 
-  it('presentBadges() applies `pick`', async () => {
+  test('presentBadges() applies `pick`', async () => {
     const userBadges = presentBadges(
       [await import('#badges/stars/stars.js')].map((m) => m.default),
       data,
@@ -43,7 +46,7 @@ describe('present-badges', () => {
       false,
     )
 
-    assert.deepEqual(userBadges, [
+    expect(userBadges).toEqual([
       {
         id: 'stars-100',
         tier: 1,
@@ -71,7 +74,7 @@ describe('present-badges', () => {
     ])
   })
 
-  it('presentBadges() applies `omit`', async () => {
+  test('presentBadges() applies `omit`', async () => {
     const userBadges = presentBadges(
       [await import('#badges/stars/stars.js')].map((m) => m.default),
       data,
@@ -81,7 +84,7 @@ describe('present-badges', () => {
       false,
     )
 
-    assert.deepEqual(userBadges, [
+    expect(userBadges).toEqual([
       {
         id: 'stars-100',
         tier: 1,
@@ -97,7 +100,7 @@ describe('present-badges', () => {
     ])
   })
 
-  it('presentBadges() supports masks for `omit` && `pick`', async () => {
+  test('presentBadges() supports masks for `omit` && `pick`', async () => {
     const userBadges = presentBadges(
       [await import('#badges/stars/stars.js')].map((m) => m.default),
       data,
@@ -107,7 +110,7 @@ describe('present-badges', () => {
       false,
     )
 
-    assert.deepEqual(userBadges, [
+    expect(userBadges).toEqual([
       {
         id: 'stars-100',
         tier: 1,
@@ -135,7 +138,7 @@ describe('present-badges', () => {
     ])
   })
 
-  it('presentBadges() applies `compact`', async () => {
+  test('presentBadges() applies `compact`', async () => {
     const userBadges = presentBadges(
       [await import('#badges/stars/stars.js')].map((m) => m.default),
       data,
@@ -145,7 +148,7 @@ describe('present-badges', () => {
       true,
     )
 
-    assert.deepEqual(userBadges, [
+    expect(userBadges).toEqual([
       {
         id: 'stars-2000',
         tier: 4,
@@ -162,7 +165,7 @@ describe('present-badges', () => {
     ])
   })
 
-  it('presentBadges() keeps existing order of badges', async () => {
+  test('presentBadges() keeps existing order of badges', async () => {
     const dumpPresenter1 = define({
       url: 'file:///tmp/dump.js',
       badges: ['a-commit', 'ab-commit', 'abc-commit'] as const,
@@ -212,9 +215,11 @@ describe('present-badges', () => {
       [],
       false,
     )
-    assert.deepEqual(
-      userBadges.map((x) => x.id),
-      ['a-commit', 'abc-commit', 'this-is-fine', 'ab-commit'],
-    )
+    expect(userBadges.map((x) => x.id)).toEqual([
+      'a-commit',
+      'abc-commit',
+      'this-is-fine',
+      'ab-commit',
+    ])
   })
 })

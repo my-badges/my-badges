@@ -1,125 +1,98 @@
-import { define, Reactions } from '#src'
+import { define, Reaction } from '#src'
+
+type Where = {
+  count: number
+  url: string
+  content?: Reaction['content']
+}
 
 export default define({
   url: import.meta.url,
-  badges: ['thumbs-up', 'thumbs-down', 'confused'] as const,
+  badges: ['confused', 'self-upvote'] as const,
   present(data, grant) {
-    type Reaction =
-      | 'CONFUSED'
-      | 'EYES'
-      | 'HEART'
-      | 'HOORAY'
-      | 'LAUGH'
-      | 'ROCKET'
-      | 'THUMBS_DOWN'
-      | 'THUMBS_UP'
+    const moreThan10: Where[] = []
+    const selfUpvotes: Where[] = []
 
-    const reactions: {
-      totalCount: number
-      counts: Record<Reaction, number>
-      where: string
-    }[] = []
+    for (const x of [
+      ...data.issues,
+      ...data.pulls,
+      ...data.discussionComments,
+      ...data.issueComments,
+    ]) {
+      if (x.reactions && x.reactions.length > 0) {
+        const counts = count(x.reactions)
+        if (counts.CONFUSED > 10) {
+          moreThan10.push({ count: counts.CONFUSED, url: x.url })
+        }
 
-    function count(reactions: Reactions['reactions']['nodes']) {
-      const counts: Record<Reaction, number> = {
-        CONFUSED: 0,
-        EYES: 0,
-        HEART: 0,
-        HOORAY: 0,
-        LAUGH: 0,
-        ROCKET: 0,
-        THUMBS_DOWN: 0,
-        THUMBS_UP: 0,
-      }
-      for (const reaction of reactions ?? []) {
-        counts[reaction.content] = (counts[reaction.content] || 0) + 1
-      }
-      return counts
-    }
-
-    for (const issue of data.issues) {
-      if (issue.reactions.totalCount > 0) {
-        reactions.push({
-          totalCount: issue.reactions.totalCount,
-          counts: count(issue.reactions.nodes),
-          where: issue.url,
-        })
+        for (const reaction of x.reactions) {
+          if (reaction.user?.login === data.user.login) {
+            selfUpvotes.push({
+              count: 1,
+              url: x.url,
+              content: reaction.content,
+            })
+          }
+        }
       }
     }
 
-    for (const pull of data.pulls) {
-      if (pull.reactions.totalCount > 0) {
-        reactions.push({
-          totalCount: pull.reactions.totalCount,
-          counts: count(pull.reactions.nodes),
-          where: pull.url,
-        })
-      }
+    moreThan10.sort((a, b) => b.count - a.count)
+    if (moreThan10.length > 0) {
+      grant('confused', `I confused more than 10 people.`)
+        .evidence(textWithCount(moreThan10))
+        .tier(1)
     }
 
-    for (const comment of data.issueComments) {
-      if (comment.reactions.totalCount > 0) {
-        reactions.push({
-          totalCount: comment.reactions.totalCount,
-          counts: count(comment.reactions.nodes),
-          where: comment.url,
-        })
-      }
-    }
-
-    for (const discussion of data.discussionComments) {
-      if (discussion.reactions.totalCount > 0 && discussion.discussion) {
-        reactions.push({
-          totalCount: discussion.reactions.totalCount,
-          counts: count(discussion.reactions.nodes),
-          where: discussion.url,
-        })
-      }
-    }
-
-    const up = Object.values(reactions)
-    up.sort((a, b) => b.counts.THUMBS_UP - a.counts.THUMBS_UP)
-    if (up.length > 0 && up[0].counts.THUMBS_UP > 10) {
-      grant(
-        'thumbs-up',
-        `I have received a lot of thumbs up 👍 reactions!`,
-      ).evidence(
-        up
-          .filter((p) => p.counts.THUMBS_UP > 0)
-          .slice(0, 10)
-          .map((p) => `- [${p.counts.THUMBS_UP} thumbs ups](${p.where})`)
-          .join('\n'),
-      )
-    }
-
-    const down = Object.values(reactions)
-    down.sort((a, b) => b.counts.THUMBS_DOWN - a.counts.THUMBS_DOWN)
-    if (down.length > 0 && down[0].counts.THUMBS_DOWN > 10) {
-      grant(
-        'thumbs-down',
-        `I have received a lot of thumbs down 👎 reactions!`,
-      ).evidence(
-        down
-          .filter((p) => p.counts.THUMBS_DOWN > 0)
-          .slice(0, 10)
-          .map((p) => `- [${p.counts.THUMBS_DOWN} thumbs downs](${p.where})`)
-          .join('\n'),
-      )
-    }
-
-    const confused = Object.values(reactions)
-    confused.sort((a, b) => b.counts.CONFUSED - a.counts.CONFUSED)
-    if (confused.length > 0 && confused[0].counts.CONFUSED > 10) {
-      grant(
-        'confused',
-        `I have received a lot of confused 😕 reactions!`,
-      ).evidence(
-        confused
-          .filter((p) => p.counts.CONFUSED > 0)
-          .slice(0, 10)
-          .map((p) => `- [${p.counts.CONFUSED} confused reactions](${p.where})`)
-          .join('\n'),
-      )
+    if (selfUpvotes.length > 0) {
+      grant('self-upvote', `I liked my own comment so much that I upvoted it.`)
+        .evidence(textWithContent(selfUpvotes))
+        .tier(1)
     }
   },
 })
+
+function count(reactions: Reaction[] | undefined) {
+  const counts: Record<Reaction['content'], number> = {
+    CONFUSED: 0,
+    EYES: 0,
+    HEART: 0,
+    HOORAY: 0,
+    LAUGH: 0,
+    ROCKET: 0,
+    THUMBS_DOWN: 0,
+    THUMBS_UP: 0,
+  }
+  for (const reaction of reactions ?? []) {
+    counts[reaction.content] = (counts[reaction.content] || 0) + 1
+  }
+  return counts
+}
+
+function textWithCount(entries: Where[]): string {
+  const lines: string[] = []
+  for (const where of entries) {
+    lines.push(`* <a href="${where.url}">${where.count} 😕</a>`)
+  }
+  return lines.join('\n')
+}
+
+const emoji: Record<Reaction['content'], string> = {
+  CONFUSED: '😕',
+  EYES: '👀',
+  HEART: '❤️',
+  HOORAY: '🎉',
+  LAUGH: '😄',
+  ROCKET: '🚀',
+  THUMBS_DOWN: '👎',
+  THUMBS_UP: '👍',
+} as const
+
+function textWithContent(entries: Where[]): string {
+  const lines: string[] = []
+  for (const where of entries) {
+    if (!where.content) continue
+    lines.push(`* <a href="${where.url}">${emoji[where.content]}</a>`)
+  }
+  return lines.join('\n')
+}

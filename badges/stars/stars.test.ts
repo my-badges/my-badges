@@ -1,12 +1,11 @@
-import * as assert from 'node:assert'
-import { describe, it } from 'node:test'
-import starsPresenter from '#badges/stars/stars.js'
-import { badgeCollection } from '../src/present-badges.js'
-import { Data } from '../src/data.js'
-import { Badge } from '../src/badges.js'
+import { describe, test, expect } from 'vitest'
+import starsPresenter from './stars.js'
+import { badgeCollection } from '../../src/present-badges.js'
+import { Data } from '../../src/data.js'
+import { Badge } from '../../src/badges.js'
 
 describe('stars', () => {
-  it('counts and renders as expected', () => {
+  test('counts and renders as expected', () => {
     const badges: Badge[] = []
     const grant = badgeCollection(badges)
     const data: Data = {
@@ -15,7 +14,9 @@ describe('stars', () => {
       issues: {} as Data['issues'],
       repos: [
         {
-          stargazers_count: 1000,
+          stargazers: {
+            totalCount: 1000,
+          },
           name: 'bar',
           owner: {
             login: 'foo',
@@ -23,7 +24,9 @@ describe('stars', () => {
           commits: [],
         },
         {
-          stargazers_count: 2000,
+          stargazers: {
+            totalCount: 2000,
+          },
           name: 'qux',
           owner: {
             login: 'foo',
@@ -35,7 +38,7 @@ describe('stars', () => {
 
     starsPresenter.present(data, grant)
 
-    assert.deepEqual(badges, [
+    expect(badges).toEqual([
       {
         id: 'stars-100',
         tier: 1,

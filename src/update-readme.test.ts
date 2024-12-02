@@ -1,12 +1,11 @@
-import * as assert from 'node:assert'
-import { describe, it } from 'node:test'
-import { generateReadme } from '../src/update-readme.js'
-import type { Badge } from '../src/badges.js'
+import { describe, test, expect } from 'vitest'
+import { generateReadme } from './update-readme.js'
+import type { Badge } from './badges.js'
 import abcPresenter from '#badges/abc-commit/abc-commit.js'
-import { badgeCollection } from '../src/present-badges.js'
+import { badgeCollection } from './present-badges.js'
 
 describe('generateReadme()', () => {
-  it('injects badges to md contents', () => {
+  test('injects badges to md contents', () => {
     const readme = `
 <!-- my-badges start -->
 <!-- my-badges end -->
@@ -15,11 +14,10 @@ describe('generateReadme()', () => {
     const grant = badgeCollection(badges)
 
     abcPresenter.badges.forEach((badge) => grant(badge, 'test'))
-    assert.equal(badges.length, 6)
+    expect(badges.length).toEqual(6)
 
     const contents = generateReadme(readme, badges, 64)
-    assert.equal(
-      contents,
+    expect(contents).toEqual(
       `
 <!-- my-badges start -->
 <a href="my-badges/a-commit.md"><img src="" alt="test" title="test" width="64"></a>

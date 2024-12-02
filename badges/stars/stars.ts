@@ -1,4 +1,4 @@
-import { define, Repo } from '#src'
+import { define, Repository } from '#src'
 
 export default define({
   url: import.meta.url,
@@ -17,7 +17,7 @@ export default define({
     let totalStars = 0
 
     for (const repo of repos) {
-      totalStars += repo.stargazers_count || 0
+      totalStars += repo.stargazers.totalCount
     }
 
     if (totalStars >= 100) {
@@ -58,21 +58,21 @@ export default define({
   },
 })
 
-function asc(a: Repo, b: Repo) {
-  return (a.stargazers_count || 0) - (b.stargazers_count || 0)
+function asc(a: Repository, b: Repository) {
+  return (a.stargazers.totalCount || 0) - (b.stargazers.totalCount || 0)
 }
 
-function withStars(repo: Repo) {
-  return (repo.stargazers_count || 0) > 0
+function withStars(repo: Repository) {
+  return repo.stargazers.totalCount > 0
 }
 
-function text(repos: Repo[], max: number): string {
+function text(repos: Repository[], max: number): string {
   const lines: string[] = []
   let totalStars = 0
   for (const repo of repos) {
-    totalStars += repo.stargazers_count || 0
+    totalStars += repo.stargazers.totalCount
     lines.push(
-      `* <a href="https://github.com/${repo.owner.login}/${repo.name}">${repo.owner.login}/${repo.name}: ★${repo.stargazers_count}</a>`,
+      `* <a href="https://github.com/${repo.owner.login}/${repo.name}">${repo.owner.login}/${repo.name}: ★${repo.stargazers.totalCount}</a>`,
     )
     if (totalStars >= max) break
   }

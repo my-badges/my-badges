@@ -1,10 +1,10 @@
-import { Commit, define, Repo, plural } from '#src'
+import { Commit, define, Repository, plural } from '#src'
 
 export default define({
   url: import.meta.url,
   badges: ['dead-commit'] as const,
   present(data, grant) {
-    const commits: { repo: Repo; commit: Commit }[] = []
+    const commits: { repo: Repository; commit: Commit }[] = []
 
     for (const repo of data.repos) {
       for (const commit of repo.commits) {
