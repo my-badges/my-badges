@@ -9,7 +9,7 @@ describe('main', () => {
   it(
     'generates badges by repo name',
     async () => {
-      await main(['--user', 'antongolub', '--cwd', temp])
+      await main(['--user', 'semrel-extra-bot', '--cwd', temp])
     },
     15 * 60 * 1000,
   )

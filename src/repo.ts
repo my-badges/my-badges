@@ -43,8 +43,8 @@ export function getRepo({
       if (!ready) return
       $`git add .`
       $`git status`
-      $`git commit -m Update badges`
-      $`git push`
+      $`git commit -m 'Update badges'`
+      // $`git push`
     },
     hasChanges(): boolean {
       if (!ready) return false
