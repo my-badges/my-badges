@@ -2,8 +2,8 @@ import path from 'node:path'
 import fs from 'node:fs'
 import os from 'node:os'
 import { describe, it, expect, afterAll } from 'vitest'
-import { getRepo } from '../src/repo.js'
-import { createCtx } from '../src/context.js'
+import { getRepo } from './repo.js'
+import { createCtx } from './context.js'
 
 const temp = `${os.tmpdir()}/${Math.random().toString(36).slice(2)}`
 
