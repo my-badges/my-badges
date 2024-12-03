@@ -128,7 +128,7 @@ export async function processTasks(
     console.log(`<== Finished ${taskName} (${todo.length} tasks left)`)
 
     flush()
-    
+
     fs.writeFileSync(dataFile, JSON.stringify(data, null, 2))
     fs.writeFileSync(dataTasks, JSON.stringify(todo, null, 2))
   }
