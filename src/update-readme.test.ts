@@ -9,7 +9,7 @@ describe('generateReadme()', () => {
     const readme = `
 <!-- my-badges start -->
 <!-- my-badges end -->
-`
+# readme`
     const badges: Badge[] = []
     const grant = badgeCollection(badges)
 
@@ -27,8 +27,33 @@ describe('generateReadme()', () => {
 <a href="my-badges/abcde-commit.md"><img src="" alt="test" title="test" width="64"></a>
 <a href="my-badges/abcdef-commit.md"><img src="" alt="test" title="test" width="64"></a>
 <!-- my-badges end -->
+# readme`,
+    )
+  })
 
-`,
+  test('prepends badges if no marks found', () => {
+    const readme = '# Readme'
+    const badges: Badge[] = []
+    const grant = badgeCollection(badges)
+
+    abcPresenter.badges.forEach((badge) => grant(badge, 'test'))
+    expect(badges.length).toEqual(6)
+
+    const contents = generateReadme(readme, badges, 64)
+
+    console.log('contents', contents)
+
+    expect(contents).toEqual(
+      `<!-- my-badges start -->
+<a href="my-badges/a-commit.md"><img src="" alt="test" title="test" width="64"></a>
+<a href="my-badges/ab-commit.md"><img src="" alt="test" title="test" width="64"></a>
+<a href="my-badges/abc-commit.md"><img src="" alt="test" title="test" width="64"></a>
+<a href="my-badges/abcd-commit.md"><img src="" alt="test" title="test" width="64"></a>
+<a href="my-badges/abcde-commit.md"><img src="" alt="test" title="test" width="64"></a>
+<a href="my-badges/abcdef-commit.md"><img src="" alt="test" title="test" width="64"></a>
+<!-- my-badges end -->
+
+${readme}`,
     )
   })
 })
