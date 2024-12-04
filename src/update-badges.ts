@@ -8,6 +8,7 @@ export function updateBadges(
   badgesDir: string,
   badgesDatafile: string,
 ) {
+  console.log('Generating badges...')
   fs.mkdirSync(badgesDir, { recursive: true })
   fs.writeFileSync(badgesDatafile, JSON.stringify(badges, null, 2))
 

@@ -33,9 +33,10 @@ export function generateReadme(
   badges: Badge[],
   size: number | string = BADGE_SIZE,
 ) {
+  console.log('Updating README.md...')
+
   const start = content.indexOf(START_MARK)
   const end = content.indexOf(END_MARK)
-  console.log('start', start, 'end', end)
   if ((start === -1 && end !== -1) || (start !== -1 && end === -1))
     throw new Error(
       'Invalid README.md: both or none of the marks should be present',

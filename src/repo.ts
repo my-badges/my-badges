@@ -20,6 +20,14 @@ export function getRepo({
   const basicAuth = ghToken ? `${ghRepoOwner}:${ghToken}@` : ''
   const gitUrl = `https://${basicAuth}github.com/${ghRepoOwner}/${ghRepoName}.git`
   const $ = _$({
+    on: {
+      stdout(data) {
+        console.log(data.toString())
+      },
+      stderr(e) {
+        console.error(e.toString())
+      },
+    },
     cwd,
     sync: true,
   })
@@ -29,11 +37,11 @@ export function getRepo({
     },
     pull() {
       if (dryrun) return
+      console.log('Fetching from git...')
       if (fs.existsSync(path.resolve(cwd, '.git'))) {
         $`git pull`
         return
       }
-
       $`git clone --depth=1 ${gitUrl} .`
       $`git config user.name ${gitName}`
       $`git config user.email ${gitEmail}`
@@ -41,6 +49,7 @@ export function getRepo({
     },
     push() {
       if (!ready) return
+      console.log('Pushing to git...')
       $`git add .`
       $`git status`
       $`git commit -m 'Update badges'`
