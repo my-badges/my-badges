@@ -72,7 +72,7 @@ export type Repository = {
 
 export const ReposQuery = `#graphql
 ${Repository}
-query ReposQuery($login: String!, $author: ID!, $num: Int = 100, $cursor: String) {
+query ReposQuery($login: String!, $author: ID!, $num: Int = 50, $cursor: String) {
   user(login: $login) {
     repositories(
       first: $num
