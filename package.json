@@ -16,6 +16,7 @@
     "fmt:check": "prettier --check .",
     "start": "tsc --watch",
     "tsc": "tsc",
+    "prebuild": "npm run megaera",
     "build": "tsc",
     "check-images": "node scripts/check-images.mjs",
     "generate-gh-pages": "node scripts/generate-gh-pages.mjs",

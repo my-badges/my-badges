@@ -11,6 +11,12 @@ fragment PullRequest on PullRequest {
   mergedBy {
     login
   }
+  labels(first: 10) {
+    totalCount
+    nodes {
+      name
+    }
+  }
   repository {
     nameWithOwner
     owner {
