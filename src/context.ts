@@ -1,7 +1,4 @@
 import minimist from 'minimist'
-import { Octokit } from 'octokit'
-import { retry } from '@octokit/plugin-retry'
-import { throttling } from '@octokit/plugin-throttling'
 import path from 'node:path'
 import fs from 'node:fs'
 
@@ -25,7 +22,6 @@ export type Context = {
   ghRepoName: string
   ghUser: string
   ghToken: string
-  octokit: Octokit
 
   dryrun: boolean
   badgesCompact: boolean
@@ -62,7 +58,6 @@ export function createCtx(
     params: taskParams,
     'skip-task': taskSkip = '',
   } = argv
-  const octokit = getOctokit(ghToken)
   const cwd = path.resolve(_cwd)
   const dataDir = path.resolve(cwd, DATA_DIR)
   const dataFile = path.resolve(dataDir, data || `${ghUser}.json`)
@@ -82,7 +77,6 @@ export function createCtx(
 
   return {
     cwd,
-    octokit,
     gitName: GIT_NAME,
     gitEmail: GIT_EMAIL,
     gitDir,
@@ -104,34 +98,4 @@ export function createCtx(
     taskParams,
     taskSkip,
   }
-}
-
-const MyOctokit = Octokit.plugin(retry, throttling)
-
-function getOctokit(token: string) {
-  return new MyOctokit({
-    auth: token,
-    log: console,
-    throttle: {
-      onRateLimit: (retryAfter, options: any, octokit, retryCount) => {
-        octokit.log.warn(
-          `Request quota exhausted for request ${options.method} ${options.url}`,
-        )
-        if (retryCount <= 3) {
-          octokit.log.info(`Retrying after ${retryAfter} seconds!`)
-          return true
-        }
-      },
-      onSecondaryRateLimit: (retryAfter, options: any, octokit, retryCount) => {
-        octokit.log.warn(
-          `SecondaryRateLimit detected for request ${options.method} ${options.url}`,
-        )
-        if (retryCount <= 3) {
-          octokit.log.info(`Retrying after ${retryAfter} seconds!`)
-          return true
-        }
-      },
-    },
-    retry: { doNotRetry: ['429'] },
-  })
 }

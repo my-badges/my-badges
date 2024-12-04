@@ -1,11 +1,42 @@
-import { spawnSync } from 'node:child_process'
 import { Octokit } from 'octokit'
 import { Query, Variables } from 'megaera'
 import { Commit } from './task/commits/commits.graphql.js'
 import { PullRequest } from './task/pulls/pulls.graphql.js'
 import { Issue } from './task/issues/issues.graphql.js'
+import { retry } from '@octokit/plugin-retry'
+import { throttling } from '@octokit/plugin-throttling'
 
 export { $, type TShellSync } from 'zurk'
+
+const MyOctokit = Octokit.plugin(retry, throttling)
+
+export function getOctokit(token: string) {
+  return new MyOctokit({
+    auth: token,
+    log: console,
+    throttle: {
+      onRateLimit: (retryAfter, options: any, octokit, retryCount) => {
+        octokit.log.warn(
+          `Request quota exhausted for request ${options.method} ${options.url}`,
+        )
+        if (retryCount <= 3) {
+          octokit.log.info(`Retrying after ${retryAfter} seconds!`)
+          return true
+        }
+      },
+      onSecondaryRateLimit: (retryAfter, options: any, octokit, retryCount) => {
+        octokit.log.warn(
+          `SecondaryRateLimit detected for request ${options.method} ${options.url}`,
+        )
+        if (retryCount <= 3) {
+          octokit.log.info(`Retrying after ${retryAfter} seconds!`)
+          return true
+        }
+      },
+    },
+    retry: { doNotRetry: ['429'] },
+  })
+}
 
 export function query<T extends Query>(
   octokit: Octokit,
@@ -50,21 +81,6 @@ export function quoteAttr(s: string) {
 
 export function parseMask(value: string): RegExp {
   return new RegExp(`^${value}$`.replace('*', '.+'))
-}
-
-export function exec(command: string, args: string[]): void {
-  const p = spawnSync(command, args, { stdio: 'inherit' })
-  if (p.status !== 0) {
-    throw new Error(`Command failed: ${command} ${args.join(' ')}`)
-  }
-}
-
-export function execWithOutput(command: string, args: string[]): string {
-  const p = spawnSync(command, args, { stdio: 'pipe' })
-  if (p.status !== 0) {
-    throw new Error(`Command failed: ${command} ${args.join(' ')}`)
-  }
-  return p.stdout.toString()
 }
 
 export function latest(a: Commit, b: Commit) {

@@ -6,14 +6,15 @@ import allTasks from './task/index.js'
 
 import { type Context } from './context.js'
 import { createBatcher } from './batch.js'
+import { getOctokit } from './utils.js'
 
 const MAX_ATTEMPTS = 3
 
 export async function processTasks(
   ctx: Pick<
     Context,
-    | 'octokit'
     | 'ghUser'
+    | 'ghToken'
     | 'dataDir'
     | 'dataFile'
     | 'dataTasks'
@@ -23,7 +24,7 @@ export async function processTasks(
   >,
 ): Promise<[boolean, Data]> {
   const {
-    octokit,
+    ghToken,
     ghUser: username,
     dataFile,
     dataTasks,
@@ -31,7 +32,13 @@ export async function processTasks(
     taskName,
     taskParams,
   } = ctx
+
+  if (!ghToken) throw new Error('GitHub token is required for data gathering')
+  if (!username)
+    throw new Error('GitHub username is required for data gathering')
+
   const taskSkipSet = new Set(taskSkip?.split(',') || [])
+  const octokit = getOctokit(ghToken)
 
   let data: Data = {
     user: null!,
