@@ -69,7 +69,7 @@ export function createCtx(
   const dataTasks = path.resolve(dataDir, `${ghUser}.tasks.json`)
   const gitDir = path.resolve(cwd, GIT_DIR)
   const badgesDir = path.resolve(gitDir, BADGES_DIR)
-  const badgesDatafile = path.resolve(badgesDir, data || BADGES_DATAFILE)
+  const badgesDatafile = path.resolve(badgesDir, BADGES_DATAFILE)
   const [ghRepoOwner = '', ghRepoName = ''] = repo?.split('/', 2) || [
     ghUser,
     ghUser,
