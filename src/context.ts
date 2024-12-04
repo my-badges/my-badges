@@ -42,6 +42,9 @@ export function createCtx(
   const argv = minimist(args, {
     string: ['data', 'repo', 'token', 'size', 'user', 'pick', 'omit'],
     boolean: ['dryrun', 'compact'],
+    alias: {
+      'dry-run': 'dryrun',
+    }
   })
   const {
     cwd: _cwd = CWD,
