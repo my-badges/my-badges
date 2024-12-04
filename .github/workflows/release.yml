@@ -3,8 +3,8 @@ name: Release
 on:
   workflow_dispatch:
   workflow_run:
-    branches: [main]
     workflows: [Test]
+    branches: [master]
     types: [completed]
 
 permissions:
