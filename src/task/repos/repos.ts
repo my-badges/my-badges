@@ -25,14 +25,14 @@ export default task({
         const commitCount =
           repo.defaultBranchRef?.target?.history.totalCount ?? 0
         if (commitCount >= 10_000) {
-          console.error(
+          octokit.log.error(
             `Too many commits for ${repo.owner.login}/${repo.name}: ${commitCount} commits; My-Badges will skip repos with more than 10k commits.`,
           )
         } else {
           batchCommits(commitCount, repo.id)
         }
       }
-      console.log(
+      octokit.log.info(
         `| repos ${data.repos.length}/${resp.user.repositories.totalCount} (cost: ${resp.rateLimit?.cost}, remaining: ${resp.rateLimit?.remaining})`,
       )
     }

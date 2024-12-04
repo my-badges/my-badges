@@ -10,7 +10,7 @@ export default task({
       author: data.user.id,
     })
 
-    console.log(
+    octokit.log.info(
       `| commits batch ${resp.nodes.length} (cost: ${resp.rateLimit?.cost}, remaining: ${resp.rateLimit?.remaining})`,
     )
 

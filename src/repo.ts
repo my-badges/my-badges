@@ -3,6 +3,7 @@ import path from 'node:path'
 import { Badge } from './badges.js'
 import { $ as _$ } from './utils.js'
 import { Context } from './context.js'
+import { log } from './log.js'
 
 export function getRepo({
   gitDir,
@@ -20,6 +21,14 @@ export function getRepo({
   const basicAuth = ghToken ? `${ghRepoOwner}:${ghToken}@` : ''
   const gitUrl = `https://${basicAuth}github.com/${ghRepoOwner}/${ghRepoName}.git`
   const $ = _$({
+    on: {
+      stdout(data) {
+        log.info(data.toString())
+      },
+      stderr(e) {
+        log.error(e.toString())
+      },
+    },
     cwd,
     sync: true,
   })
@@ -29,11 +38,11 @@ export function getRepo({
     },
     pull() {
       if (dryrun) return
+      log.info('Fetching from git...')
       if (fs.existsSync(path.resolve(cwd, '.git'))) {
         $`git pull`
         return
       }
-
       $`git clone --depth=1 ${gitUrl} .`
       $`git config user.name ${gitName}`
       $`git config user.email ${gitEmail}`
@@ -41,6 +50,7 @@ export function getRepo({
     },
     push() {
       if (!ready) return
+      log.info('Pushing to git...')
       $`git add .`
       $`git status`
       $`git commit -m 'Update badges'`

@@ -25,7 +25,7 @@ export default task({
         pull.reactions.push(reaction)
       }
 
-      console.log(
+      octokit.log.info(
         `| pull reactions ${data.issueComments.length}/${resp.node.reactions.totalCount} (cost: ${resp.rateLimit?.cost}, remaining: ${resp.rateLimit?.remaining})`,
       )
     }

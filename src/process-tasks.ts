@@ -7,6 +7,7 @@ import allTasks from './task/index.js'
 import { type Context } from './context.js'
 import { createBatcher } from './batch.js'
 import { getOctokit } from './utils.js'
+import { log } from './log.js'
 
 const MAX_ATTEMPTS = 3
 
@@ -87,7 +88,7 @@ export async function processTasks(
   while (todo.length > 0) {
     const { taskName, params, attempts } = todo.shift()!
     if (taskSkipSet.has(taskName)) {
-      console.log(`Skipping task ${taskName}`)
+      log.info(`Skipping task ${taskName}`)
       continue
     }
 
@@ -101,7 +102,7 @@ export async function processTasks(
     }
     const { batch, flush } = createBatcher(next)
 
-    console.log(
+    log.info(
       `==> Running task ${taskName}`,
       new URLSearchParams(params).toString(),
       attempts > 0 ? `(attempt: ${attempts + 1})` : '',
@@ -115,24 +116,24 @@ export async function processTasks(
       }
 
       if (attempts >= MAX_ATTEMPTS || !retry) {
-        console.error(
+        log.error(
           `!!! Failed to run task ${taskName}`,
           new URLSearchParams(params).toString(),
           `after ${attempts} attempts`,
         )
-        console.error(e)
+        log.error(e)
       } else {
-        console.error(
+        log.error(
           `!!! Failed to run task ${taskName}`,
           new URLSearchParams(params).toString(),
           `retrying`,
           `(will try ${MAX_ATTEMPTS - attempts} more times)`,
         )
-        console.error(e)
+        log.error(e)
         todo.push({ taskName, params, attempts: attempts + 1 })
       }
     }
-    console.log(`<== Finished ${taskName} (${todo.length} tasks left)`)
+    log.info(`<== Finished ${taskName} (${todo.length} tasks left)`)
 
     flush()
 

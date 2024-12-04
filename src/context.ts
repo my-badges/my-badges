@@ -44,7 +44,7 @@ export function createCtx(
     boolean: ['dryrun', 'compact'],
     alias: {
       'dry-run': 'dryrun',
-    }
+    },
   })
   const {
     cwd: _cwd = CWD,

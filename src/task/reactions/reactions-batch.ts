@@ -9,7 +9,7 @@ export default task({
       ids,
     })
 
-    console.log(
+    octokit.log.info(
       `| reactions batch ${nodes.length} (cost: ${rateLimit?.cost}, remaining: ${rateLimit?.remaining})`,
     )
     for (const node of nodes) {

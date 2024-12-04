@@ -27,7 +27,7 @@ export default task({
         repo.commits.push(commit)
       }
 
-      console.log(
+      octokit.log.info(
         `| commits ${repo?.owner.login}/${repo?.name} ${repo.commits.length}/${resp.node.defaultBranchRef.target.history.totalCount} (cost: ${resp.rateLimit?.cost}, remaining: ${resp.rateLimit?.remaining})`,
       )
     }

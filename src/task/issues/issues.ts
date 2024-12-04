@@ -19,7 +19,7 @@ export default task({
         throw new Error('Failed to load issues')
       }
 
-      console.log(
+      octokit.log.info(
         `| issues ${data.issues.length + resp.user.issues.nodes.length}/${
           resp.user.issues.totalCount
         } (cost: ${resp.rateLimit?.cost}, remaining: ${
