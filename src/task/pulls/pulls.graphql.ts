@@ -14,6 +14,12 @@ fragment PullRequest on PullRequest {
   mergedBy {
     login
   }
+  labels(first: 10) {
+    totalCount
+    nodes {
+      name
+    }
+  }
   repository {
     nameWithOwner
     owner {
@@ -79,6 +85,12 @@ export type PullRequest = {
   mergedAt: string | null
   mergedBy: {
     login: string
+  } | null
+  labels: {
+    totalCount: number
+    nodes: Array<{
+      name: string
+    }> | null
   } | null
   repository: {
     nameWithOwner: string
