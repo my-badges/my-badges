@@ -18,7 +18,7 @@ export default task({
         throw new Error('Failed to load pull requests')
       }
 
-      console.log(
+      octokit.log.info(
         `| pull requests ${
           data.pulls.length + resp.user.pullRequests.nodes.length
         }/${resp.user.pullRequests.totalCount} (cost: ${

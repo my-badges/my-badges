@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { Badge } from './badges.js'
 import { quoteAttr } from './utils.js'
+import { log } from './log.js'
 
 const START_MARK = '<!-- my-badges start -->'
 const END_MARK = '<!-- my-badges end -->'
@@ -33,7 +34,7 @@ export function generateReadme(
   badges: Badge[],
   size: number | string = BADGE_SIZE,
 ) {
-  console.log('Updating README.md...')
+  log.info('Updating README.md...')
 
   const start = content.indexOf(START_MARK)
   const end = content.indexOf(END_MARK)

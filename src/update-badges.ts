@@ -2,13 +2,14 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { Badge } from './badges.js'
 import { quoteAttr } from './utils.js'
+import { log } from './log.js'
 
 export function updateBadges(
   badges: Badge[],
   badgesDir: string,
   badgesDatafile: string,
 ) {
-  console.log('Generating badges...')
+  log.info('Generating badges...')
   fs.mkdirSync(badgesDir, { recursive: true })
   fs.writeFileSync(badgesDatafile, JSON.stringify(badges, null, 2))
 

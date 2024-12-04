@@ -41,8 +41,6 @@ describe('generateReadme()', () => {
 
     const contents = generateReadme(readme, badges, 64)
 
-    console.log('contents', contents)
-
     expect(contents).toEqual(
       `<!-- my-badges start -->
 <a href="my-badges/a-commit.md"><img src="" alt="test" title="test" width="64"></a>

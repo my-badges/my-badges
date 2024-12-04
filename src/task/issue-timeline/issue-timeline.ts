@@ -19,7 +19,7 @@ export default task({
         throw new Error('Failed to load issue timeline')
       }
 
-      console.log(
+      octokit.log.info(
         `| timeline ${resp.node.timelineItems.nodes.length}/${resp.node.timelineItems.totalCount} (cost: ${resp.rateLimit?.cost}, remaining: ${resp.rateLimit?.remaining})`,
       )
       for (const event of resp.node.timelineItems.nodes) {

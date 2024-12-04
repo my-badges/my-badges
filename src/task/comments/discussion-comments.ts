@@ -25,7 +25,7 @@ export default task({
         data.discussionComments.push(comment)
         batchReactions(comment.reactionsTotal.totalCount, comment.id)
       }
-      console.log(
+      octokit.log.info(
         `| discussion comments ${data.discussionComments.length}/${resp.user.repositoryDiscussionComments.totalCount} (cost: ${resp.rateLimit?.cost}, remaining: ${resp.rateLimit?.remaining})`,
       )
     }

@@ -9,13 +9,14 @@ import { updateReadme } from './update-readme.js'
 import { processTasks } from './process-tasks.js'
 import { Data } from './data.js'
 import { createCtx } from './context.js'
+import { log } from './log.js'
 import url from 'node:url'
 
 isMain() &&
   main()
     .then(() => process.exit(0))
     .catch((err) => {
-      console.error(err)
+      log.error(err)
       process.exit(1)
     })
 
@@ -50,7 +51,7 @@ export async function main(
     ctx.badgesCompact,
   )
 
-  console.log(JSON.stringify(userBadges, null, 2))
+  log.info(JSON.stringify(userBadges, null, 2))
 
   if (repo.ready) {
     updateBadges(userBadges, ctx.badgesDir, ctx.badgesDatafile)

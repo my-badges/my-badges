@@ -5,6 +5,7 @@ import { PullRequest } from './task/pulls/pulls.graphql.js'
 import { Issue } from './task/issues/issues.graphql.js'
 import { retry } from '@octokit/plugin-retry'
 import { throttling } from '@octokit/plugin-throttling'
+import { log } from './log.js'
 
 export { $, type TShellSync } from 'zurk'
 
@@ -13,7 +14,7 @@ const MyOctokit = Octokit.plugin(retry, throttling)
 export function getOctokit(token: string) {
   return new MyOctokit({
     auth: token,
-    log: console,
+    log,
     throttle: {
       onRateLimit: (retryAfter, options: any, octokit, retryCount) => {
         octokit.log.warn(

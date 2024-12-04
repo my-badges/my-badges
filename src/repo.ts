@@ -3,6 +3,7 @@ import path from 'node:path'
 import { Badge } from './badges.js'
 import { $ as _$ } from './utils.js'
 import { Context } from './context.js'
+import { log } from './log.js'
 
 export function getRepo({
   gitDir,
@@ -22,10 +23,10 @@ export function getRepo({
   const $ = _$({
     on: {
       stdout(data) {
-        console.log(data.toString())
+        log.info(data.toString())
       },
       stderr(e) {
-        console.error(e.toString())
+        log.error(e.toString())
       },
     },
     cwd,
@@ -37,7 +38,7 @@ export function getRepo({
     },
     pull() {
       if (dryrun) return
-      console.log('Fetching from git...')
+      log.info('Fetching from git...')
       if (fs.existsSync(path.resolve(cwd, '.git'))) {
         $`git pull`
         return
@@ -49,7 +50,7 @@ export function getRepo({
     },
     push() {
       if (!ready) return
-      console.log('Pushing to git...')
+      log.info('Pushing to git...')
       $`git add .`
       $`git status`
       $`git commit -m 'Update badges'`

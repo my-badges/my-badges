@@ -9,7 +9,7 @@ export default task({
       ids,
     })
 
-    console.log(
+    octokit.log.info(
       `| issue timeline batch ${resp.nodes.length} (cost: ${resp.rateLimit?.cost}, remaining: ${resp.rateLimit?.remaining})`,
     )
     for (const node of resp.nodes) {
