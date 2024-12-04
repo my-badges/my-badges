@@ -41,11 +41,11 @@ export function getRepo({
       log.info('Fetching from git...')
       if (fs.existsSync(path.resolve(cwd, '.git'))) {
         $`git pull`
-        return
+      } else {
+        $`git clone --depth=1 ${gitUrl} .`
+        $`git config user.name ${gitName}`
+        $`git config user.email ${gitEmail}`
       }
-      $`git clone --depth=1 ${gitUrl} .`
-      $`git config user.name ${gitName}`
-      $`git config user.email ${gitEmail}`
       ready = true
     },
     push() {
