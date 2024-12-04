@@ -61,7 +61,10 @@ export function createCtx(
   const cwd = path.resolve(_cwd)
   const dataDir = path.resolve(cwd, DATA_DIR)
   const dataFile = path.resolve(dataDir, data || `${ghUser}.json`)
-  const dataTasks = path.resolve(dataDir, `${ghUser}.tasks.json`)
+  const dataTasks = path.resolve(
+    dataDir,
+    `${ghUser || path.parse(dataFile).name}.tasks.json`,
+  )
   const gitDir = path.resolve(cwd, GIT_DIR)
   const badgesDir = path.resolve(gitDir, BADGES_DIR)
   const badgesDatafile = path.resolve(badgesDir, data || BADGES_DATAFILE)
