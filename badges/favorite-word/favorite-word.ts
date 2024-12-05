@@ -10,7 +10,10 @@ export default define({
       for (const commit of repo.commits) {
         const msg = commit.message + '\n' + commit.messageBody
         const words = removeStopwords(
-          msg.toLowerCase().split(/\s+/).filter(Boolean),
+          msg
+            .toLowerCase()
+            .split(/\s+/)
+            .filter((v) => !!v.trim()),
         )
         for (const word of words) {
           counts[word] = (counts[word] || 0) + 1

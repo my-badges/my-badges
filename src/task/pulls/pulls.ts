@@ -26,6 +26,7 @@ export default task({
         }, remaining: ${resp.rateLimit?.remaining})`,
       )
       for (const pull of resp.user.pullRequests.nodes) {
+        if (pull.repository.isPrivate) continue
         data.pulls.push(pull)
         batchReactions(pull.reactionsTotal.totalCount, pull.id)
       }
