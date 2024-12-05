@@ -43,6 +43,7 @@ query ReposQuery(
       first: $num
       after: $cursor
       orderBy: { field: CREATED_AT, direction: DESC }
+      privacy: PUBLIC
     ) {
       totalCount
       nodes {
