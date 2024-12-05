@@ -78,6 +78,7 @@ query ReposQuery($login: String!, $author: ID!, $num: Int = 50, $cursor: String)
       first: $num
       after: $cursor
       orderBy: {field: CREATED_AT, direction: DESC}
+      privacy: PUBLIC
     ) {
       totalCount
       nodes {
