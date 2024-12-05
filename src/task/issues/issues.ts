@@ -27,6 +27,7 @@ export default task({
         })`,
       )
       for (const issue of resp.user.issues.nodes) {
+        if (issue.repository.isPrivate) continue
         data.issues.push(issue)
         batchReactions(issue.reactionsTotal.totalCount, issue.id)
         batchIssueTimeline(issue.timelineItemsTotal.totalCount, issue.id)

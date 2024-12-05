@@ -23,6 +23,7 @@ fragment Issue on Issue {
     totalCount
   }
   repository {
+    isPrivate
     nameWithOwner
     owner {
       login

@@ -18,6 +18,7 @@ fragment PullRequest on PullRequest {
     }
   }
   repository {
+    isPrivate
     nameWithOwner
     owner {
       login

@@ -21,6 +21,7 @@ fragment PullRequest on PullRequest {
     }
   }
   repository {
+    isPrivate
     nameWithOwner
     owner {
       login
@@ -93,6 +94,7 @@ export type PullRequest = {
     }> | null
   } | null
   repository: {
+    isPrivate: boolean
     nameWithOwner: string
     owner: {
       login: string

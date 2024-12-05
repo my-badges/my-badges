@@ -26,6 +26,7 @@ fragment Issue on Issue {
     totalCount
   }
   repository {
+    isPrivate
     nameWithOwner
     owner {
       login
@@ -65,6 +66,7 @@ export type Issue = {
     totalCount: number
   }
   repository: {
+    isPrivate: boolean
     nameWithOwner: string
     owner: {
       login: string
