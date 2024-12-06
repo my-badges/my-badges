@@ -30,8 +30,8 @@
     "megaera": "^1.0.2",
     "minimist": "^1.2.8",
     "octokit": "^4.0.2",
-    "zurk": "^0.7.5",
-    "stopword": "^3.1.2"
+    "zurk": "^0.8.0",
+    "stopword": "^3.1.3"
   },
   "devDependencies": {
     "@octokit/graphql-schema": "^15.25.0",
