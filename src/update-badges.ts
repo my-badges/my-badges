@@ -24,6 +24,7 @@ export function updateBadges(
       `\n\n\n` +
       `Created by <a href="https://github.com/my-badges/my-badges">My Badges</a>`
 
+    log.info('badge', badgePath)
     fs.writeFileSync(badgePath, content)
   }
 }
