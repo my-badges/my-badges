@@ -30,6 +30,7 @@ fragment Repository on Repository {
       }
     }
   }
+  isEmpty
 }
 
 query ReposQuery(

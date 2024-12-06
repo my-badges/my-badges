@@ -33,6 +33,7 @@ fragment Repository on Repository {
       }
     }
   }
+  isEmpty
 }`
 
 export type Repository = {
@@ -68,6 +69,7 @@ export type Repository = {
       | null
       | null
   } | null
+  isEmpty: boolean
 }
 
 export const ReposQuery = `#graphql
