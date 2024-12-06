@@ -5,17 +5,16 @@ import { CommitsQuery } from './commits.graphql.js'
 export default task({
   name: 'commits' as const,
   run: async ({ octokit, data }, { id }: { id: string }) => {
+    const repo = data.repos.find((repo) => repo.id == id)
+    if (!repo) throw new Error(`Repo not found: ${id}`)
+
+    repo.commits = []
+    if (repo.isEmpty) return
+
     const commits = paginate(octokit, CommitsQuery, {
       id,
       author: data.user.id,
     })
-
-    const repo = data.repos.find((repo) => repo.id == id)
-    if (!repo) {
-      throw new Error(`Repo not found: ${id}`)
-    }
-
-    repo.commits = []
 
     for await (const resp of commits) {
       if (!resp.node?.defaultBranchRef?.target?.history) {
