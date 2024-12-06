@@ -13,7 +13,8 @@ export default define({
           msg
             .toLowerCase()
             .split(/\s+/)
-            .filter((v) => !!v.trim()),
+            // ignore words not including alphanumeric chars
+            .filter((w) => /\w/.test(w)),
         )
         for (const word of words) {
           counts[word] = (counts[word] || 0) + 1
