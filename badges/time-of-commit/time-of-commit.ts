@@ -74,6 +74,7 @@ function guessTimezone(user: User) {
     { pattern: /\bberlin\b|\bgermany\b/, offset: 2 },
     { pattern: /\bbilbao\b|\bzaragoza\b/, offset: 2 },
     { pattern: /\bbordeaux\b|\bmarseille\b|\blyon\b/, offset: 2 },
+    { pattern: /\bboston\b|\bmassachusetts\b|\bma\b/, offset: -4 },
     { pattern: /\bbratislava\b|\bslovakia\b/, offset: 2 },
     { pattern: /\bbrazil\b|\bsao paulo\b|\brio de janeiro\b/, offset: -3 },
     { pattern: /\bbrussels\b|\bbelgium\b/, offset: 2 },
