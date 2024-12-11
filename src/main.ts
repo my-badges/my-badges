@@ -27,8 +27,6 @@ export async function main(
   const ctx = createCtx(argv, env)
   const repo = getRepo(ctx)
 
-  repo.pull()
-
   let data: Data
   if (fs.existsSync(ctx.dataFile)) {
     data = JSON.parse(fs.readFileSync(ctx.dataFile, 'utf8')) as Data
@@ -41,6 +39,7 @@ export async function main(
     }
   }
 
+  repo.pull()
   let userBadges = repo.getUserBadges()
   userBadges = presentBadges(
     allBadges.map((m) => m.default),
