@@ -31,7 +31,7 @@ export default define({
       // testing
       'my-badges/my-badges',
       'webpod/zurk',
-    ].map(r => r.toLowerCase())
+    ].map((r) => r.toLowerCase())
     for (const pull of data.pulls) {
       // prettier-ignore
       if (
