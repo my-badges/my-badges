@@ -9,7 +9,7 @@ export default define({
     for (const repo of data.repos) {
       for (const commit of repo.commits) {
         const data = new Date(commit.committedDate)
-        if (data.getMonth() === 1 && data.getDate() === 14) {
+        if (data.getMonth() === 1 && data.getDate() === 29) {
           commits.push(commit)
         }
       }
