@@ -6,7 +6,7 @@ export default define({
   present(data, grant) {
     const pulls: PullRequest[] = []
     const from = new Date('2024-12-14T00:00:00Z')
-    const to = new Date('2024-12-16T00:00:00Z')
+    const to = new Date('2024-12-21T00:00:00Z')
     const labels = [
       'oln24',
       'ossln24',
@@ -22,9 +22,9 @@ export default define({
       'datalens-tech/datalens',
       'gravity-ui',
       'divkit/divkit',
-      'diplodoc-platform',
-      'diplodoc-platform',
+      'diplodoc-platform/diplodoc',
       'emmetio/emmet',
+      'userver-framework/userver',
       'google/zx',
       'catboost/catboost',
       'yandex/YaFSDP',
