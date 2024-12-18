@@ -12,6 +12,7 @@ export default [
   await import('./favorite-word/favorite-word.js'),
   await import('./fix-commit/fix-commit.js'),
   await import('./github-anniversary/github-anniversary.js'),
+  await import('./leap-day/leap-day.js'),
   await import('./mass-delete-commit/mass-delete-commit.js'),
   await import('./my-badges-contributor/my-badges-contributor.js'),
   await import('./old-issue/old-issue.js'),
