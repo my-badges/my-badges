@@ -18,7 +18,7 @@ export function updateBadges(
     const desc = quoteAttr(badge.desc)
     const content =
       `<img src="${badge.image}" alt="${desc}" title="${desc}" width="128">\n` +
-      `<strong>${desc}</strong>\n` +
+      `<strong>${badge.desc}</strong>\n` +
       `<br><br>\n\n` +
       badge.body +
       `\n\n\n` +
