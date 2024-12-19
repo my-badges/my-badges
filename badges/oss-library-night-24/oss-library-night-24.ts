@@ -49,7 +49,7 @@ export default define({
     if (pulls.length > 0) {
       grant(
         'oss-library-night-24',
-        'I\'ve participated in the <a href="https://events.yandex.ru/events/opensourcenight">Opensource Library Night 24</a>!',
+        'I\'ve participated in the [Opensource Library Night 24](https://events.yandex.ru/events/opensourcenight)!',
       ).evidencePRs(...pulls)
     }
   },
