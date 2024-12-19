@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { Badge } from './badges.js'
-import { quoteAttr } from './utils.js'
+import { quoteAttr, stripMarkdown } from './utils.js'
 import { log } from './log.js'
 
 export function updateBadges(
@@ -15,7 +15,7 @@ export function updateBadges(
 
   for (const badge of badges) {
     const badgePath = path.resolve(badgesDir, `${badge.id}.md`)
-    const desc = quoteAttr(badge.desc)
+    const desc = stripMarkdown(badge.desc)
     const content =
       `<img src="${badge.image}" alt="${desc}" title="${desc}" width="128">\n\n` +
       `**${badge.desc}**\n\n` +

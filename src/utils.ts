@@ -80,6 +80,22 @@ export function quoteAttr(s: string) {
     .replace(/[\r\n]/g, '&#13;')
 }
 
+type Pattern = {
+  pattern: RegExp,
+  replace: string
+}
+
+export function stripMarkdown(
+  text: string,
+  patterns: Pattern[] = [
+    { pattern: /\[([^\r\n]+)\]\([^\r\n]+\)/g, replace: "$1" } // strip all markdown urls
+  ]
+): string {
+  return patterns.reduce((t, p) => {
+    return t.replace(p.pattern, p.replace)
+  }, text)
+}
+
 export function parseMask(value: string): RegExp {
   return new RegExp(`^${value}$`.replace('*', '.+'))
 }
