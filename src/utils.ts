@@ -81,15 +81,15 @@ export function quoteAttr(s: string) {
 }
 
 type Pattern = {
-  pattern: RegExp,
+  pattern: RegExp
   replace: string
 }
 
 export function stripMarkdown(
   text: string,
   patterns: Pattern[] = [
-    { pattern: /\[([^\r\n]+)\]\([^\r\n]+\)/g, replace: "$1" } // strip all markdown urls
-  ]
+    { pattern: /\[([^\r\n]+)\]\([^\r\n]+\)/g, replace: '$1' }, // strip all markdown urls
+  ],
 ): string {
   return patterns.reduce((t, p) => {
     return t.replace(p.pattern, p.replace)
