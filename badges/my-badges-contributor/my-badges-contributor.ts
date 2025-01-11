@@ -16,10 +16,9 @@ export default define({
     }
 
     if (pulls.length > 0) {
-      grant(
-        'my-badges-contributor',
-        'I contributed to <https://github.com/my-badges/my-badges>!',
-      ).evidencePRs(...pulls)
+      grant('my-badges-contributor', 'I contributed to My Badges!').evidencePRs(
+        ...pulls,
+      )
     }
   },
 })
