@@ -122,10 +122,13 @@ describe('favorite-word', () => {
           CommitFactory(`${prefix}!: world hello`, ''),
           CommitFactory('hello', `${prefix}: `),
         ])
+        let badge: Badge = { id: 'favorite-word', desc: '', body: '', image: '', tier: 0 }
         favoriteWord.present(data, (id: "favorite-word", desc: string) => {
           expect(desc).toBe(`My favorite word is "hello".`)
           return new Evidence(badge)
         })
+        const prefixExpectation = (prefix + ':').toLowerCase().split(' ').map((word, i) => `${i + 3}. ${word} (used once)`).join('\n')
+        expect(badge.body).toBe(`My favorite commit message words are:\n\n1. hello (used 5 times)\n2. world (used 3 times)\n${prefixExpectation}`)
       })
     }
   })
