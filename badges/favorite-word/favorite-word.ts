@@ -13,7 +13,10 @@ export default define({
           msg
             .toLowerCase()
             // remove conventional commit prefixes as they would outweigh other words
-            .replace(/^(breaking change|build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\(.*\))?!?:\s*/, '')
+            .replace(
+              /^(breaking change|build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\(.*\))?!?:\s*/,
+              '',
+            )
             .split(/\s+/)
             // ignore words not including alphanumeric chars
             .filter((w) => /\w/.test(w)),

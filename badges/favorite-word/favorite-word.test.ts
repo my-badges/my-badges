@@ -18,7 +18,7 @@ function CommitFactory(message: string, messageBody: string) {
     committer: null,
     repository: {
       owner: {
-      login: '',
+        login: '',
       },
       name: '',
     },
@@ -33,7 +33,7 @@ function DataFactory(commits: Commit[]) {
         id: '',
         name: '',
         owner: {
-        login: '',
+          login: '',
         },
         url: '',
         description: null,
@@ -41,10 +41,10 @@ function DataFactory(commits: Commit[]) {
         updatedAt: '',
         languages: null,
         forks: {
-        totalCount: 0,
+          totalCount: 0,
         },
         stargazers: {
-        totalCount: 0,
+          totalCount: 0,
         },
         defaultBranchRef: null,
         isEmpty: false,
@@ -77,7 +77,7 @@ function DataFactory(commits: Commit[]) {
       anyPinnableItems: false,
       pinnedItems: {
         totalCount: 0,
-        nodes: null
+        nodes: null,
       },
       sponsoring: {
         totalCount: 0,
@@ -90,9 +90,9 @@ function DataFactory(commits: Commit[]) {
       },
       publicKeys: {
         totalCount: 0,
-        nodes: null
+        nodes: null,
       },
-    }
+    },
   } as Data
 }
 
