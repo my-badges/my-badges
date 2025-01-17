@@ -12,6 +12,8 @@ export default define({
         const words = removeStopwords(
           msg
             .toLowerCase()
+            // remove conventional commit prefixes as they would outweigh other words
+            .replace(/^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\(.+\))?:\s+/, '')
             .split(/\s+/)
             // ignore words not including alphanumeric chars
             .filter((w) => /\w/.test(w)),
