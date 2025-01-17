@@ -98,6 +98,27 @@ function DataFactory(commits: Commit[]) {
 
 describe.skip('favorite-word', () => {
   // prettier-ignore
-  describe('ignore conventional commit prefixes', () => {})
+  describe('ignore conventional commit prefixes', () => {
+    const prefixes = [
+      'BREAKING CHANGE',
+      'build',
+      'chore',
+      'ci',
+      'docs',
+      'feat',
+      'fix',
+      'perf',
+      'refactor',
+      'revert',
+      'style',
+      'test',
+    ]
+    const data: Data = DataFactory([
+      CommitFactory(`${prefix}: hello`, ''),
+      CommitFactory(`${prefix}: hello world`, ''),
+      CommitFactory(`${prefix}:world hello`, ''),
+      CommitFactory(`${prefix}! :world hello`, ''),
+      CommitFactory('hello', `${prefix}: `),
+    ])
+  })
 })
-
