@@ -198,5 +198,26 @@ describe('conventional-commit', () => {
     run('style', 'esthetics')
     run('test', 'test')
   })
+
+  it('Should work with multiple types of commits', () => {
+    // Prepare
+    let badge: Badge = { id: 'conventional-commit', desc: '', body: '', image: '', tier: 0 }
+    // Act
+    conventionalCommit.present(DataFactory([
+      CommitFactory('Hello World', ''),
+      CommitFactory('feat: Hello World', ''),
+      CommitFactory('fix: Hello World', ''),
+      CommitFactory('BREAKING CHANGE: Hello World', ''),
+      CommitFactory('fix: Hello World', ''),
+    ]), (id: "conventional-commit", desc: string) => {
+      return new Evidence(badge)
+    })
+    // Assert
+    expect(badge.body).toBe([
+      'I\'ve done 2 fix commit',
+      'I\'ve done 1 feature commit',
+      'I\'ve done 1 breaking change commit',
+    ].join('\n'))
+  })
 })
 
