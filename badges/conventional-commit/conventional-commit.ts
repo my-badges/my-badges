@@ -4,17 +4,22 @@ export default define({
   url: import.meta.url,
   badges: ['conventional-commit'] as const,
   present(data, grant) {
-	let usesConventionalCommits = false
+    const counts: Record<string, number> = {}
     for (const repo of data.repos) {
       for (const commit of repo.commits) {
         const re = /^(BREAKING CHANGE|build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\(.*\))?(!)?:\s*/
-        if (re.test(commit.message)) {
-		  usesConventionalCommits = true
+        const matches = re.exec(commit.message)
+        if (matches !== null) {
+          counts[matches[1]] = (counts[matches[1]] || 0) + 1
         }
       }
     }
-    if (!usesConventionalCommits) return
-    grant('conventional-commit', 'I use conventional commit messages').evidence('')
+    const pairs = Object.entries(counts)
+    if (pairs.length === 0) return
+    pairs.sort((a, b) => b[1] - a[1])
+    grant('conventional-commit', 'I use conventional commit messages').evidence(
+      pairs.map(([prefix, count]) => `${prefix}: ${count}`).join('\n')
+    )
   },
 })
 

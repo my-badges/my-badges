@@ -140,5 +140,34 @@ describe('conventional-commit', () => {
       ]), true)})
     })
   })
+
+  prefixes.forEach((prefix) => {
+    describe(`count the number of "${prefix}" prefixes`, () => {
+      const run = (data: Data, count: number) => {
+        // Prepare
+        const re = /^\D*(\d+)\D*$/
+        let badge: Badge = { id: 'conventional-commit', desc: '', body: '', image: '', tier: 0 }
+        // Act
+        conventionalCommit.present(data, (id: "conventional-commit", desc: string) => {
+          return new Evidence(badge)
+        })
+        // Assert
+        const matches = re.exec(badge.body)
+        expect(matches).not.toBeNull()
+        if (matches === null) return // TypeScript doesn't know that expect() will throw an error if matches is null
+        expect(parseInt(matches[1])).toBe(count)
+      }
+      it(`should have a count of 1`, () => {run(DataFactory([
+        CommitFactory('Hello World', ''),
+        CommitFactory(`${prefix}: Hello World`, ''),
+      ]), 1)})
+      it(`should have a count of 2`, () => {run(DataFactory([
+        CommitFactory('Hello World', ''),
+        CommitFactory(`${prefix}: Hello World`, ''),
+        CommitFactory('Hello World', ''),
+        CommitFactory(`${prefix}: Hello World`, ''),
+      ]), 2)})
+    })
+  })
 })
 
