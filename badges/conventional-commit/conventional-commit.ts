@@ -11,6 +11,9 @@ export default define({
         const matches = re.exec(commit.message)
         if (matches !== null) {
           counts[matches[1]] = (counts[matches[1]] || 0) + 1
+          if (matches[3] === '!' && matches[1] !== 'BREAKING CHANGE') {
+            counts['BREAKING CHANGE'] = (counts['BREAKING CHANGE'] || 0) + 1
+          }
         }
       }
     }

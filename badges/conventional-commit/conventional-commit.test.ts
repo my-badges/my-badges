@@ -219,5 +219,26 @@ describe('conventional-commit', () => {
       'I\'ve done 1 breaking change commit',
     ].join('\n'))
   })
+
+  it('Should count "!" as a breaking change', () => {
+    // Prepare
+    let badge: Badge = { id: 'conventional-commit', desc: '', body: '', image: '', tier: 0 }
+    // Act
+    conventionalCommit.present(DataFactory([
+      CommitFactory('feat!: Hello World', ''),
+      CommitFactory('feat: Hello World', ''),
+      CommitFactory('fix: Hello World', ''),
+      CommitFactory('BREAKING CHANGE!: Hello World', ''),
+      CommitFactory('BREAKING CHANGE: Hello World', ''),
+    ]), (id: "conventional-commit", desc: string) => {
+      return new Evidence(badge)
+    })
+    // Assert
+    expect(badge.body).toBe([
+      'I\'ve done 3 breaking change commit',
+      'I\'ve done 2 feature commit',
+      'I\'ve done 1 fix commit',
+    ].join('\n'))
+  })
 })
 
