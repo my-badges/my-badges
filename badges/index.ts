@@ -3,6 +3,7 @@ export default [
   await import('./bad-words/bad-words.js'),
   await import('./cafe-commit/cafe-commit.js'),
   await import('./chore-commit/chore-commit.js'),
+  await import('./conventional-commit/conventional-commit.js'),
   await import('./cosmetic-commit/cosmetic-commit.js'),
   await import('./covid-19/covid-19.js'),
   await import('./dead-commit/dead-commit.js'),
