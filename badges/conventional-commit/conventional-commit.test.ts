@@ -240,5 +240,40 @@ describe('conventional-commit', () => {
       'I\'ve done 1 fix commit',
     ].join('\n'))
   })
+
+  it('Should only show the 6 most common types of commits', () => {
+    // Prepare
+    let badge: Badge = { id: 'conventional-commit', desc: '', body: '', image: '', tier: 0 }
+    const data = DataFactory([
+      CommitFactory('feat: Hello World', ''),
+      CommitFactory('fix: Hello World', ''),
+      CommitFactory('BREAKING CHANGE: Hello World', ''),
+      CommitFactory('style: Hello World', ''),
+      CommitFactory('chore: Hello World', ''),
+      CommitFactory('test: Hello World', ''),
+      CommitFactory('ci: Hello World', ''),
+      CommitFactory('docs: Hello World', ''),
+      CommitFactory('refactor: Hello World', ''),
+      CommitFactory('refactor: Hello World', ''),
+      CommitFactory('feat: Hello World', ''),
+      CommitFactory('fix: Hello World', ''),
+      CommitFactory('test: Hello World', ''),
+      CommitFactory('docs: Hello World', ''),
+      CommitFactory('ci: Hello World', ''),
+    ])
+    // Act
+    conventionalCommit.present(data, (id: "conventional-commit", desc: string) => {
+      return new Evidence(badge)
+    })
+    // Assert
+    expect(badge.body).toBe([
+      "I've done 2 feature commit",
+      "I've done 2 fix commit",
+      "I've done 2 test commit",
+      "I've done 2 continuous integration commit",
+      "I've done 2 documentation commit",
+      "I've done 2 refactoring commit",
+    ].join('\n'))
+  })
 })
 

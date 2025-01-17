@@ -20,6 +20,7 @@ export default define({
     const pairs = Object.entries(counts)
     if (pairs.length === 0) return
     pairs.sort((a, b) => b[1] - a[1])
+    pairs.splice(6)
 
     const names: Record<string, string> = {
       'BREAKING CHANGE': 'breaking change',
