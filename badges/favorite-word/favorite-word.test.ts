@@ -96,7 +96,7 @@ function DataFactory(commits: Commit[]) {
   } as Data
 }
 
-describe.skip('favorite-word', () => {
+describe('favorite-word', () => {
   // prettier-ignore
   describe('ignore conventional commit prefixes', () => {
     const prefixes = [
@@ -113,12 +113,20 @@ describe.skip('favorite-word', () => {
       'style',
       'test',
     ]
-    const data: Data = DataFactory([
-      CommitFactory(`${prefix}: hello`, ''),
-      CommitFactory(`${prefix}: hello world`, ''),
-      CommitFactory(`${prefix}:world hello`, ''),
-      CommitFactory(`${prefix}! :world hello`, ''),
-      CommitFactory('hello', `${prefix}: `),
-    ])
+    for (const prefix of prefixes) {
+      it(`ignores "${prefix}"`, () => {
+        const data: Data = DataFactory([
+          CommitFactory(`${prefix}(world): hello`, ''),
+          CommitFactory(`${prefix}: hello world`, ''),
+          CommitFactory(`${prefix}:world hello`, ''),
+          CommitFactory(`${prefix}!: world hello`, ''),
+          CommitFactory('hello', `${prefix}: `),
+        ])
+        favoriteWord.present(data, (id: "favorite-word", desc: string) => {
+          expect(desc).toBe(`My favorite word is "hello".`)
+          return new Evidence(badge)
+        })
+      })
+    }
   })
 })
