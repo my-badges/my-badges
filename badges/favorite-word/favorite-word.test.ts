@@ -1,14 +1,12 @@
-import { describe, it, expect, afterAll } from 'vitest'
-import fs from 'node:fs/promises'
+import { describe, it, expect } from 'vitest'
 import favoriteWord from './favorite-word.js'
-import os from 'node:os'
-import { log } from '../../src/log.js'
-import { Badge } from '../../src/badges.js'
 import { Data } from '../../src/data.js'
+import { Badge } from '../../src/badges.js'
 import { Commit } from '../../src/task/commits/commits.graphql.js'
+import { Evidence } from '../../src/badges.js'
 
 function CommitFactory(message: string, messageBody: string) {
-  const commit: Commit = {
+  return {
     message,
     messageBody,
     id: '',
@@ -24,12 +22,11 @@ function CommitFactory(message: string, messageBody: string) {
       },
       name: '',
     },
-  }
-  return commit
+  } as Commit
 }
 
 function DataFactory(commits: Commit[]) {
-  const data: Data = {
+  return {
     repos: [
       {
         commits,
@@ -96,8 +93,7 @@ function DataFactory(commits: Commit[]) {
         nodes: null
       },
     }
-  }
-  return data
+  } as Data
 }
 
 describe.skip('favorite-word', () => {
