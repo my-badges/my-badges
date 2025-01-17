@@ -98,4 +98,47 @@ function DataFactory(commits: Commit[]) {
 
 describe('conventional-commit', () => {
   // prettier-ignore
+  const prefixes = [
+    'BREAKING CHANGE',
+    'build',
+    'chore',
+    'ci',
+    'docs',
+    'feat',
+    'fix',
+    'perf',
+    'refactor',
+    'revert',
+    'style',
+    'test',
+  ]
+
+  describe(`detect if conventional commit messages are used`, () => {
+    const run = (data: Data, shouldHaveBadge: boolean) => {
+      // Prepare
+      let hasBadge = false
+      // Act
+      conventionalCommit.present(data, (id: "conventional-commit", desc: string) => {
+        hasBadge = true
+        expect(desc).toBe("I use conventional commit messages")
+        return new Evidence({ id: 'conventional-commit', desc: '', body: '', image: '', tier: 0 })
+      })
+      // Assert
+      expect(hasBadge).toBe(shouldHaveBadge)
+    }
+    it('should not have a badge', () => {run(DataFactory([
+      CommitFactory('Hello World', ''),
+    ]), false)})
+    prefixes.forEach((prefix) => {
+      it(`should have a badge (${prefix})`, () => {run(DataFactory([
+        CommitFactory('Hello World', ''),
+        CommitFactory(`${prefix}: Hello World`, ''),
+      ]), true)})
+      it(`should have a badge (${prefix} with score)`, () => {run(DataFactory([
+        CommitFactory('Hello World', ''),
+        CommitFactory(`${prefix}(Hello): World`, ''),
+      ]), true)})
+    })
+  })
 })
+
