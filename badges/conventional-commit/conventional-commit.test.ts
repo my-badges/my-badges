@@ -169,5 +169,34 @@ describe('conventional-commit', () => {
       ]), 2)})
     })
   })
+
+  describe("check that the text looks nice", () => {
+    const run = (prefix: string, expected: string) => {
+      it(`"${prefix}" should become "${expected}"`, () => {
+        // Prepare
+        let badge: Badge = { id: 'conventional-commit', desc: '', body: '', image: '', tier: 0 }
+        // Act
+        conventionalCommit.present(DataFactory([
+          CommitFactory(`${prefix}: Hello World`, ''),
+        ]), (id: "conventional-commit", desc: string) => {
+          return new Evidence(badge)
+        })
+        // Assert
+        expect(badge.body).toBe(`I've done 1 ${expected} commit`)
+      })
+    }
+    run('BREAKING CHANGE', 'breaking change')
+    run('build', 'build')
+    run('chore', 'chore')
+    run('ci', 'continuous integration')
+    run('docs', 'documentation')
+    run('feat', 'feature')
+    run('fix', 'fix')
+    run('perf', 'performance')
+    run('refactor', 'refactoring')
+    run('revert', 'revertion')
+    run('style', 'esthetics')
+    run('test', 'test')
+  })
 })
 
