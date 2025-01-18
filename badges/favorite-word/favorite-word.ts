@@ -9,18 +9,7 @@ export default define({
     for (const repo of data.repos) {
       for (const commit of repo.commits) {
         const msg = commit.message + '\n' + commit.messageBody
-        const words = removeStopwords(
-          msg
-            .toLowerCase()
-            // remove conventional commit prefixes as they would outweigh other words
-            .replace(
-              /^(breaking change|build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\(.*\))?!?:\s*/,
-              '',
-            )
-            .split(/\s+/)
-            // ignore words not including alphanumeric chars
-            .filter((w) => /\w/.test(w)),
-        )
+        const words = splitWithoutTooFrequentWords(msg)
         for (const word of words) {
           counts[word] = (counts[word] || 0) + 1
         }
@@ -41,3 +30,18 @@ export default define({
     )
   },
 })
+
+export function splitWithoutTooFrequentWords(msg: string) {
+  return removeStopwords(
+    msg
+      .toLowerCase()
+      // remove conventional commit prefixes as they would outweigh other words
+      .replace(
+        /^(breaking change|build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\(.*\))?!?:\s*/,
+        '',
+      )
+      .split(/\s+/)
+      // ignore words not including alphanumeric chars
+      .filter((w) => /\w/.test(w)),
+  )
+}
