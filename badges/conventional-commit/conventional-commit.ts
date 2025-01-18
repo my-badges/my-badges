@@ -1,23 +1,12 @@
 import { define } from '#src'
+import { Data } from '../../src/data.js'
 
 export default define({
   url: import.meta.url,
   badges: ['conventional-commit'] as const,
-  present(data, grant) {
-    const counts: Record<string, number> = {}
-    for (const repo of data.repos) {
-      for (const commit of repo.commits) {
-        const re = /^(BREAKING CHANGE|build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\(.*\))?(!)?:\s*/
-        const matches = re.exec(commit.message)
-        if (matches !== null) {
-          counts[matches[1]] = (counts[matches[1]] || 0) + 1
-          if (matches[3] === '!' && matches[1] !== 'BREAKING CHANGE') {
-            counts['BREAKING CHANGE'] = (counts['BREAKING CHANGE'] || 0) + 1
-          }
-        }
-      }
-    }
-    const pairs = Object.entries(counts)
+  present(data: Data, grant) {
+    const dataList = data.repos.flatMap(repo => repo.commits.map(commit => commit.message))
+    const pairs = countBadgeType(dataList)
     if (pairs.length === 0) return
     pairs.sort((a, b) => b[1] - a[1])
     pairs.splice(6)
@@ -42,3 +31,17 @@ export default define({
   },
 })
 
+export function countBadgeType(data: string[]): [string, number][] {
+  const counts: Record<string, number> = {}
+  for (const commit of data) {
+    const re = /^(BREAKING CHANGE|build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\(.*\))?(!)?:\s*/
+    const matches = re.exec(commit)
+    if (matches !== null) {
+      counts[matches[1]] = (counts[matches[1]] || 0) + 1
+      if (matches[3] === '!' && matches[1] !== 'BREAKING CHANGE') {
+        counts['BREAKING CHANGE'] = (counts['BREAKING CHANGE'] || 0) + 1
+      }
+    }
+  }
+  return Object.entries(counts)
+}
