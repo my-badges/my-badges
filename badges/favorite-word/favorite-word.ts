@@ -37,7 +37,7 @@ export function splitWithoutTooFrequentWords(msg: string) {
       .toLowerCase()
       // remove conventional commit prefixes as they would outweigh other words
       .replace(
-        /(?<=\s|^)(bump|breaking changes?|build|chore|ci|docs|feat|fix|merge|perf|pull request|refactor|revert|style|test)(?=\s|:|!|\(|$)/gm,
+        /^(breaking changes?|build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(?:\(.*?\))?!?:/gm,
         '',
       )
       .split(/\s+/)
