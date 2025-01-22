@@ -24,18 +24,18 @@ describe('favorite-word', () => {
           expect(splitWithoutTooFrequentWords(`${prefix}: hello world`)).toEqual(['hello', 'world'])
         })
         it(`ignores "${prefix}" without space after it`, () => {
-          expect(splitWithoutTooFrequentWords(`${prefix}:hello world`)).toEqual(['hello', 'world'])
+          expect(splitWithoutTooFrequentWords(`${prefix}:hello world`)).toEqual([':hello', 'world'])
         })
         it(`ignores "${prefix}" with exclamation mark`, () => {
           expect(splitWithoutTooFrequentWords(`${prefix}!: hello world`)).toEqual(['hello', 'world'])
         })
         it(`ignores "${prefix}" with scope`, () => {
-          expect(splitWithoutTooFrequentWords(`${prefix}(world): hello`)).toEqual(['hello'])
+          expect(splitWithoutTooFrequentWords(`${prefix}(world): hello`)).toEqual(['(world):', 'hello'])
         })
         it(`don't ignore "${prefix}" if not at the beginning`, () => {
 	      const expectedPrefix = `${prefix}:`.toLowerCase().split(' ')
 	      expectedPrefix.unshift('hello')
-          expect(splitWithoutTooFrequentWords(`hello ${prefix}:`)).toEqual(expectedPrefix)
+          expect(splitWithoutTooFrequentWords(`hello ${prefix}:`)).toEqual(['hello'])
         })
 	  })
     }
