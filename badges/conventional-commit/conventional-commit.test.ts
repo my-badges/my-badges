@@ -71,6 +71,17 @@ describe('conventional-commit', () => {
     ])
   })
 
+  it('Shouldn’t differentiate "breaking changes" and "breaking change"', () => {
+	expect(
+	  countBadgeType([
+		'BREAKING CHANGE: Hello World',
+		'BREAKING CHANGES: Hello World',
+	  ]),
+	).toStrictEqual([
+	  ['BREAKING CHANGE', 2],
+	])
+  });
+
   describe("check that the badge's message looks nice", () => {
     it('"BREAKING CHANGE" should become "breaking change"', () => {
       expect(makeBadgeBody([['BREAKING CHANGE', 1]])).toBe(

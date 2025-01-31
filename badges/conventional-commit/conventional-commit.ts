@@ -42,14 +42,22 @@ export function countBadgeType(data: string[]): [string, number][] {
   const counts: Record<string, number> = {}
   for (const commit of data) {
     const re =
-      /^(BREAKING CHANGE|build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\(.*\))?(!)?:\s*/
+      /^(BREAKING CHANGES?|build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(?:\(.*?\))?(!)?:/gm
     const matches = re.exec(commit)
     if (matches !== null) {
-      counts[matches[1]] = (counts[matches[1]] || 0) + 1
-      if (matches[3] === '!' && matches[1] !== 'BREAKING CHANGE') {
+      const type = formatBadgeType(matches[1])
+      counts[type] = (counts[type] || 0) + 1
+      if (matches[2] === '!' && type !== 'BREAKING CHANGE') {
         counts['BREAKING CHANGE'] = (counts['BREAKING CHANGE'] || 0) + 1
       }
     }
   }
   return Object.entries(counts)
+}
+
+function formatBadgeType(type: string): string {
+    switch (type) {
+        case 'BREAKING CHANGES': return 'BREAKING CHANGE'
+        default: return type
+    }
 }
