@@ -11,6 +11,7 @@ export default [
   await import('./epic-commit/epic-commit.js'),
   await import('./favorite-word/favorite-word.js'),
   await import('./fix-commit/fix-commit.js'),
+  await import('./friday-13/friday-13.js'),
   await import('./github-anniversary/github-anniversary.js'),
   await import('./leap-day/leap-day.js'),
   await import('./mass-delete-commit/mass-delete-commit.js'),
