@@ -23,6 +23,7 @@ export default [
   await import('./public-keys/public-keys.js'),
   await import('./reactions/reactions.js'),
   await import('./revert-revert-commit/revert-revert-commit.js'),
+  await import('./solstice-commit/solstice-commit.js'),
   await import('./spooky-commit/spooky-commit.js'),
   await import('./star-gazer/star-gazer.js'),
   await import('./stars/stars.js'),
