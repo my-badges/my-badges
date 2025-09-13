@@ -20,6 +20,7 @@ export default [
   await import('./oss-library-night-24/oss-library-night-24.js'),
   await import('./polite-coder/polite-coder.js'),
   await import('./pr-collaboration/pr-collaboration.js'),
+  await import('./programmers-day/programmers-day.js'),
   await import('./public-keys/public-keys.js'),
   await import('./reactions/reactions.js'),
   await import('./revert-revert-commit/revert-revert-commit.js'),
