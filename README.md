@@ -19,7 +19,7 @@ or [here](https://github.com/antongolub).
 <img src="badges/dead-commit/dead-commit.png" alt="dead-commit" width="64">
 <img src="badges/bad-words/bad-words.png" alt="bad-words" width="64">
 <img src="badges/delorean/delorean.png" alt="delorean" width="64">
-<img src="badges/public-keys/public-keys-1.png" alt="public-keys-1" width="64">
+<img src="badges/programmers-day/programmers-day.png" alt="programmers-day" width="64">
 <img src="badges/old-issue/old-issue-1.png" alt="old-issue-1" width="64">
 <img src="badges/this-is-fine/this-is-fine.png" alt="this-is-fine" width="64">
 <img src="badges/the-ultimate-question/the-ultimate-question.png" alt="the-ultimate-question" width="64">
