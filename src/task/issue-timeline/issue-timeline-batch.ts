@@ -19,6 +19,7 @@ export default task({
           for (const event of node.timelineItems.nodes ?? []) {
             if (event?.__typename == 'ClosedEvent') {
               issue.closedAt = event.createdAt
+              issue.closedBy = event.actor?.login
             }
           }
         }
