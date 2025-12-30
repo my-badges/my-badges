@@ -34,4 +34,5 @@ export default [
   await import('./thumbs-up/thumbs-up.js'),
   await import('./time-of-commit/time-of-commit.js'),
   await import('./yeti/yeti.js'),
+  await import('./pi-day/pi-day.js'),
 ] as const // keep sorted
