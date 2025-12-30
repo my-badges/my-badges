@@ -15,9 +15,11 @@ export default [
   await import('./github-anniversary/github-anniversary.js'),
   await import('./leap-day/leap-day.js'),
   await import('./mass-delete-commit/mass-delete-commit.js'),
+  await import('./may-the-4th/may-the-4th.js'),
   await import('./my-badges-contributor/my-badges-contributor.js'),
   await import('./old-issue/old-issue.js'),
   await import('./oss-library-night-24/oss-library-night-24.js'),
+  await import('./pi-day/pi-day.js'),
   await import('./polite-coder/polite-coder.js'),
   await import('./pr-collaboration/pr-collaboration.js'),
   await import('./programmers-day/programmers-day.js'),
@@ -34,5 +36,4 @@ export default [
   await import('./thumbs-up/thumbs-up.js'),
   await import('./time-of-commit/time-of-commit.js'),
   await import('./yeti/yeti.js'),
-  await import('./pi-day/pi-day.js'),
 ] as const // keep sorted
