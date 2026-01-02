@@ -14,7 +14,7 @@ fragment PullRequest on PullRequest {
   mergedBy {
     login
   }
-  labels(first: 10) {
+  labels(first: 5) {
     totalCount
     nodes {
       name
@@ -27,14 +27,14 @@ fragment PullRequest on PullRequest {
       login
     }
     name
-    languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
+    languages(first: 5, orderBy: {field: SIZE, direction: DESC}) {
       totalCount
       nodes {
         name
       }
     }
   }
-  participants(first: 20) {
+  participants(first: 5) {
     totalCount
     nodes {
       login
@@ -43,7 +43,7 @@ fragment PullRequest on PullRequest {
   lastCommit: commits(last: 1) {
     nodes {
       commit {
-        checkSuites(first: 20) {
+        checkSuites(first: 5) {
           totalCount
           nodes {
             app {
@@ -164,7 +164,7 @@ export type PullRequest = {
 
 export const PullsQuery = `#graphql
 ${PullRequest}
-query PullsQuery($username: String!, $num: Int = 30, $cursor: String) {
+query PullsQuery($username: String!, $num: Int = 15, $cursor: String) {
   user(login: $username) {
     pullRequests(first: $num, after: $cursor) {
       totalCount
