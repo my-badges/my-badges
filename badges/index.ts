@@ -28,6 +28,7 @@ export default [
   await import('./revert-revert-commit/revert-revert-commit.js'),
   await import('./solstice-commit/solstice-commit.js'),
   await import('./spooky-commit/spooky-commit.js'),
+  await import('./st-patricks-day/st-patricks-day.js'),
   await import('./star-gazer/star-gazer.js'),
   await import('./stars/stars.js'),
   await import('./the-ultimate-question/the-ultimate-question.js'),
