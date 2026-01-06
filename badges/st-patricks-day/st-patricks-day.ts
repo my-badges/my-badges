@@ -18,7 +18,7 @@ export default define({
     if (commits.length > 0) {
       grant(
         'st-patricks-day',
-        'I committed on St. Patrick\'s Day!',
+        "I committed on St. Patrick's Day!",
       ).evidenceCommits(...commits.sort(latest).slice(0, 6))
     }
   },
