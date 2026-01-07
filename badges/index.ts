@@ -1,5 +1,6 @@
 export default [
   await import('./abc-commit/abc-commit.js'),
+  await import('./alien-day/alien-day.js'),
   await import('./bad-words/bad-words.js'),
   await import('./cafe-commit/cafe-commit.js'),
   await import('./chore-commit/chore-commit.js'),
