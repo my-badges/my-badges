@@ -18,7 +18,7 @@ export default define({
     if (commits.length > 0) {
       grant(
         'alien-day',
-        'I committed on the day when the crew of the **Nostromo** made their fateful landing and discovered the **Xenomorph** on **LV-426**!',
+        'I committed on the day when the crew of the USCSS Nostromo made their fateful landing and discovered the Xenomorph on LV-426!',
       ).evidenceCommits(...commits.sort(latest).slice(0, 6))
     }
   },
