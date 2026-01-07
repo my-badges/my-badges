@@ -26,6 +26,7 @@ export default [
   await import('./public-keys/public-keys.js'),
   await import('./reactions/reactions.js'),
   await import('./revert-revert-commit/revert-revert-commit.js'),
+  await import('./science-fiction-day/science-fiction-day.js'),
   await import('./solstice-commit/solstice-commit.js'),
   await import('./spooky-commit/spooky-commit.js'),
   await import('./st-patricks-day/st-patricks-day.js'),
