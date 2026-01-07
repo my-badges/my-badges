@@ -17,12 +17,12 @@ export function updateBadges(
     const badgePath = path.resolve(badgesDir, `${badge.id}.md`)
     const desc = quoteAttr(badge.desc)
     const content =
-      `<img src="${badge.image}" alt="${desc}" title="${desc}" width="128">\n` +
-      `<strong>${desc}</strong>\n` +
-      `<br><br>\n\n` +
+      `<h2><img src="${badge.image}" alt="${desc}" title="${desc}" align="left" width="128">\n` +
+      `${desc}</h2>\n` +
+      `<br clear="left"><br/>\n\n` +
       badge.body +
-      `\n\n\n` +
-      `Created by <a href="https://github.com/my-badges/my-badges">My Badges</a>`
+      `\n\n` +
+      `<h5>Created by <a href="https://github.com/my-badges/my-badges">My Badges</a></h5>`
 
     log.info('badge', badgePath)
     fs.writeFileSync(badgePath, content)
