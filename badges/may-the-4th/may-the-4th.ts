@@ -16,10 +16,9 @@ export default define({
     }
 
     if (commits.length > 0) {
-      grant(
-        'may-the-4th',
-        'May the 4th be with you! Commits of force:',
-      ).evidenceCommits(...commits.sort(latest).slice(0, 6))
+      grant('may-the-4th', 'May the 4th be with you!').evidenceCommits(
+        ...commits.sort(latest).slice(0, 6),
+      )
     }
   },
 })
