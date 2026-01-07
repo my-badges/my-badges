@@ -48,7 +48,8 @@ export class Evidence {
 
   evidenceCommits(...commits: Commit[]) {
     this.evidence(
-      '<b>Commits:</b>\n\n' + commits.map((x) => `- ${linkCommit(x)}`).join('\n'),
+      '<b>Commits:</b>\n\n' +
+        commits.map((x) => `- ${linkCommit(x)}`).join('\n'),
     )
     return this
   }
