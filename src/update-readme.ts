@@ -21,7 +21,12 @@ export function updateReadme(
 }
 
 function detectReadmeFilename(cwd: string): string {
-  const file = ['README.md', 'readme.md', 'profile/README.md', 'profile/readme.md']
+  const file = [
+    'README.md',
+    'readme.md',
+    'profile/README.md',
+    'profile/readme.md',
+  ]
     .map((f) => path.resolve(cwd, f))
     .find((f) => fs.existsSync(f))
   if (!file) throw new Error('Cannot find README.md')
