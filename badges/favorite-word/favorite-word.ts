@@ -36,7 +36,10 @@ export default define({
   },
 })
 
-export function splitWithoutTooFrequentWords(msg: string, exclude: string[] = []) {
+export function splitWithoutTooFrequentWords(
+  msg: string,
+  exclude: string[] = [],
+) {
   const excludeSet = new Set(exclude.map((w) => w.toLowerCase()))
   return removeStopwords(
     msg

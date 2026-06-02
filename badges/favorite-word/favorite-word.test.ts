@@ -46,31 +46,49 @@ describe('favorite-word', () => {
 
   describe('ignore git trailer lines', () => {
     it('ignores Signed-off-by lines', () => {
-      expect(splitWithoutTooFrequentWords('hello world\n\nSigned-off-by: Jane Doe <jane@example.com>')).toEqual(['hello', 'world'])
+      expect(
+        splitWithoutTooFrequentWords(
+          'hello world\n\nSigned-off-by: Jane Doe <jane@example.com>',
+        ),
+      ).toEqual(['hello', 'world'])
     })
     it('ignores Co-authored-by lines', () => {
-      expect(splitWithoutTooFrequentWords('hello world\n\nCo-authored-by: Jane Doe <jane@example.com>')).toEqual(['hello', 'world'])
+      expect(
+        splitWithoutTooFrequentWords(
+          'hello world\n\nCo-authored-by: Jane Doe <jane@example.com>',
+        ),
+      ).toEqual(['hello', 'world'])
     })
     it('does not ignore non-trailer lines', () => {
-      expect(splitWithoutTooFrequentWords('hello world\nsome-token: not a trailer')).toEqual(['hello', 'world', 'some-token:', 'not', 'trailer'])
+      expect(
+        splitWithoutTooFrequentWords('hello world\nsome-token: not a trailer'),
+      ).toEqual(['hello', 'world', 'some-token:', 'not', 'trailer'])
     })
   })
 
   describe('ignore email addresses', () => {
     it('ignores angle-bracket email tokens', () => {
-      expect(splitWithoutTooFrequentWords('hello <jane@example.com> world')).toEqual(['hello', 'world'])
+      expect(
+        splitWithoutTooFrequentWords('hello <jane@example.com> world'),
+      ).toEqual(['hello', 'world'])
     })
     it('ignores bare email tokens', () => {
-      expect(splitWithoutTooFrequentWords('hello jane@example.com world')).toEqual(['hello', 'world'])
+      expect(
+        splitWithoutTooFrequentWords('hello jane@example.com world'),
+      ).toEqual(['hello', 'world'])
     })
   })
 
   describe('ignore excluded words', () => {
     it('ignores words in the exclude list', () => {
-      expect(splitWithoutTooFrequentWords('hello jane world', ['jane'])).toEqual(['hello', 'world'])
+      expect(
+        splitWithoutTooFrequentWords('hello jane world', ['jane']),
+      ).toEqual(['hello', 'world'])
     })
     it('exclude list is case-insensitive', () => {
-      expect(splitWithoutTooFrequentWords('hello Jane world', ['jane'])).toEqual(['hello', 'world'])
+      expect(
+        splitWithoutTooFrequentWords('hello Jane world', ['jane']),
+      ).toEqual(['hello', 'world'])
     })
   })
 })
