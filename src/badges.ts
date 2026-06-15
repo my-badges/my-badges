@@ -48,14 +48,15 @@ export class Evidence {
 
   evidenceCommits(...commits: Commit[]) {
     this.evidence(
-      'Commits:\n\n' + commits.map((x) => `- ${linkCommit(x)}`).join('\n'),
+      '<b>Commits:</b>\n\n' +
+        commits.map((x) => `- ${linkCommit(x)}`).join('\n'),
     )
     return this
   }
 
   evidenceCommitsWithMessage(...commits: Commit[]) {
     this.evidence(
-      'Commits:\n\n' +
+      '<b>Commits:</b>\n\n' +
         commits.map((x) => `- ${linkCommit(x)}: ${x.message}`).join('\n'),
     )
     return this
@@ -63,7 +64,7 @@ export class Evidence {
 
   evidencePRs(...pulls: PullRequest[]) {
     this.evidence(
-      'Pull requests:\n\n' +
+      '<b>Pull requests:</b>\n\n' +
         pulls
           .map(linkPull)
           .map((x) => '- ' + x)
@@ -74,7 +75,7 @@ export class Evidence {
 
   evidencePRsWithTitle(...pulls: PullRequest[]) {
     this.evidence(
-      'Pull requests:\n\n' +
+      '<b>Pull requests:</b>\n\n' +
         pulls.map((x) => `- ${linkPull(x)}: ${x.title}`).join('\n'),
     )
     return this
@@ -82,7 +83,7 @@ export class Evidence {
 
   evidenceIssuesWithTitles(...issues: Issue[]) {
     this.evidence(
-      'Issues:\n\n' +
+      '<b>Issues:</b>\n\n' +
         issues.map((x) => `- ${linkIssue(x)}: ${x.title}`).join('\n'),
     )
     return this
