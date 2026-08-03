@@ -59,11 +59,13 @@ jobs:
       - name: Update My Badges
         run: npx update-my-badges ${{github.repository_owner}}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MY_BADGES_TOKEN }}
 ```
 
-> [!NOTE]
-> You don't need to create a `GITHUB_TOKEN` in repository. The workflow will use a default runner token.
+> [!IMPORTANT]
+> Create a [personal access token (classic)](https://github.com/settings/tokens) with the
+> `public_repo`, `read:user`, `read:public_key` and `read:discussion` scopes, and add it as a
+> repository secret named `MY_BADGES_TOKEN`.
 
 Start **my-badges** workflow, or wait for it to run automatically.
 
