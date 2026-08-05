@@ -63,9 +63,9 @@ jobs:
 ```
 
 > [!IMPORTANT]
-> Create a [personal access token (classic)](https://github.com/settings/tokens) with the
-> `public_repo`, `read:user`, `read:public_key` and `read:discussion` scopes, and add it as a
-> repository secret named `MY_BADGES_TOKEN`.
+> Create a [fine-grained personal access token](https://github.com/settings/personal-access-tokens) with the
+> Actions, Commit statuses, Contents, Discussions, Pull requests, Issues permissions (all _read-only_, all _repos_)
+> and add it as a repository secret named `MY_BADGES_TOKEN`.
 
 Start **my-badges** workflow, or wait for it to run automatically.
 
